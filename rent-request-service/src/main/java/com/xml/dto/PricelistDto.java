@@ -1,23 +1,15 @@
-package com.xml.model;
+package com.xml.dto;
 
-import javax.persistence.*;
-import java.util.Set;
 
-@Entity
-public class Pricelist {
+public class PricelistDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column
     private Float pricePerDay;
-
-    @Column
     private Float pricePerKm;
-
-    @Column
     private Float priceForCDW;
+
+    public PricelistDto() {
+    }
 
     public Long getId() {
         return id;
@@ -50,5 +42,4 @@ public class Pricelist {
     public void setPriceForCDW(Float priceForCDW) {
         this.priceForCDW = priceForCDW;
     }
-
 }

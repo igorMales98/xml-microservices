@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class CarClass {
+public class FuelType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +15,9 @@ public class CarClass {
     @Column(nullable = false, unique = true)
     private String name;
 
-    public CarClass() {
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "fuelType")
+    private Set<Car> cars;
 
     public Long getId() {
         return id;
@@ -34,4 +35,11 @@ public class CarClass {
         this.name = name;
     }
 
+    public Set<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(Set<Car> cars) {
+        this.cars = cars;
+    }
 }

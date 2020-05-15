@@ -1,21 +1,12 @@
-package com.xml.model;
+package com.xml.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class CarBrandDto {
 
-import javax.persistence.*;
-import java.util.Set;
-
-@Entity
-public class CarClass {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, unique = true)
     private String name;
 
-    public CarClass() {
+    public CarBrandDto() {
+
     }
 
     public Long getId() {
@@ -33,5 +24,4 @@ public class CarClass {
     public void setName(String name) {
         this.name = name;
     }
-
 }

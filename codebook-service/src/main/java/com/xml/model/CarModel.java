@@ -19,10 +19,6 @@ public class CarModel {
     @JoinColumn(name = "car_brand_id", nullable = false)
     private CarBrand carBrand;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "carModel")
-    private Set<Car> cars;
-
     public Long getId() {
         return id;
     }

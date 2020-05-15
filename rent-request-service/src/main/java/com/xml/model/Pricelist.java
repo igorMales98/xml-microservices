@@ -19,6 +19,9 @@ public class Pricelist {
     @Column
     private Float priceForCDW;
 
+    @OneToMany(mappedBy = "pricelist")
+    private Set<Advertisement> advertisements;
+
     public Long getId() {
         return id;
     }

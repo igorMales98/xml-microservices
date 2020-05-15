@@ -15,10 +15,6 @@ public class TransmissionType {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "transmissionType")
-    private Set<Car> cars;
-
     public Long getId() {
         return id;
     }
@@ -33,13 +29,5 @@ public class TransmissionType {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Car> getCars() {
-        return cars;
-    }
-
-    public void setCars(Set<Car> cars) {
-        this.cars = cars;
     }
 }

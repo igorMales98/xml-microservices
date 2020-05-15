@@ -17,10 +17,6 @@ public class CarBrand {
 
     @JsonIgnore
     @OneToMany(mappedBy = "carBrand")
-    private Set<Car> cars;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "carBrand")
     private Set<CarModel> carModels;
 
     public Long getId() {
@@ -37,15 +33,6 @@ public class CarBrand {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    public Set<Car> getCars() {
-        return cars;
-    }
-
-    public void setCars(Set<Car> cars) {
-        this.cars = cars;
     }
 
     public Set<CarModel> getCarModels() {

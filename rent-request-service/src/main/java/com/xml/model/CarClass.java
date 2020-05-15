@@ -15,6 +15,10 @@ public class CarClass {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "carClass")
+    private Set<Car> cars;
+
     public CarClass() {
     }
 
@@ -34,4 +38,11 @@ public class CarClass {
         this.name = name;
     }
 
+    public Set<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(Set<Car> cars) {
+        this.cars = cars;
+    }
 }
