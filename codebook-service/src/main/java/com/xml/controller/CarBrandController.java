@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarBrandController {
 
     @GetMapping(value = "/test")
-    public String test(){
+    public String test() {
         return "Hello svet";
     }
 }

@@ -70,7 +70,8 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public boolean verify(String token) throws NotFoundException {
         String username = tokenUtils.getUsernameFromToken(token);
-        if(this.userRepository.findByUsername(username)==null){
+        System.out.println("korisnik je " + username);
+        if (!this.userRepository.existsByUsername(username)) {
             throw new NotFoundException("User not found.");
         }
         return true;

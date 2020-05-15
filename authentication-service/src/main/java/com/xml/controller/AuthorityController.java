@@ -18,7 +18,6 @@ public class AuthorityController {
     private AuthorityService authorityService;
 
 
-
     @PostMapping(value = "/login")
     public ResponseEntity<UserTokenState> login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
         try {
@@ -33,10 +32,14 @@ public class AuthorityController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "/verify/{token}")
+    @GetMapping(value = "/verify/{token:.+}")
     public ResponseEntity<?> verify(@PathVariable("token") String token) throws NotFoundException {
-
-        return new ResponseEntity<>(this.authorityService.verify(token),HttpStatus.OK);
+        System.out.println(token);
+        try {
+            return new ResponseEntity<>(this.authorityService.verify(token), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(this.authorityService.verify(token), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 

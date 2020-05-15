@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 @Component
 public class AuthFilter extends ZuulFilter {
@@ -41,22 +42,25 @@ public class AuthFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-
+        System.out.println("Usao je u zuul");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
 
-        if (request.getHeader("token") == null) {
+        if (request.getHeader("Authorization") == null) {
             return null;
-        };
+        }
 
-        String token = request.getHeader("Authorization");
+        String fullToken = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization").substring(7);
+        System.out.println(token);
         try {
-            authClient.verify(token);
-
-            //ctx.addZuulRequestHeader("username", email);
+            // authClient.verify(token);
+            System.out.println("da li je dobar " + authClient.verify(token));
+            ctx.addZuulRequestHeader("Authorization", fullToken);
             //ctx.addZuulRequestHeader("role", "SIMPLE_USER");
 
-        } catch (FeignException.NotFound e) {
+        } catch (FeignException e) {
+            e.printStackTrace();
             setFailedRequest("Consumer does not exist!", 403);
         }
 
