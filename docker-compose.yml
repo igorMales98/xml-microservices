@@ -34,15 +34,7 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
 
-
-
-
-
-
-
-
-
 networks:
-  xml-network:
+    xml-network:
     name: xml-network
     driver: bridge
