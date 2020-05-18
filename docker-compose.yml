@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+
+  eureka-service:
+    image: eureka-service
+    build:
+      context: ./eureka-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8761:8761"
+    networks:
+      - xml-network
+    container_name: eureka-service
+    restart: on-failure
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+
+
+  zuul-api-gateway-service:
+    image: zuul-api-gateway-service
+    build:
+      context: ./zuul-api-gateway-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8091:8091"
+    networks:
+      - xml-network
+    depends_on:
+      - eureka-service
+    container_name: zuul-api-gateway-service
+    restart: on-failure
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+
+
+
+
+
+
+
+
+
+networks:
+  xml-network:
+    name: xml-network
+    driver: bridge
