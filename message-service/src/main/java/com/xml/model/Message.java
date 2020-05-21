@@ -10,7 +10,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
 
@@ -42,5 +42,5 @@ public class Message {
 
     public void setMessageDate(LocalDateTime messageDate) {
         this.messageDate = messageDate;
-    }
+    }*/
 }

@@ -1,6 +1,5 @@
 package com.xml.dto;
 
-import com.xml.model.User;
 
 import java.time.LocalDateTime;
 
