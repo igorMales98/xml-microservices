@@ -34,7 +34,43 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
 
+  mysql:
+    image: mysql:8.0.19
+    container_name: mysql
+    restart: always
+    networks:
+      - xml-network
+    ports:
+    - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: igor
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: igor
+      MYSQL_DATABASE: xml
+
+  authentication-service:
+    image: authentication-service
+    build:
+      context: ./authentication-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8083:8083"
+    networks:
+        - xml-network
+    container_name: authentication-service
+    restart: on-failure
+    environment:
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: igor
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: xml
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka-service
+
 networks:
-    xml-network:
+  xml-network:
     name: xml-network
     driver: bridge
