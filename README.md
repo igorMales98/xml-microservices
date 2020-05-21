@@ -12,6 +12,14 @@ Funkcionalnosti:
 * DELETE: Uklanjanje običnih korisnika iz sistema.
 * POST: Registrovanje agenata/firmi na sistem.
 
+| Modeli |
+| --- |
+| AditionalBill, Administrator, Advertisment, Agent, Authority
+  Car, CarBrand, CarClass, CarModel, Comment, Customer, Firm, 
+  FuelType, Message, Permission, Pricelist, RegistrationRequest,
+  RentRequest, Report, TransmissionType, User, UserTokenState |
+
+
 ### 2. Advertisement service
 
 Funkcionalnosti:
@@ -27,7 +35,11 @@ Funkcionalnosti:
 * GET: Agentima/firmama je omogućeno da zatraže statistiku ocena svojih vozila.
 * GET: Agenti/firme imaju uvid u to koliko je puta izdat automobil.
 
-
+| Modeli |
+| --- |
+| AdditionalBill, Advertisment, Authority, Car, CarBrand,
+  CarClass, CarModel, Comment, Customer, FuelType,
+  Pricelist, RentRequest, Report, TransmissionType, User |
 ### 3. Rent request service
 
 Funkcionalnosti:
@@ -37,6 +49,12 @@ Funkcionalnosti:
 * GET: Korisnik ima mogućnost da pregleda svoju istoriju zahteva.
 * PUT: Korisnik pre plaćanja može u bilo kom trenutku da otkaže zahtev.
 
+| Modeli |
+| --- |
+| AdditionalBill, Advertisement, Authority, Car, CarBrand,
+  CarClass, CarModel, Comment, Customer, FuelType, Pricelist,
+  RentRequest, Report, TransmissionType, User |
+
 ### 4. Message service
 
 Funkcionalnosti:
@@ -45,7 +63,9 @@ Funkcionalnosti:
 * POST: Agentima/firmama je omogućena komunikacija sa korisnicima čije su zahteve prihvatili.
 * GET: Korisnik ima mogućnost da pregleda sve razmenjene poruke sa vlasnikom automobila.
 
-
+| Modeli |
+| --- |
+| Authority, Message, User |
 ### 5. Codebook service
 
 Funkcionalnosti:
@@ -55,11 +75,20 @@ Funkcionalnosti:
 * DELETE: Mogućnost brisanja određenog modela automobula, klase automobila, tipa goriva i cenovnika.
 * GET: Prikaz svih modela automobula, klasa automobila, tipova goriva i cenovnika.
 
+| Model |
+| --- |
+| CarBrand, CarClass, CarModel, FuelType,
+  Pricelist, TransmissionType |
+
 ### 6. Comment service
 
 Funkcionalnosti:
 * POST: Objavljivanje komentara korisnika.
 * DELETE: Brisanje komentara korisnika.
+
+| Model |
+| --- |
+| Authority, Comment, User |
 
 ### 7. Report service
 
