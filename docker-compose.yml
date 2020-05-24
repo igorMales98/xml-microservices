@@ -1,0 +1,230 @@
+version: '3.7'
+services:
+
+  eureka-service:
+    image: eureka-service
+    build:
+      context: ./eureka-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8761:8761"
+    networks:
+      - xml-network
+    container_name: eureka-service
+    restart: on-failure
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+
+
+  zuul-api-gateway-service:
+    image: zuul-api-gateway-service
+    build:
+      context: ./zuul-api-gateway-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8091:8091"
+    networks:
+      - xml-network
+    depends_on:
+      - eureka-service
+    container_name: zuul-api-gateway-service
+    restart: on-failure
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+
+  mysql:
+    image: mysql:8.0.19
+    container_name: mysql
+    restart: always
+    networks:
+      - xml-network
+    ports:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: igor
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: igor
+      MYSQL_DATABASE: xml
+
+  authentication-service:
+    image: authentication-service
+    build:
+      context: ./authentication-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8083:8083"
+    networks:
+      - xml-network
+    container_name: authentication-service
+    restart: on-failure
+    environment:
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: igor
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: xml
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka-service
+
+  advertisement-service:
+    image: advertisement-service
+    build:
+      context: ./advertisement-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8085:8085"
+    networks:
+      - xml-network
+    container_name: advertisement-service
+    restart: on-failure
+    environment:
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: igor
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: xml
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka-service
+
+  codebook-service:
+    image: codebook-service
+    build:
+      context: ./codebook-service
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8084:8084"
+    networks:
+      - xml-network
+    container_name: codebook-service
+    restart: on-failure
+    environment:
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: igor
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: xml
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+    depends_on:
+      - mysql
+      - eureka-service
+
+  #comment-service:
+  #  image: comment-service
+  #  build:
+  #    context: ./comment-service
+  #    dockerfile: Dockerfile
+  #  tty: true
+  #  ports:
+  #    - "8086:8086"
+  #  networks:
+  #    - xml-network
+  #  container_name: comment-service
+  #  restart: on-failure
+  #  environment:
+  #    DATABASE_USERNAME: root
+  #    DATABASE_PASSWORD: igor
+  #    DATABASE_DOMAIN: mysql
+  #    DATABASE_SCHEMA: xml
+  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+  #  depends_on:
+  #    - mysql
+  #    - eureka-service
+
+  # location-service:
+  #  image: location-service
+  #  build:
+  #    context: ./location-service
+  #    dockerfile: Dockerfile
+  #  tty: true
+  #  ports:
+  #    - "8087:8087"
+  #  networks:
+  #    - xml-network
+  #  container_name: location-service
+  #  restart: on-failure
+  #  environment:
+  #    DATABASE_USERNAME: root
+  #    DATABASE_PASSWORD: igor
+  #    DATABASE_DOMAIN: mysql
+  #    DATABASE_SCHEMA: xml
+  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+  #  depends_on:
+  #    - mysql
+  #    - eureka-service
+
+  #message-service:
+  #  image: message-service
+  #  build:
+  #    context: ./message-service
+  #    dockerfile: Dockerfile
+  #  tty: true
+  #  ports:
+  #    - "8088:8088"
+  #  networks:
+  #    - xml-network
+  #  container_name: message-service
+  #  restart: on-failure
+  #  environment:
+  #    DATABASE_USERNAME: root
+  #    DATABASE_PASSWORD: igor
+  #    DATABASE_DOMAIN: mysql
+  #    DATABASE_SCHEMA: xml
+  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+  #  depends_on:
+  #    - mysql
+  #    - eureka-service
+
+  #rent-request-service:
+  #  image: rent-request-service
+  #  build:
+  #    context: ./rent-request-service
+  #    dockerfile: Dockerfile
+  #  tty: true
+  #  ports:
+  #    - "8089:8089"
+  #  networks:
+  #    - xml-network
+  #  container_name: rent-request-service
+  #  restart: on-failure
+  #  environment:
+  #    DATABASE_USERNAME: root
+  #    DATABASE_PASSWORD: igor
+  #    DATABASE_DOMAIN: mysql
+  #    DATABASE_SCHEMA: xml
+  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+  #  depends_on:
+  #    - mysql
+  #    - eureka-service
+
+  #report-service:
+  #  image: report-service
+  #  build:
+  #    context: ./report-service
+  #    dockerfile: Dockerfile
+  #  tty: true
+  #  ports:
+  #    - "8090:8090"
+  #  networks:
+  #    - xml-network
+  #  container_name: report-service
+  #  restart: on-failure
+  #  environment:
+  #    DATABASE_USERNAME: root
+  #    DATABASE_PASSWORD: igor
+  #    DATABASE_DOMAIN: mysql
+  #    DATABASE_SCHEMA: xml
+  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+  #  depends_on:
+  #    - mysql
+  #    - eureka-service#\
+
+networks:
+  xml-network:
+    name: xml-network
+    driver: bridge

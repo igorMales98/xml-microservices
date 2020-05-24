@@ -1,12 +1,10 @@
 package com.xml.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-public class Authority implements GrantedAuthority {
+public class Authority {
 
     @Id
     @Column(name = "id")
@@ -16,12 +14,9 @@ public class Authority implements GrantedAuthority {
     @Column(name = "name")
     String name;
 
-    @Override
-    public String getAuthority() {
-        return name;
-    }
+    @OneToMany(mappedBy = "authority", fetch = FetchType.EAGER)
+    private Set<Permission> permissions;
 
-    @JsonIgnore
     public Long getId() {
         return id;
     }
@@ -30,12 +25,19 @@ public class Authority implements GrantedAuthority {
         this.id = id;
     }
 
-    @JsonIgnore
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

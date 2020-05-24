@@ -18,6 +18,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+
     @Column(insertable = false, updatable = false)
     protected String type;
 

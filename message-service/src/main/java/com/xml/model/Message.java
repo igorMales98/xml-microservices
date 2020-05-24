@@ -10,7 +10,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
 
@@ -28,39 +28,19 @@ public class Message {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getSender() {
-        return sender;
-    }
-
     public void setSender(User sender) {
         this.sender = sender;
-    }
-
-    public User getReceiver() {
-        return receiver;
     }
 
     public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
     public void setMessage(String message) {
         this.message = message;
     }
 
-    public LocalDateTime getMessageDate() {
-        return messageDate;
-    }
-
     public void setMessageDate(LocalDateTime messageDate) {
         this.messageDate = messageDate;
-    }
+    }*/
 }

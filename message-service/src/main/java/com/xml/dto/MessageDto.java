@@ -1,15 +1,14 @@
 package com.xml.dto;
 
-import com.xml.model.User;
 
 import java.time.LocalDateTime;
 
 public class MessageDto {
     private Long id;
 
-    private User sender;
+    private UserDto sender;
 
-    private User receiver;
+    private UserDto receiver;
 
     private String message;
 
@@ -23,19 +22,19 @@ public class MessageDto {
         this.id = id;
     }
 
-    public User getSender() {
+    public UserDto getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(UserDto sender) {
         this.sender = sender;
     }
 
-    public User getReceiver() {
+    public UserDto getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(User receiver) {
+    public void setReceiver(UserDto receiver) {
         this.receiver = receiver;
     }
 
