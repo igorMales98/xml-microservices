@@ -12,3 +12,10 @@ INSERT INTO `xml`.`authority` (`id`, `name`) VALUES ('3', 'ROLE_CUSTOMER');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('1', '1');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('2', '2');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('3', '3');
+
+/* permissions */
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('1', 'TEST');
+
+/* authorities_permission */
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '1');
+

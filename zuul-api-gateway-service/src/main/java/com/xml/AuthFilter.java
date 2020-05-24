@@ -6,11 +6,13 @@ import com.netflix.zuul.exception.ZuulException;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 @Component
+@CrossOrigin(value = "https://localhost:4200")
 public class AuthFilter extends ZuulFilter {
 
     @Autowired

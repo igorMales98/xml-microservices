@@ -14,7 +14,10 @@ public class Authority {
     @Column(name = "name")
     String name;
 
-    @OneToMany(mappedBy = "authority", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "authority_permission",
+            joinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
     private Set<Permission> permissions;
 
     public Long getId() {
