@@ -1,8 +1,11 @@
 package com.xml.model;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.DiscriminatorType.STRING;
@@ -84,6 +87,15 @@ public class User implements UserDetails {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Permission> allPermissions = new HashSet<>();
+        for (Authority a : authorities) {
+            allPermissions.addAll(a.getPermissions());
+        }
+        return allPermissions;
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
@@ -148,6 +160,10 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
+    public Set<Authority> getRoleAuthorities() {
+        return authorities;
+    }
+
     @Override
     public boolean isEnabled() {
         return enabled;
@@ -155,10 +171,6 @@ public class User implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Set<Authority> getAuthorities() {
-        return authorities;
     }
 
     public void setAuthorities(Set<Authority> authorities) {

@@ -60,7 +60,7 @@ public class AuthorityServiceImpl implements AuthorityService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
-        Authority a = (Authority) user.getAuthorities().iterator().next();
+        Authority a = user.getRoleAuthorities().iterator().next();
         String token = tokenUtils.generateToken(user.getUsername(), a);
         int expiresIn = tokenUtils.getExpiredIn();
 
