@@ -1,5 +1,6 @@
 package com.xml.controller;
 
+import com.xml.dto.RegistrationRequestDto;
 import com.xml.model.UserTokenState;
 import com.xml.security.auth.JwtAuthenticationRequest;
 import com.xml.service.AuthorityService;
@@ -40,6 +41,16 @@ public class AuthorityController {
             return new ResponseEntity<>(this.authorityService.verify(token), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(this.authorityService.verify(token), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> register(@RequestBody RegistrationRequestDto registrationRequest) {
+        try {
+            this.authorityService.register(registrationRequest);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

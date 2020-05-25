@@ -1,9 +1,12 @@
 package com.xml.service.impl;
 
+import com.xml.dto.RegistrationRequestDto;
+import com.xml.mapper.RegistrationRequestDtoMapper;
 import com.xml.model.Authority;
 import com.xml.model.User;
 import com.xml.model.UserTokenState;
 import com.xml.repository.AuthorityRepository;
+import com.xml.repository.RegistrationRequestRepository;
 import com.xml.repository.UserRepository;
 import com.xml.security.TokenUtils;
 import com.xml.security.auth.JwtAuthenticationRequest;
@@ -16,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +38,11 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RegistrationRequestRepository registrationRequestRepository;
+
+    @Autowired
+    private RegistrationRequestDtoMapper registrationRequestDtoMapper;
 
     @Override
     public Set<Authority> findByName(String name) {
@@ -75,6 +84,11 @@ public class AuthorityServiceImpl implements AuthorityService {
             throw new NotFoundException("User not found.");
         }
         return true;
+    }
+
+    @Override
+    public void register(RegistrationRequestDto registrationRequest) throws ParseException {
+        this.registrationRequestRepository.save(registrationRequestDtoMapper.toEntity(registrationRequest));
     }
 
 

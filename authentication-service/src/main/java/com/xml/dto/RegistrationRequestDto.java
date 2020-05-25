@@ -1,43 +1,19 @@
-package com.xml.model;
+package com.xml.dto;
 
-import javax.persistence.*;
+public class RegistrationRequestDto {
 
-@Entity
-public class RegistrationRequest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, unique = true)
     private String username;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String firstName;
-
-    @Column(nullable = false)
     private String lastName;
-
-    @Column(nullable = false)
     private String country;
-
-    @Column(nullable = false)
     private String city;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String phone;
-
-    @Column(nullable = false)
     private String address;
 
-
-    public RegistrationRequest() {
+    public RegistrationRequestDto() {
     }
 
     public Long getId() {
