@@ -64,7 +64,7 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| Authority, Message |
+| Message |
 ### 5. Codebook service
 
 Funkcionalnosti:
