@@ -9,9 +9,8 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
+    @Column
+    private Long carId;
 
     @ManyToOne
     @JoinColumn(name = "rent_request_id", nullable = false)
@@ -26,8 +25,8 @@ public class Report {
     public Report() {
     }
 
-    public Report(Car car, float km, String additionalInformation) {
-        this.car = car;
+    public Report(Long carId, float km, String additionalInformation) {
+        this.carId = carId;
         this.km = km;
         this.additionalInformation = additionalInformation;
     }
@@ -40,12 +39,12 @@ public class Report {
         this.id = id;
     }
 
-    public Car getCar() {
-        return car;
+    public Long getCarId() {
+        return carId;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 
     public float getKm() {

@@ -1,13 +1,11 @@
 package com.xml.dto;
 
-import com.xml.model.User;
-
 
 public class CommentDto {
 
     private Long id;
 
-    private User commenter;
+    private Long commenterId;
 
     private String comment;
 
@@ -21,8 +19,8 @@ public class CommentDto {
         return id;
     }
 
-    public User getCommenter() {
-        return commenter;
+    public Long getCommenterId() {
+        return commenterId;
     }
 
     public String getComment() {
@@ -37,8 +35,8 @@ public class CommentDto {
         this.id = id;
     }
 
-    public void setCommenter(User commenter) {
-        this.commenter = commenter;
+    public void setCommenterId(Long commenterId) {
+        this.commenterId = commenterId;
     }
 
     public void setComment(String comment) {

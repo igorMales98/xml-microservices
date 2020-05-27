@@ -114,28 +114,6 @@ services:
       - mysql
       - eureka-service
 
-  #comment-service:
-  #  image: comment-service
-  #  build:
-  #    context: ./comment-service
-  #    dockerfile: Dockerfile
-  #  tty: true
-  #  ports:
-  #    - "8086:8086"
-  #  networks:
-  #    - xml-network
-  #  container_name: comment-service
-  #  restart: on-failure
-  #  environment:
-  #    DATABASE_USERNAME: root
-  #    DATABASE_PASSWORD: igor
-  #    DATABASE_DOMAIN: mysql
-  #    DATABASE_SCHEMA: xml
-  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
-  #  depends_on:
-  #    - mysql
-  #    - eureka-service
-
   # location-service:
   #  image: location-service
   #  build:
@@ -201,28 +179,6 @@ services:
   #  depends_on:
   #    - mysql
   #    - eureka-service
-
-  #report-service:
-  #  image: report-service
-  #  build:
-  #    context: ./report-service
-  #    dockerfile: Dockerfile
-  #  tty: true
-  #  ports:
-  #    - "8090:8090"
-  #  networks:
-  #    - xml-network
-  #  container_name: report-service
-  #  restart: on-failure
-  #  environment:
-  #    DATABASE_USERNAME: root
-  #    DATABASE_PASSWORD: igor
-  #    DATABASE_DOMAIN: mysql
-  #    DATABASE_SCHEMA: xml
-  #    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
-  #  depends_on:
-  #    - mysql
-  #    - eureka-service#\
 
 networks:
   xml-network:

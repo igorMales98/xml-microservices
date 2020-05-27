@@ -11,9 +11,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "commenter_id", nullable = false)
-    private User commenter;
+    @Column(nullable = false)
+    private Long commenterId;
 
     @Column
     private String comment;
@@ -31,12 +30,6 @@ public class Comment {
     public Comment() {
 
     }
-    public Comment(CommentDto commentDto) {
-        this.id = commentDto.getId();
-        this.comment = commentDto.getComment();
-        this.commenter = commentDto.getCommenter();
-        this.reply = commentDto.getReply();
-    }
 
     public Long getId() {
         return id;
@@ -46,12 +39,12 @@ public class Comment {
         this.id = id;
     }
 
-    public User getCommenter() {
-        return commenter;
+    public Long getCommenterId() {
+        return commenterId;
     }
 
-    public void setCommenter(User commenter) {
-        this.commenter = commenter;
+    public void setCommenterId(Long commenterId) {
+        this.commenterId = commenterId;
     }
 
     public String getComment() {

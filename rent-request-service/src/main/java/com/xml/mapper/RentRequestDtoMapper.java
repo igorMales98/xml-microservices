@@ -1,5 +1,6 @@
 package com.xml.mapper;
 
+import com.xml.dto.RentRequestDto;
 import com.xml.model.RentRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

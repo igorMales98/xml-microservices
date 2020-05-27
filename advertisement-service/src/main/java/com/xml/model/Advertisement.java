@@ -12,13 +12,11 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
+    @Column
     private Car car;
 
-    @ManyToOne
-    @JoinColumn(name = "advertiser_id")
-    private User advertiser;
+    @Column
+    private Long advertiserId;
 
     @Column
     private LocalDateTime availableFrom;
@@ -29,9 +27,8 @@ public class Advertisement {
     @OneToMany(mappedBy = "advertisement")
     private Set<Comment> comments;
 
-    @ManyToOne
-    @JoinColumn(name = "pricelist_id")
-    private Pricelist pricelist;
+    @Column
+    private Long pricelistId;
 
     @ElementCollection
     @MapKeyColumn(name="days")
@@ -58,12 +55,12 @@ public class Advertisement {
         this.car = car;
     }
 
-    public User getAdvertiser() {
-        return advertiser;
+    public Long getAdvertiserId() {
+        return advertiserId;
     }
 
-    public void setAdvertiser(User advertiser) {
-        this.advertiser = advertiser;
+    public void setAdvertiserId(Long advertiserId) {
+        this.advertiserId = advertiserId;
     }
 
     public LocalDateTime getAvailableFrom() {
@@ -90,12 +87,12 @@ public class Advertisement {
         this.comments = comments;
     }
 
-    public Pricelist getPricelist() {
-        return pricelist;
+    public Long getPricelistId() {
+        return pricelistId;
     }
 
-    public void setPricelist(Pricelist pricelist) {
-        this.pricelist = pricelist;
+    public void setPricelistId(Long pricelistId) {
+        this.pricelistId = pricelistId;
     }
 
     public Map<String, String> getDiscount() {

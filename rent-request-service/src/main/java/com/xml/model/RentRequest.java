@@ -20,18 +20,18 @@ public class RentRequest {
     @Column(nullable = false)
     private LocalDateTime reservedTo;
 
-    @ManyToMany
-    @JoinTable(name = "rented_advertisements", joinColumns = @JoinColumn(name = "rent_request_id", referencedColumnName = "id"),
-           inverseJoinColumns = @JoinColumn(name = "advertisement_id", referencedColumnName = "id"))
-    private Set<Advertisement> advertisementsForRent;
+   // @ManyToMany
+   // @JoinTable(name = "rented_advertisements", joinColumns = @JoinColumn(name = "rent_request_id", referencedColumnName = "id"),
+   //        inverseJoinColumns = @JoinColumn(name = "advertisement_id", referencedColumnName = "id"))
+    @Column
+    private Set<Long> advertisementsForRent;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private RentRequestStatus rentRequestStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @Column(nullable = false)
+    private Long customerId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "rentRequest")
@@ -61,11 +61,11 @@ public class RentRequest {
         this.reservedTo = reservedTo;
     }
 
-    public Set<Advertisement> getAdvertisementsForRent() {
+    public Set<Long> getAdvertisementsForRent() {
         return advertisementsForRent;
     }
 
-    public void setAdvertisementsForRent(Set<Advertisement> advertisementsForRent) {
+    public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
         this.advertisementsForRent = advertisementsForRent;
     }
 
@@ -77,12 +77,12 @@ public class RentRequest {
         this.rentRequestStatus = rentRequestStatus;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Set<Report> getReports() {
