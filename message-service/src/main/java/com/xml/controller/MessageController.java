@@ -2,7 +2,6 @@ package com.xml.controller;
 
 import com.xml.dto.MessageDto;
 import com.xml.mapper.MessageDtoMapper;
-import com.xml.security.TokenUtils;
 import com.xml.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,13 +21,11 @@ public class MessageController
     private MessageService messageService;
     @Autowired
     private MessageDtoMapper messageDtoMapper;
-    @Autowired
-    private TokenUtils tokenUtils;
 
     @GetMapping(value = "/getReservedCustomers/{token}")
     public ResponseEntity<?> getReservedCustomers(@RequestHeader("Authorization") String token) {
         try {
-            String username = tokenUtils.getUsernameFromToken(token.substring(7));
+            String username = null; //TODO pronaci username
             System.out.println("user"+username);
             List<Long> users = this.messageService.getReservedCustomers(username);
             return new ResponseEntity<>(users, HttpStatus.OK);

@@ -23,8 +23,8 @@ public class RentRequest {
    // @ManyToMany
    // @JoinTable(name = "rented_advertisements", joinColumns = @JoinColumn(name = "rent_request_id", referencedColumnName = "id"),
    //        inverseJoinColumns = @JoinColumn(name = "advertisement_id", referencedColumnName = "id"))
-    @Column
-    private Set<Long> advertisementsForRent;
+  //  @Column
+  //  private Set<Long> advertisementsForRent;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -61,14 +61,14 @@ public class RentRequest {
         this.reservedTo = reservedTo;
     }
 
-    public Set<Long> getAdvertisementsForRent() {
+ /*   public Set<Long> getAdvertisementsForRent() {
         return advertisementsForRent;
     }
 
     public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
         this.advertisementsForRent = advertisementsForRent;
     }
-
+*/
     public RentRequestStatus getRentRequestStatus() {
         return rentRequestStatus;
     }
