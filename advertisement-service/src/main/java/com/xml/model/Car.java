@@ -14,8 +14,8 @@ public class Car {
     private Long id;
 
     //@OneToMany(mappedBy = "car")
-    @Column
-    private Set<Long> reports;
+  //  @Column
+  //  private Set<Long> reports;
 
     @Column
     private Long carBrandId;

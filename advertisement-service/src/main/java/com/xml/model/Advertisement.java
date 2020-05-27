@@ -12,7 +12,8 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     @Column
