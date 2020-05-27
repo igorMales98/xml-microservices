@@ -14,10 +14,9 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| AditionalBill, Administrator, Advertisment, Agent, Authority
-  Car, CarBrand, CarClass, CarModel, Comment, Customer, Firm, 
-  FuelType, Message, Permission, Pricelist, RegistrationRequest,
-  RentRequest, Report, TransmissionType, User, UserTokenState |
+| AditionalBill, Administrator, Agent, Authority
+  Customer, Permission, RegistrationRequest, User
+  UserTokenState |
 
 
 ### 2. Advertisement service
@@ -34,12 +33,12 @@ Funkcionalnosti:
 * POST: Agentima/firmama je omogućeno definisanje popusta gde bi pri dužem rentiranju vozila cena po danu bila umanjena za neki procenat.
 * GET: Agentima/firmama je omogućeno da zatraže statistiku ocena svojih vozila.
 * GET: Agenti/firme imaju uvid u to koliko je puta izdat automobil.
+* POST: Objavljivanje komentara korisnika.
+* DELETE: Brisanje komentara korisnika.
 
 | Modeli |
 | --- |
-| AdditionalBill, Advertisment, Authority, Car, CarBrand,
-  CarClass, CarModel, Comment, Customer, FuelType,
-  Pricelist, RentRequest, Report, TransmissionType, User |
+| Advertisment, Authority, Car, Comment |
 ### 3. Rent request service
 
 Funkcionalnosti:
@@ -48,12 +47,12 @@ Funkcionalnosti:
 * PUT: Automobil može zatražiti više korisnika ali može biti prihvaćen samo jedan od strane korisnika ili agenta/firme. Prilikom prihvatanja zahteva zahtev iz stanja _pending_ prelazi u stanje _reserved_. Korisnik ima 12h vremena da izvrši online plaćanje, pri čemu zahtev iz stanja _reserved_ prelazi u stanje _paid_. Ukoliko korisnik ne izvrši plaćanje, zahtev iz stanja _reserved_ prelazi u stanje _canceled_. Zahtev koji nije obrađen 24h iz stanja _pending_ automatski prelazi u stanje _canceled_.
 * GET: Korisnik ima mogućnost da pregleda svoju istoriju zahteva.
 * PUT: Korisnik pre plaćanja može u bilo kom trenutku da otkaže zahtev.
+* POST: Prilikom završetka rentiranja, korisnici unose izveštaj o broju pređenih kilometara i po potrebi unesu neke dodatne informacije (kao slobodan tekst).
+* GET: Agentima/firmama je omogućen uvid u statistiku kilometraže automobila.
 
 | Modeli |
 | --- |
-| AdditionalBill, Advertisement, Authority, Car, CarBrand,
-  CarClass, CarModel, Comment, Customer, FuelType, Pricelist,
-  RentRequest, Report, TransmissionType, User |
+| Authority, RentRequest, Report |
 
 ### 4. Message service
 
@@ -65,7 +64,7 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| Authority, Message, User |
+| Message |
 ### 5. Codebook service
 
 Funkcionalnosti:
@@ -80,30 +79,13 @@ Funkcionalnosti:
 | CarBrand, CarClass, CarModel, FuelType,
   Pricelist, TransmissionType |
 
-### 6. Comment service
-
-Funkcionalnosti:
-* POST: Objavljivanje komentara korisnika.
-* DELETE: Brisanje komentara korisnika.
-
-| Model |
-| --- |
-| Authority, Comment, User |
-
-### 7. Report service
-
-Funkcionalnosti:
-
-* POST: Prilikom završetka rentiranja, korisnici unose izveštaj o broju pređenih kilometara i po potrebi unesu neke dodatne informacije (kao slobodan tekst).
-* GET: Agentima/firmama je omogućen uvid u statistiku kilometraže automobila.
-
-### 8. Location service
+### 6. Location service
 
 Funkcionalnosti:
 
 * GET: Agentima/firmama je omogućeno praćenje vozila putem mape ukoloko može da emituje svoju lokaciju.
 
-### 9. Eureka service
+### 7. Eureka service
 
 
-### 10. Zuul Api Gateway Service
+### 8. Zuul Api Gateway Service
