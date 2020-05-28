@@ -1,10 +1,16 @@
 package com.xml.service;
 
+import com.xml.dto.RegistrationRequestDto;
 import com.xml.model.Authority;
+import com.xml.model.Permission;
 import com.xml.model.UserTokenState;
 import com.xml.security.auth.JwtAuthenticationRequest;
+import com.xml.security.auth.TokenBasedAuthentication;
 import javassist.NotFoundException;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.text.ParseException;
+import java.util.Collection;
 import java.util.Set;
 
 public interface AuthorityService {
@@ -15,5 +21,7 @@ public interface AuthorityService {
     UserTokenState login(JwtAuthenticationRequest authenticationRequest);
 
 
-    boolean verify(String token) throws NotFoundException;
+    Collection<Permission> verify(String token) throws NotFoundException;
+
+    void register(RegistrationRequestDto registrationRequest) throws ParseException;
 }
