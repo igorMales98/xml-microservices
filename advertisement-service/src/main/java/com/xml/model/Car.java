@@ -13,28 +13,20 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "car")
-    private Set<Report> reports;
+    @Column
+    private Long carBrandId;
 
-    @ManyToOne
-    @JoinColumn(name = "car_brand_id", nullable = false)
-    private CarBrand carBrand;
+    @Column
+    private Long carModelId;
 
-    @ManyToOne
-    @JoinColumn(name = "car_model_id", nullable = false)
-    private CarModel carModel;
+    @Column
+    private Long fuelTypeId;
 
-    @ManyToOne
-    @JoinColumn(name = "fuel_type_id", nullable = false)
-    private FuelType fuelType;
+    @Column
+    private Long transmissionTypeId;
 
-    @ManyToOne
-    @JoinColumn(name = "transmission_type_id", nullable = false)
-    private TransmissionType transmissionType;
-
-    @ManyToOne
-    @JoinColumn(name = "car_class_id", nullable = false)
-    private CarClass carClass;
+    @Column
+    private Long carClassId;
 
     @Column(nullable = false)
     @Range(min = 0, max = 1000000)
@@ -71,36 +63,36 @@ public class Car {
         this.id = id;
     }
 
-    public CarBrand getCarBrand() {
-        return carBrand;
+    public Long getCarBrandId() {
+        return carBrandId;
     }
 
-    public void setCarBrand(CarBrand carBrand) {
-        this.carBrand = carBrand;
+    public void setCarBrandId(Long carBrandId) {
+        this.carBrandId = carBrandId;
     }
 
-    public FuelType getFuelType() {
-        return fuelType;
+    public Long getFuelTypeId() {
+        return fuelTypeId;
     }
 
-    public void setFuelType(FuelType fuelType) {
-        this.fuelType = fuelType;
+    public void setFuelTypeId(Long fuelTypeId) {
+        this.fuelTypeId = fuelTypeId;
     }
 
-    public TransmissionType getTransmissionType() {
-        return transmissionType;
+    public Long getTransmissionTypeId() {
+        return transmissionTypeId;
     }
 
-    public void setTransmissionType(TransmissionType transmissionType) {
-        this.transmissionType = transmissionType;
+    public void setTransmissionTypeId(Long transmissionTypeId) {
+        this.transmissionTypeId = transmissionTypeId;
     }
 
-    public CarClass getCarClass() {
-        return carClass;
+    public Long getCarClassId() {
+        return carClassId;
     }
 
-    public void setCarClass(CarClass carClass) {
-        this.carClass = carClass;
+    public void setCarClassId(Long carClassId) {
+        this.carClassId = carClassId;
     }
 
     public float getMileage() {
@@ -159,11 +151,11 @@ public class Car {
         this.hasAndroid = hasAndroid;
     }
 
-    public CarModel getCarModel() {
-        return carModel;
+    public Long getCarModelId() {
+        return carModelId;
     }
 
-    public void setCarModel(CarModel carModel) {
-        this.carModel = carModel;
+    public void setCarModelId(Long carModelId) {
+        this.carModelId = carModelId;
     }
 }

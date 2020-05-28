@@ -20,18 +20,17 @@ public class RentRequest {
     @Column(nullable = false)
     private LocalDateTime reservedTo;
 
-    @ManyToMany
-    @JoinTable(name = "rented_advertisements", joinColumns = @JoinColumn(name = "rent_request_id", referencedColumnName = "id"),
-           inverseJoinColumns = @JoinColumn(name = "advertisement_id", referencedColumnName = "id"))
-    private Set<Advertisement> advertisementsForRent;
+    @ElementCollection
+    @Column(name = "advertisement_id")
+    @CollectionTable(name = "rented_advertisements", joinColumns = @JoinColumn(name = "rent_request_id"))
+    private Set<Long> advertisementsForRent;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private RentRequestStatus rentRequestStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @Column(nullable = false)
+    private Long customerId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "rentRequest")
@@ -61,14 +60,6 @@ public class RentRequest {
         this.reservedTo = reservedTo;
     }
 
-    public Set<Advertisement> getAdvertisementsForRent() {
-        return advertisementsForRent;
-    }
-
-    public void setAdvertisementsForRent(Set<Advertisement> advertisementsForRent) {
-        this.advertisementsForRent = advertisementsForRent;
-    }
-
     public RentRequestStatus getRentRequestStatus() {
         return rentRequestStatus;
     }
@@ -77,12 +68,12 @@ public class RentRequest {
         this.rentRequestStatus = rentRequestStatus;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Set<Report> getReports() {
@@ -91,5 +82,13 @@ public class RentRequest {
 
     public void setReports(Set<Report> reports) {
         this.reports = reports;
+    }
+
+    public Set<Long> getAdvertisementsForRent() {
+        return advertisementsForRent;
+    }
+
+    public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
+        this.advertisementsForRent = advertisementsForRent;
     }
 }

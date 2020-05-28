@@ -10,13 +10,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /*@ManyToOne
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    @Column
+    private Long senderId;
 
-    @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+    @Column
+    private Long receiverId;
 
     @Column
     private String message;
@@ -28,12 +26,32 @@ public class Message {
         return id;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
+    public Long getSenderId() {
+        return senderId;
+    }
+
+    public Long getReceiverId() {
+        return receiverId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getMessageDate() {
+        return messageDate;
+    }
+
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
+    }
+
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
 
     public void setMessage(String message) {
@@ -42,5 +60,5 @@ public class Message {
 
     public void setMessageDate(LocalDateTime messageDate) {
         this.messageDate = messageDate;
-    }*/
+    }
 }

@@ -9,9 +9,8 @@ public class AdditionalBill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User customer;
+    @Column( nullable = false)
+    private Long customerId;
 
     @Column
     private float price;
@@ -27,12 +26,12 @@ public class AdditionalBill {
         this.id = id;
     }
 
-    public User getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(User customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public float getPrice() {

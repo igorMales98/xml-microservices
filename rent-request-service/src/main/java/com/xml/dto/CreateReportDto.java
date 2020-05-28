@@ -3,7 +3,7 @@ package com.xml.dto;
 public class CreateReportDto {
 
     private Long id;
-    private CarDto car;
+    private Long carId;
     private float km;
     private String additionalInformation;
     private RentRequestDto rentRequest;
@@ -19,12 +19,12 @@ public class CreateReportDto {
         this.id = id;
     }
 
-    public CarDto getCar() {
-        return car;
+    public Long getCarId() {
+        return carId;
     }
 
-    public void setCar(CarDto car) {
-        this.car = car;
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 
     public float getKm() {

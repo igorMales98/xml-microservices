@@ -10,9 +10,9 @@ public class RentRequestDto {
     private Long id;
     private LocalDateTime reservedFrom;
     private LocalDateTime reservedTo;
-    private Set<AdvertisementDto> advertisementsForRent;
+    private Set<Long> advertisementsForRent;
     private RentRequestStatus rentRequestStatus;
-    private UserDto customer;
+    private Long customerId;
     private Set<ReportDto> reports;
 
     public RentRequestDto() {
@@ -42,11 +42,11 @@ public class RentRequestDto {
         this.reservedTo = reservedTo;
     }
 
-    public Set<AdvertisementDto> getAdvertisementsForRent() {
+    public Set<Long> getAdvertisementsForRent() {
         return advertisementsForRent;
     }
 
-    public void setAdvertisementsForRent(Set<AdvertisementDto> advertisementsForRent) {
+    public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
         this.advertisementsForRent = advertisementsForRent;
     }
 
@@ -58,12 +58,12 @@ public class RentRequestDto {
         this.rentRequestStatus = rentRequestStatus;
     }
 
-    public UserDto getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(UserDto customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Set<ReportDto> getReports() {
