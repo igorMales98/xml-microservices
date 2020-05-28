@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashSet;
 
 @Component
 @CrossOrigin(value = "https://localhost:4200")
@@ -57,9 +59,17 @@ public class AuthFilter extends ZuulFilter {
         System.out.println(token);
         try {
             // authClient.verify(token);
-            System.out.println("da li je dobar " + authClient.verify(token));
+            System.out.println("da li je dobar ");
+            Collection<Permission> permissions = authClient.verify(token);
+            System.out.println(permissions.toString());
+
+            Collection<String> permissionString = new HashSet<>();
+            for(Permission p: permissions) {
+                permissionString.add(p.getName());
+            }
+
             ctx.addZuulRequestHeader("Authorization", fullToken);
-            //ctx.addZuulRequestHeader("role", "SIMPLE_USER");
+            ctx.addZuulRequestHeader("Authorities", permissionString.toString());
 
         } catch (FeignException e) {
             e.printStackTrace();
