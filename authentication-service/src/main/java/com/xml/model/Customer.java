@@ -16,7 +16,4 @@ public class Customer extends User {
     @Range(min = 0, max = 3)
     private short advertisementsPosted;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<AdditionalBill> additionalBills;
-
 }

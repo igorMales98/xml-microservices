@@ -13,10 +13,6 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@OneToMany(mappedBy = "car")
-  //  @Column
-  //  private Set<Long> reports;
-
     @Column
     private Long carBrandId;
 

@@ -26,6 +26,26 @@ public class Message {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getSenderId() {
+        return senderId;
+    }
+
+    public Long getReceiverId() {
+        return receiverId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getMessageDate() {
+        return messageDate;
+    }
+
     public void setSenderId(Long senderId) {
         this.senderId = senderId;
     }
