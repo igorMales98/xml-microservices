@@ -70,3 +70,12 @@ INSERT INTO `xml`.`fuel_type` (`id`, `name`) VALUES ('5', 'Hybrid');
 INSERT INTO `xml`.`transmission_type` (`id`, `name`) VALUES ('1', 'Manual');
 INSERT INTO `xml`.`transmission_type` (`id`, `name`) VALUES ('2', 'Automatic');
 INSERT INTO `xml`.`transmission_type` (`id`, `name`) VALUES ('3', 'Semi-automatic');
+
+/* pricelists */
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('1', '100', '10', '3');
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('2', '150', '20', '7');
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('3', '120', '30', '2');
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('4', '80', '15', '1');
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('5', '300', '17', '10');
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('6', '250', '12', '7');
+INSERT INTO `xml`.`pricelist` (`id`, `price_forcdw`, `price_per_day`, `price_per_km`) VALUES ('7', '50', '11', '1');

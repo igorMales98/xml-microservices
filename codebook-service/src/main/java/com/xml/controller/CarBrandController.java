@@ -17,7 +17,7 @@ public class CarBrandController {
     @GetMapping(value = "/test")
     @PreAuthorize("hasAuthority('TEST')")
     public String test() {
-        System.out.println("kako te ovde ima a ne radis  " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        System.out.println("iz codebooka " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         return "Hello svet";
     }
 }
