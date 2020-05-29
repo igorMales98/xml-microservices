@@ -44,6 +44,17 @@ public class AuthorityController {
         }
     }
 
+    @GetMapping(value = "/getUser/{token:.+}")
+    public ResponseEntity<Long> getLoggedInUserId(@PathVariable("token") String token) {
+        System.out.println(token);
+        try {
+            Long userId = this.authorityService.getLoggedInUserId(token);
+            return new ResponseEntity<>(userId, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(value = "/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequestDto registrationRequest) {
         try {

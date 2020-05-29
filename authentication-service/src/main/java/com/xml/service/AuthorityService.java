@@ -24,4 +24,6 @@ public interface AuthorityService {
     Collection<Permission> verify(String token) throws NotFoundException;
 
     void register(RegistrationRequestDto registrationRequest) throws ParseException;
+
+    Long getLoggedInUserId(String token);
 }
