@@ -14,6 +14,8 @@ public class CommentDto {
     @NotBlank(message = "Comment cannot be empty")
     private String comment;
 
+    private String reply;
+
     public Long getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class CommentDto {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
 }

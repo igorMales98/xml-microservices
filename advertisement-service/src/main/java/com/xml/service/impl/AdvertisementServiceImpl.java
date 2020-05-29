@@ -11,13 +11,19 @@ import com.xml.model.Advertisement;
 import com.xml.repository.AdvertisementRepository;
 import com.xml.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
@@ -45,10 +51,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                     advertisement.getCar().getCarModelId(), advertisement.getCar().getCarClassId(), advertisement.getCar().getFuelTypeId(),
                     advertisement.getCar().getTransmissionTypeId(), advertisement.getPricelistId());
 
-            System.out.println(codebookInfoDto.toString());
-            System.out.println("token je " + token);
             UserDto advertiserDto = this.userFeignClient.getUserById(advertisement.getAdvertiserId(), token);
-            System.out.println(advertiserDto);
 
             AdvertisementDto advertisementDto = new AdvertisementDto();
             advertisementDto.setId(advertisement.getId());
@@ -79,5 +82,24 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
 
         return advertisementDtos;
+    }
+
+    @Override
+    public List<String> getAdvertisementPhotos(Long id) throws IOException {
+        Path resourceDirectory = Paths.get("advertisement-service", "src", "main", "resources");
+        String path = resourceDirectory.toFile().getAbsolutePath() + "\\images\\advertisement\\" + id + "\\";
+        Set<String> allFiles = Stream.of(new File(path).listFiles())
+                .filter(file -> !file.isDirectory())
+                .map(File::getName)
+                .collect(Collectors.toSet());
+        System.out.println(allFiles);
+        List<String> allEncodedImages = new ArrayList<>();
+        String encodeImage = null;
+        for (String file : allFiles) {
+            File image = new File(path + file);
+            encodeImage = Base64.getEncoder().withoutPadding().encodeToString(Files.readAllBytes(image.toPath()));
+            allEncodedImages.add(encodeImage);
+        }
+        return allEncodedImages;
     }
 }
