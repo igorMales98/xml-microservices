@@ -46,6 +46,38 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.findAll();
 
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements);
+    }
+
+    @Override
+    public List<String> getAdvertisementPhotos(Long id) throws IOException {
+        Path resourceDirectory = Paths.get("advertisement-service", "src", "main", "resources");
+        String path = resourceDirectory.toFile().getAbsolutePath() + "\\images\\advertisement\\" + id + "\\";
+        Set<String> allFiles = Stream.of(new File(path).listFiles())
+                .filter(file -> !file.isDirectory())
+                .map(File::getName)
+                .collect(Collectors.toSet());
+        System.out.println(allFiles);
+        List<String> allEncodedImages = new ArrayList<>();
+        String encodeImage = null;
+        for (String file : allFiles) {
+            File image = new File(path + file);
+            encodeImage = Base64.getEncoder().withoutPadding().encodeToString(Files.readAllBytes(image.toPath()));
+            allEncodedImages.add(encodeImage);
+        }
+        return allEncodedImages;
+    }
+
+    @Override
+    public List<AdvertisementDto> getUserAdvertisements(Long userId, String token) {
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+
+        List<Advertisement> allAdvertisements = this.advertisementRepository.getAllByAdvertiserId(userId);
+
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements);
+    }
+
+    private List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements) {
         for (Advertisement advertisement : allAdvertisements) {
             CodebookInfoDto codebookInfoDto = this.codebookFeignClient.getMoreInfo(advertisement.getCar().getCarBrandId(),
                     advertisement.getCar().getCarModelId(), advertisement.getCar().getCarClassId(), advertisement.getCar().getFuelTypeId(),
@@ -82,24 +114,5 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
 
         return advertisementDtos;
-    }
-
-    @Override
-    public List<String> getAdvertisementPhotos(Long id) throws IOException {
-        Path resourceDirectory = Paths.get("advertisement-service", "src", "main", "resources");
-        String path = resourceDirectory.toFile().getAbsolutePath() + "\\images\\advertisement\\" + id + "\\";
-        Set<String> allFiles = Stream.of(new File(path).listFiles())
-                .filter(file -> !file.isDirectory())
-                .map(File::getName)
-                .collect(Collectors.toSet());
-        System.out.println(allFiles);
-        List<String> allEncodedImages = new ArrayList<>();
-        String encodeImage = null;
-        for (String file : allFiles) {
-            File image = new File(path + file);
-            encodeImage = Base64.getEncoder().withoutPadding().encodeToString(Files.readAllBytes(image.toPath()));
-            allEncodedImages.add(encodeImage);
-        }
-        return allEncodedImages;
     }
 }

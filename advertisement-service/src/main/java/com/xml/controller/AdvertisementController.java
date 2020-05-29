@@ -40,4 +40,16 @@ public class AdvertisementController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/all/{userId}")
+    public ResponseEntity<List<AdvertisementDto>> getUserAdvertisements(@PathVariable("userId") Long userId,
+                                                                        @RequestHeader("Authorization") String token) {
+        try {
+            List<AdvertisementDto> advertisementDtos = this.advertisementService.getUserAdvertisements(userId, token);
+            return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

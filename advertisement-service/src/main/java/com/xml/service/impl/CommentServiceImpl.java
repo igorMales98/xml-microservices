@@ -1,6 +1,5 @@
 package com.xml.service.impl;
 
-import com.netflix.discovery.converters.Auto;
 import com.xml.dto.CommentDto;
 import com.xml.dto.UserDto;
 import com.xml.feignClients.UserFeignClient;
@@ -44,6 +43,14 @@ public class CommentServiceImpl implements CommentService {
             allApprovedComments.add(commentDto);
         }
         return allApprovedComments;
+    }
+
+    @Override
+    public void sendReply(Long id, String reply) {
+        System.out.println(reply);
+        Comment comment = commentRepository.findOneById(id);
+        comment.setReply(reply);
+        commentRepository.save(comment);
     }
 
 }

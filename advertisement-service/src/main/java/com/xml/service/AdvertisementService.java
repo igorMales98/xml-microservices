@@ -10,4 +10,6 @@ public interface AdvertisementService {
     List<AdvertisementDto> getAll(String token);
 
     List<String> getAdvertisementPhotos(Long id) throws IOException;
+
+    List<AdvertisementDto> getUserAdvertisements(Long userId, String token);
 }

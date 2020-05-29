@@ -10,4 +10,6 @@ import java.util.ArrayList;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     ArrayList<Comment> getAllByAdvertisement_id(Long adId);
+
+    Comment findOneById(Long id);
 }
