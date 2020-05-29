@@ -7,11 +7,11 @@ public class AdvertisementDto {
 
     private Long id;
     private CarDto car;
-    private Long advertiserId;
+    private UserDto advertiser;
     private LocalDateTime availableFrom;
     private LocalDateTime availableTo;
     private Set<CommentDto> comments;
-    private Long pricelistId;
+    private PricelistDto pricelist;
 
     public AdvertisementDto() {
     }
@@ -30,6 +30,14 @@ public class AdvertisementDto {
 
     public void setCar(CarDto car) {
         this.car = car;
+    }
+
+    public UserDto getAdvertiser() {
+        return advertiser;
+    }
+
+    public void setAdvertiser(UserDto advertiser) {
+        this.advertiser = advertiser;
     }
 
     public LocalDateTime getAvailableFrom() {
@@ -56,19 +64,11 @@ public class AdvertisementDto {
         this.comments = comments;
     }
 
-    public Long getAdvertiserId() {
-        return advertiserId;
+    public PricelistDto getPricelist() {
+        return pricelist;
     }
 
-    public void setAdvertiserId(Long advertiserId) {
-        this.advertiserId = advertiserId;
-    }
-
-    public Long getPricelistId() {
-        return pricelistId;
-    }
-
-    public void setPricelistId(Long pricelistId) {
-        this.pricelistId = pricelistId;
+    public void setPricelist(PricelistDto pricelist) {
+        this.pricelist = pricelist;
     }
 }

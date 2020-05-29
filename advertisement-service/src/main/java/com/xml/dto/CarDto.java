@@ -3,11 +3,11 @@ package com.xml.dto;
 public class CarDto {
 
     private Long id;
-    private Long carBrandId;
-    private Long carModelId;
-    private Long fuelTypeId;
-    private Long transmissionTypeId;
-    private Long carClassId;
+    private CarBrandDto carBrand;
+    private CarModelDto carModel;
+    private FuelTypeDto fuelType;
+    private TransmissionTypeDto transmissionType;
+    private CarClassDto carClass;
     private float mileage;
     private float allowedDistance;
     private boolean collisionDamageWaiverExists;
@@ -27,44 +27,44 @@ public class CarDto {
         this.id = id;
     }
 
-    public Long getCarBrandId() {
-        return carBrandId;
+    public CarBrandDto getCarBrand() {
+        return carBrand;
     }
 
-    public void setCarBrandId(Long carBrandId) {
-        this.carBrandId = carBrandId;
+    public void setCarBrand(CarBrandDto carBrand) {
+        this.carBrand = carBrand;
     }
 
-    public Long getCarModelId() {
-        return carModelId;
+    public CarModelDto getCarModel() {
+        return carModel;
     }
 
-    public void setCarModelId(Long carModelId) {
-        this.carModelId = carModelId;
+    public void setCarModel(CarModelDto carModel) {
+        this.carModel = carModel;
     }
 
-    public Long getFuelTypeId() {
-        return fuelTypeId;
+    public FuelTypeDto getFuelType() {
+        return fuelType;
     }
 
-    public void setFuelTypeId(Long fuelTypeId) {
-        this.fuelTypeId = fuelTypeId;
+    public void setFuelType(FuelTypeDto fuelType) {
+        this.fuelType = fuelType;
     }
 
-    public Long getTransmissionTypeId() {
-        return transmissionTypeId;
+    public TransmissionTypeDto getTransmissionType() {
+        return transmissionType;
     }
 
-    public void setTransmissionTypeId(Long transmissionTypeId) {
-        this.transmissionTypeId = transmissionTypeId;
+    public void setTransmissionType(TransmissionTypeDto transmissionType) {
+        this.transmissionType = transmissionType;
     }
 
-    public Long getCarClassId() {
-        return carClassId;
+    public CarClassDto getCarClass() {
+        return carClass;
     }
 
-    public void setCarClassId(Long carClassId) {
-        this.carClassId = carClassId;
+    public void setCarClass(CarClassDto carClass) {
+        this.carClass = carClass;
     }
 
     public float getMileage() {
