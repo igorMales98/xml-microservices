@@ -21,11 +21,13 @@ public class AdvertisementController {
     private AdvertisementService advertisementService;
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<AdvertisementDto>> getAll() {
+    public ResponseEntity<List<AdvertisementDto>> getAll(@RequestHeader("Authorization") String token) {
         try {
-            List<AdvertisementDto> advertisementDtos = this.advertisementService.getAll();
+            System.out.println("token je " + token);
+            List<AdvertisementDto> advertisementDtos = this.advertisementService.getAll(token);
             return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

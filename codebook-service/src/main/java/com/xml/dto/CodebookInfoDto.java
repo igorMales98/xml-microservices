@@ -59,4 +59,16 @@ public class CodebookInfoDto {
     public void setPricelistDto(PricelistDto pricelistDto) {
         this.pricelistDto = pricelistDto;
     }
+
+    @Override
+    public String toString() {
+        return "CodebookInfoDto{" +
+                "carBrandDto=" + carBrandDto +
+                ", carModelDto=" + carModelDto +
+                ", carClassDto=" + carClassDto +
+                ", fuelTypeDto=" + fuelTypeDto +
+                ", transmissionTypeDto=" + transmissionTypeDto +
+                ", pricelistDto=" + pricelistDto +
+                '}';
+    }
 }

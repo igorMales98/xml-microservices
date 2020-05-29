@@ -26,6 +26,8 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = httpServletRequest.getHeader("Authorization");
         String authorities = httpServletRequest.getHeader("Authorities");
+
+
         System.out.println(authorities);
         System.out.println(authorities.substring(1, authorities.length() - 1));
         String[] allPermissions = authorities.substring(1, authorities.length() - 1).split(",");
@@ -87,8 +89,9 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
                 };
             }
         });
-
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

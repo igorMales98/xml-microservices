@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AdvertisementService {
 
-    List<AdvertisementDto> getAll();
+    List<AdvertisementDto> getAll(String token);
 }
