@@ -7,26 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@CrossOrigin(origins = "https://localhost:4200", allowedHeaders = "*")
 @RestController
+@CrossOrigin(value = "https://localhost:4200")
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
-public class MessageController
-{
+public class MessageController {
     @Autowired
     private MessageService messageService;
     @Autowired
     private MessageDtoMapper messageDtoMapper;
 
+    @GetMapping(value = "/test")
+    @PreAuthorize("hasAuthority('TEST')")
+    public String test() {
+        System.out.println("iz message " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        return "Hello svet";
+    }
+
     @GetMapping(value = "/getReservedCustomers/{token}")
     public ResponseEntity<?> getReservedCustomers(@RequestHeader("Authorization") String token) {
         try {
             String username = null; //TODO pronaci username
-            System.out.println("user"+username);
+            System.out.println("user" + username);
             List<Long> users = this.messageService.getReservedCustomers(username);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
@@ -34,10 +42,11 @@ public class MessageController
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/getMessages/{agentId}/{customerId}")
     public ResponseEntity<?> getMessages(@PathVariable("agentId") Long agentId, @PathVariable("customerId") Long customerId) {
         try {
-            List<MessageDto> messageDtos = this.messageService.getMessages(agentId,customerId).stream()
+            List<MessageDto> messageDtos = this.messageService.getMessages(agentId, customerId).stream()
                     .map(messageDtoMapper::toDto).collect(Collectors.toList());
             return new ResponseEntity<>(messageDtos, HttpStatus.OK);
         } catch (Exception e) {

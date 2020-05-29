@@ -26,9 +26,6 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = httpServletRequest.getHeader("Authorization");
         String authorities = httpServletRequest.getHeader("Authorities");
-        String userId = httpServletRequest.getHeader("UserId");
-        Long id = Long.parseLong(userId);
-        System.out.println("user id je " + id);
         System.out.println(authorities);
         System.out.println(authorities.substring(1, authorities.length() - 1));
         String[] allPermissions = authorities.substring(1, authorities.length() - 1).split(",");

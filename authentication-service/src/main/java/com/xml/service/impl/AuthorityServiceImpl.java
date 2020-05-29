@@ -105,5 +105,11 @@ public class AuthorityServiceImpl implements AuthorityService {
         this.registrationRequestRepository.save(registrationRequestDtoMapper.toEntity(registrationRequest));
     }
 
+    @Override
+    public Long getLoggedInUserId(String token) {
+        String username = tokenUtils.getUsernameFromToken(token);
+        return this.userRepository.findByUsername(username).getId();
+    }
+
 
 }
