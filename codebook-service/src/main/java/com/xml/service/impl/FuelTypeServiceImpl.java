@@ -6,6 +6,8 @@ import com.xml.service.FuelTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FuelTypeServiceImpl implements FuelTypeService {
 
@@ -15,5 +17,10 @@ public class FuelTypeServiceImpl implements FuelTypeService {
     @Override
     public FuelType findById(Long id) {
         return this.fuelTypeRepository.getOne(id);
+    }
+
+    @Override
+    public List<FuelType> getAll() {
+        return this.fuelTypeRepository.findAll();
     }
 }
