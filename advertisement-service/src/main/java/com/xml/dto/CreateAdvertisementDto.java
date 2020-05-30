@@ -55,6 +55,8 @@ public class CreateAdvertisementDto {
 
     private Long advertiserId;
 
+    private String userRole;
+
     public CreateAdvertisementDto() {
     }
 
@@ -170,6 +172,14 @@ public class CreateAdvertisementDto {
         this.advertiserId = advertiserId;
     }
 
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
         return "CreateAdvertisementDto{" +
@@ -187,6 +197,7 @@ public class CreateAdvertisementDto {
                 ", allowedDistance=" + allowedDistance +
                 ", discount='" + discount + '\'' +
                 ", advertiserId=" + advertiserId +
+                ", userRole='" + userRole + '\'' +
                 '}';
     }
 

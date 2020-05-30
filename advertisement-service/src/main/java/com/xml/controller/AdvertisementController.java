@@ -58,10 +58,11 @@ public class AdvertisementController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<Long> createAdvertisement(@Valid @RequestBody CreateAdvertisementDto createAdvertisementDto) {
+    public ResponseEntity<Long> createAdvertisement(@Valid @RequestBody CreateAdvertisementDto createAdvertisementDto,
+                                                    @RequestHeader("Authorization") String token) {
         System.out.println(createAdvertisementDto);
         try {
-            Long advertisementId = this.advertisementService.saveAdvertisement(createAdvertisementDto);
+            Long advertisementId = this.advertisementService.saveAdvertisement(createAdvertisementDto, token);
             return new ResponseEntity<>(advertisementId, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();

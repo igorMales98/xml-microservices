@@ -83,7 +83,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public Long saveAdvertisement(CreateAdvertisementDto createAdvertisementDto) throws ParseException {
+    public Long saveAdvertisement(CreateAdvertisementDto createAdvertisementDto, String token) throws ParseException {
         Car newCar = new Car();
         newCar.setCarBrandId(createAdvertisementDto.getCarBrand().getId());
         newCar.setCarModelId(createAdvertisementDto.getCarModel().getId());
@@ -109,6 +109,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setDiscount(createAdvertisementDto.convertToHashMap(createAdvertisementDto.getDiscount()));
         this.advertisementRepository.save(advertisement);
         this.advertisementRepository.flush();
+
+        if (createAdvertisementDto.getUserRole().equals("ROLE_CUSTOMER")) {
+            this.userFeignClient.updateTimesRated(createAdvertisementDto.getAdvertiserId(), token);
+        }
+
         return advertisement.getId();
     }
 

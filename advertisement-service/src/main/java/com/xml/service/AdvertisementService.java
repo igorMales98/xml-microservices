@@ -16,7 +16,7 @@ public interface AdvertisementService {
 
     List<AdvertisementDto> getUserAdvertisements(Long userId, String token);
 
-    Long saveAdvertisement(CreateAdvertisementDto createAdvertisementDto) throws ParseException;
+    Long saveAdvertisement(CreateAdvertisementDto createAdvertisementDto, String token) throws ParseException;
 
     void uploadPhotos(MultipartFile[] files, Long id) throws IOException;
 }
