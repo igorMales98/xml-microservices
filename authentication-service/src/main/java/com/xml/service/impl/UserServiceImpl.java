@@ -26,6 +26,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void updateTimesRated(Long id) {
+        User user = this.userRepository.getOne(id);
+        user.setAdvertisementsPosted((short) (user.getAdvertisementsPosted() + 1));
+        this.userRepository.save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username);
         if (user == null) {

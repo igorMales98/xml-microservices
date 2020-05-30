@@ -6,6 +6,8 @@ import com.xml.service.CarBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarBrandServiceImpl implements CarBrandService {
 
@@ -15,5 +17,10 @@ public class CarBrandServiceImpl implements CarBrandService {
     @Override
     public CarBrand findById(Long id) {
         return this.carBrandRepository.getOne(id);
+    }
+
+    @Override
+    public List<CarBrand> getAll() {
+        return this.carBrandRepository.findAll();
     }
 }

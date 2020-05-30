@@ -1,5 +1,6 @@
 package com.xml.model;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -53,6 +54,10 @@ public class User implements UserDetails {
 
     @Column
     protected boolean enabled;
+
+    @Column
+    @Range(min = 0, max = 3)
+    private short advertisementsPosted;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
@@ -175,6 +180,14 @@ public class User implements UserDetails {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public short getAdvertisementsPosted() {
+        return advertisementsPosted;
+    }
+
+    public void setAdvertisementsPosted(short advertisementsPosted) {
+        this.advertisementsPosted = advertisementsPosted;
     }
 
     @Override

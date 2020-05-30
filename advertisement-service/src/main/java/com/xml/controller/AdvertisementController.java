@@ -1,13 +1,17 @@
 package com.xml.controller;
 
 import com.xml.dto.AdvertisementDto;
+import com.xml.dto.CreateAdvertisementDto;
 import com.xml.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -48,6 +52,31 @@ public class AdvertisementController {
             List<AdvertisementDto> advertisementDtos = this.advertisementService.getUserAdvertisements(userId, token);
             return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<Long> createAdvertisement(@Valid @RequestBody CreateAdvertisementDto createAdvertisementDto,
+                                                    @RequestHeader("Authorization") String token) {
+        System.out.println(createAdvertisementDto);
+        try {
+            Long advertisementId = this.advertisementService.saveAdvertisement(createAdvertisementDto, token);
+            return new ResponseEntity<>(advertisementId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @PostMapping(value = "/uploadPhotos/{id}")
+    public ResponseEntity<?> uploadPhotosForAdvertisement(@RequestPart("myFile") MultipartFile[] files, @PathVariable("id") Long advertisementId) {
+        try {
+            this.advertisementService.uploadPhotos(files, advertisementId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
