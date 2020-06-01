@@ -1,5 +1,6 @@
 package com.xml.controller;
 
+import com.netflix.ribbon.proxy.annotation.Http;
 import com.xml.dto.AdvertisementDto;
 import com.xml.dto.CreateAdvertisementDto;
 import com.xml.service.AdvertisementService;
@@ -78,6 +79,19 @@ public class AdvertisementController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/basicSearch/{dateFrom}/{dateTo}/{place}")
+    public ResponseEntity<List<AdvertisementDto>> getInPeriod(@PathVariable("dateFrom") String dateFrom,
+                                                              @PathVariable("dateTo") String dateTo,
+                                                              @PathVariable("place") String place,
+                                                              @RequestHeader("Authorization") String token) {
+        try {
+            List<AdvertisementDto> advertisementDtos = this.advertisementService.basicSearch(dateFrom, dateTo, place, token);
+            return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
