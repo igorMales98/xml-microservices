@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ReportDto {
 
     private Long id;
-    private Long carId;
+    private CarDto car;
     private float km;
     private String additionalInformation;
     private RentRequestDto rentRequest;
@@ -21,12 +21,12 @@ public class ReportDto {
         this.id = id;
     }
 
-    public Long getCarId() {
-        return carId;
+    public CarDto getCar() {
+        return car;
     }
 
-    public void setCarId(Long carId) {
-        this.carId = carId;
+    public void setCar(CarDto car) {
+        this.car = car;
     }
 
     public float getKm() {

@@ -19,4 +19,6 @@ public interface AdvertisementService {
     Long saveAdvertisement(CreateAdvertisementDto createAdvertisementDto, String token) throws ParseException;
 
     void uploadPhotos(MultipartFile[] files, Long id) throws IOException;
+
+    List<AdvertisementDto> basicSearch(String dateFrom, String dateTo, String place, String token);
 }

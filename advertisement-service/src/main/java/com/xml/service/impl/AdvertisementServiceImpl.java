@@ -19,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -51,7 +53,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.findAll();
 
-        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements);
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, "");
     }
 
     @Override
@@ -79,7 +81,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.getAllByAdvertiserId(userId);
 
-        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements);
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, "");
     }
 
     @Override
@@ -132,14 +134,36 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
     }
 
+    @Override
+    public List<AdvertisementDto> basicSearch(String dateFrom, String dateTo, String place, String token) {
+        dateFrom = dateFrom.replace('T', ' ');
+        dateTo = dateTo.replace('T', ' ');
 
-    private List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateFromTime = LocalDateTime.parse(dateFrom, formatter);
+        LocalDateTime dateFromTo = LocalDateTime.parse(dateTo, formatter);
+
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+
+        List<Advertisement> allAdvertisements = this.advertisementRepository.basicSearch(dateFromTime, dateFromTo);
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, place);
+    }
+
+
+    private List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements, String place) {
         for (Advertisement advertisement : allAdvertisements) {
+            UserDto advertiserDto = this.userFeignClient.getUserById(advertisement.getAdvertiserId(), token);
+
+            if (!place.equals("")) {
+                if (!advertiserDto.getCity().toLowerCase().contains(place.toLowerCase())) {
+                    continue;
+                }
+            }
+
             CodebookInfoDto codebookInfoDto = this.codebookFeignClient.getMoreInfo(advertisement.getCar().getCarBrandId(),
                     advertisement.getCar().getCarModelId(), advertisement.getCar().getCarClassId(), advertisement.getCar().getFuelTypeId(),
                     advertisement.getCar().getTransmissionTypeId(), advertisement.getPricelistId());
 
-            UserDto advertiserDto = this.userFeignClient.getUserById(advertisement.getAdvertiserId(), token);
 
             AdvertisementDto advertisementDto = new AdvertisementDto();
             advertisementDto.setId(advertisement.getId());
