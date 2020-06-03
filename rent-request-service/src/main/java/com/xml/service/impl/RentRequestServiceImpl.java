@@ -24,15 +24,7 @@ public class RentRequestServiceImpl implements RentRequestService {
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
         if (!rentRequestDto.isBundle()) {
             for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
-                RentRequest newRequest = new RentRequest();
-                newRequest.setRentRequestStatus(RentRequestStatus.PENDING);
-                newRequest.setReservedTo(rentRequestDto.getReservedTo());
-                newRequest.setReservedFrom(rentRequestDto.getReservedFrom());
-                Set<Long> newSet = new HashSet<>();
-                newSet.add(advertisementDto.getId());
-                newRequest.setAdvertisementsForRent(newSet);
-                newRequest.setCustomerId(rentRequestDto.getCustomer().getId());
-                newRequest.setReports(new HashSet<>());
+                RentRequest newRequest = this.createRequest(rentRequestDto, advertisementDto.getId(), false);
                 this.rentRequestRepository.save(newRequest);
             }
         } else {
@@ -44,20 +36,59 @@ public class RentRequestServiceImpl implements RentRequestService {
             }
 
             for (Long id : temp) {
-                RentRequest newRequest = new RentRequest();
-                newRequest.setRentRequestStatus(RentRequestStatus.PENDING);
-                newRequest.setReservedTo(rentRequestDto.getReservedTo());
-                newRequest.setReservedFrom(rentRequestDto.getReservedFrom());
-                Set<Long> newSet = new HashSet<>();
-                for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
-                    if (advertisementDto.getAdvertiser().getId().equals(id)) {
-                        newSet.add(advertisementDto.getId());
+                RentRequest newRequest = this.createRequest(rentRequestDto, id, true);
+                this.rentRequestRepository.save(newRequest);
+            }
+
+        }
+
+    }
+
+    private RentRequest createRequest(RentRequestDto rentRequestDto, Long id, boolean bundle) {
+        RentRequest newRequest = new RentRequest();
+        if (rentRequestDto.isPhysicalRent()) {
+            newRequest.setRentRequestStatus(RentRequestStatus.PAID);
+        } else {
+            newRequest.setRentRequestStatus(RentRequestStatus.PENDING);
+        }
+        newRequest.setReservedTo(rentRequestDto.getReservedTo());
+        newRequest.setReservedFrom(rentRequestDto.getReservedFrom());
+
+        Set<Long> newSet = new HashSet<>();
+        if (!bundle) {
+            newSet.add(id);
+        } else {
+            for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
+                if (advertisementDto.getAdvertiser().getId().equals(id)) {
+                    newSet.add(advertisementDto.getId());
+                }
+            }
+        }
+
+
+        newRequest.setAdvertisementsForRent(newSet);
+        newRequest.setCustomerId(rentRequestDto.getCustomer().getId());
+        newRequest.setReports(new HashSet<>());
+        this.declineRequests(rentRequestDto);
+        return newRequest;
+    }
+
+    private void declineRequests(RentRequestDto rentRequestDto) {
+        // TODO: ne treba menjati na canceled one koji nisu u opsegu zadatog datuma
+        if (rentRequestDto.isPhysicalRent()) {
+            Set<AdvertisementDto> advertisementSet = new HashSet<>(rentRequestDto.getAdvertisementsForRent());
+            List<RentRequest> rentRequests = this.rentRequestRepository.findAll();
+            for (RentRequest request : rentRequests) {
+                if (request.getRentRequestStatus().equals(RentRequestStatus.PENDING)) {
+                    for (Long advertisementId : request.getAdvertisementsForRent()) {
+                        for (AdvertisementDto a : advertisementSet) {
+                            if (a.getId().equals(advertisementId)) {
+                                request.setRentRequestStatus(RentRequestStatus.CANCELED);
+                                this.rentRequestRepository.save(request);
+                            }
+                        }
                     }
                 }
-                newRequest.setAdvertisementsForRent(newSet);
-                newRequest.setCustomerId(rentRequestDto.getCustomer().getId());
-                newRequest.setReports(new HashSet<>());
-                this.rentRequestRepository.save(newRequest);
             }
         }
     }
