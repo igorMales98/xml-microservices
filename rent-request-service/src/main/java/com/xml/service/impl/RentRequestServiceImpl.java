@@ -2,7 +2,9 @@ package com.xml.service.impl;
 
 import com.xml.dto.AdvertisementDto;
 import com.xml.dto.RentRequestDto;
+import com.xml.dto.UserDto;
 import com.xml.enummeration.RentRequestStatus;
+import com.xml.feignClients.UserFeignClient;
 import com.xml.model.RentRequest;
 import com.xml.repository.RentRequestRepository;
 import com.xml.service.RentRequestService;
@@ -20,11 +22,27 @@ public class RentRequestServiceImpl implements RentRequestService {
     @Autowired
     private RentRequestRepository rentRequestRepository;
 
+    @Autowired
+    private UserFeignClient userFeignClient;
+
     @Override
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(rentRequestDto.getCustomer().getFirstName());
+        userDto.setLastName(rentRequestDto.getCustomer().getLastName());
+        userDto.setEmail(rentRequestDto.getCustomer().getEmail());
+        userDto.setCountry(rentRequestDto.getCustomer().getCountry());
+        userDto.setCity(rentRequestDto.getCustomer().getCity());
+        userDto.setAddress(rentRequestDto.getCustomer().getAddress());
+        userDto.setPhone(rentRequestDto.getCustomer().getPhone());
+        userDto.setEnabled(false);
+        Long customerId = this.userFeignClient.createPhysicalUser(userDto, token);
+        userDto.setId(customerId);
+        rentRequestDto.setCustomer(userDto);
+
         if (!rentRequestDto.isBundle()) {
             for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
-                RentRequest newRequest = this.createRequest(rentRequestDto, advertisementDto.getId(), false);
+                RentRequest newRequest = this.createRequest(rentRequestDto, advertisementDto.getId(), false, token);
                 this.rentRequestRepository.save(newRequest);
             }
         } else {
@@ -36,7 +54,7 @@ public class RentRequestServiceImpl implements RentRequestService {
             }
 
             for (Long id : temp) {
-                RentRequest newRequest = this.createRequest(rentRequestDto, id, true);
+                RentRequest newRequest = this.createRequest(rentRequestDto, id, true, token);
                 this.rentRequestRepository.save(newRequest);
             }
 
@@ -44,7 +62,8 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     }
 
-    private RentRequest createRequest(RentRequestDto rentRequestDto, Long id, boolean bundle) {
+    private RentRequest createRequest(RentRequestDto rentRequestDto, Long id, boolean bundle, String token) {
+        // TODO: ako je fizicki rent kreiraj novog korisnika i njega postavi za customera.
         RentRequest newRequest = new RentRequest();
         if (rentRequestDto.isPhysicalRent()) {
             newRequest.setRentRequestStatus(RentRequestStatus.PAID);

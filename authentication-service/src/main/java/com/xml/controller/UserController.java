@@ -54,4 +54,15 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping(value = "/physical")
+    public ResponseEntity<?> createPhysicalUser(@RequestBody UserDto userDto, @RequestHeader("Authorization") String token) {
+        try {
+            Long newUserId = this.userService.createPhysicalUser(userDto, token);
+            System.out.println("Id novi je" + newUserId);
+            return new ResponseEntity<>(newUserId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
