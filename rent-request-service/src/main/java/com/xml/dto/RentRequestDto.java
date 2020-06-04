@@ -28,6 +28,8 @@ public class RentRequestDto {
 
     private boolean bundle;
 
+    private boolean physicalRent;
+
     public RentRequestDto() {
     }
 
@@ -95,6 +97,14 @@ public class RentRequestDto {
         this.bundle = bundle;
     }
 
+    public boolean isPhysicalRent() {
+        return physicalRent;
+    }
+
+    public void setPhysicalRent(boolean physicalRent) {
+        this.physicalRent = physicalRent;
+    }
+
     @Override
     public String toString() {
         return "RentRequestDto{" +
@@ -106,6 +116,7 @@ public class RentRequestDto {
                 ", customer=" + customer +
                 ", reports=" + reports +
                 ", bundle=" + bundle +
+                ", physicalRent=" + physicalRent +
                 '}';
     }
 }

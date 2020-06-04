@@ -1,6 +1,7 @@
 package com.xml.service.impl;
 
 import com.xml.dto.*;
+import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.CodebookFeignClient;
 import com.xml.feignClients.UserFeignClient;
 import com.xml.mapper.CommentDtoMapper;
@@ -147,6 +148,20 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.basicSearch(dateFromTime, dateFromTo);
         return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, place);
+    }
+
+    @Override
+    public List<AdvertisementDto> basicSearchForMyAdvertisements(String dateFrom, String dateTo, Long id, String token) {
+        dateFrom = dateFrom.replace('T', ' ');
+        dateTo = dateTo.replace('T', ' ');
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateFromTime = LocalDateTime.parse(dateFrom, formatter);
+        LocalDateTime dateToTime = LocalDateTime.parse(dateTo, formatter);
+
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+        List<Advertisement> advertisementList = this.advertisementRepository.basicSearchForMyAdvertisements(dateFromTime, dateToTime, id, RentRequestStatus.RESERVED.toString());
+        return getAdvertisementDtos(token, advertisementDtos, advertisementList, "");
     }
 
 

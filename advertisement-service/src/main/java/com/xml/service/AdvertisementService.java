@@ -21,4 +21,6 @@ public interface AdvertisementService {
     void uploadPhotos(MultipartFile[] files, Long id) throws IOException;
 
     List<AdvertisementDto> basicSearch(String dateFrom, String dateTo, String place, String token);
+
+    List<AdvertisementDto> basicSearchForMyAdvertisements(String dateFrom, String dateTo, Long id, String token);
 }

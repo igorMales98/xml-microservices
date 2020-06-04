@@ -95,4 +95,17 @@ public class AdvertisementController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/basicSearchForMyAdvertisements/{dateFrom}/{dateTo}/{id}")
+    public ResponseEntity<List<AdvertisementDto>> getInPeriodForMyAdvertisements(@PathVariable("dateFrom") String dateFrom,
+                                                                                 @PathVariable("dateTo") String dateTo,
+                                                                                 @PathVariable("id") Long id,
+                                                                                 @RequestHeader("Authorization") String token) {
+        try {
+            List<AdvertisementDto> advertisementDtos = this.advertisementService.basicSearchForMyAdvertisements(dateFrom, dateTo, id, token);
+            return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
