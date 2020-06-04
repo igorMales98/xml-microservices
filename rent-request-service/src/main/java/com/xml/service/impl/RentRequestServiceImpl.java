@@ -63,7 +63,6 @@ public class RentRequestServiceImpl implements RentRequestService {
     }
 
     private RentRequest createRequest(RentRequestDto rentRequestDto, Long id, boolean bundle, String token) {
-        // TODO: ako je fizicki rent kreiraj novog korisnika i njega postavi za customera.
         RentRequest newRequest = new RentRequest();
         if (rentRequestDto.isPhysicalRent()) {
             newRequest.setRentRequestStatus(RentRequestStatus.PAID);
@@ -93,12 +92,12 @@ public class RentRequestServiceImpl implements RentRequestService {
     }
 
     private void declineRequests(RentRequestDto rentRequestDto) {
-        // TODO: ne treba menjati na canceled one koji nisu u opsegu zadatog datuma
         if (rentRequestDto.isPhysicalRent()) {
             Set<AdvertisementDto> advertisementSet = new HashSet<>(rentRequestDto.getAdvertisementsForRent());
             List<RentRequest> rentRequests = this.rentRequestRepository.findAll();
             for (RentRequest request : rentRequests) {
-                if (request.getRentRequestStatus().equals(RentRequestStatus.PENDING)) {
+                if (request.getRentRequestStatus().equals(RentRequestStatus.PENDING) && !checkDates(rentRequestDto, request)
+                ) {
                     for (Long advertisementId : request.getAdvertisementsForRent()) {
                         for (AdvertisementDto a : advertisementSet) {
                             if (a.getId().equals(advertisementId)) {
@@ -110,5 +109,9 @@ public class RentRequestServiceImpl implements RentRequestService {
                 }
             }
         }
+    }
+
+    private boolean checkDates(RentRequestDto rentRequestDto, RentRequest request) {
+        return (rentRequestDto.getReservedTo().isBefore(request.getReservedFrom()) || rentRequestDto.getReservedFrom().isAfter(request.getReservedTo()));
     }
 }
