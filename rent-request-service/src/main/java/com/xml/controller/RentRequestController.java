@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.xml.ws.Response;
+import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
@@ -28,6 +29,17 @@ public class RentRequestController {
         try {
             this.rentRequestService.createRentRequest(rentRequestDto, token);
             return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/allReserved")
+    public ResponseEntity<List<RentRequestDto>> getReservedRentRequests(@RequestHeader("Authorization") String token) {
+        try {
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getReservedRentRequests(token);
+            return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

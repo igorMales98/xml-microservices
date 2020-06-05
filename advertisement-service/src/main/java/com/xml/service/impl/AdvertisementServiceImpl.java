@@ -1,7 +1,9 @@
 package com.xml.service.impl;
 
 import com.xml.dto.*;
+import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.CodebookFeignClient;
+import com.xml.feignClients.RentRequestFeignClient;
 import com.xml.feignClients.UserFeignClient;
 import com.xml.mapper.CommentDtoMapper;
 import com.xml.model.Advertisement;
@@ -46,6 +48,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private RentRequestFeignClient rentRequestFeignClient;
 
     @Override
     public List<AdvertisementDto> getAll(String token) {
@@ -122,7 +127,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public void uploadPhotos(MultipartFile[] files, Long id) throws IOException {
         Path resourceDirectory = Paths.get("advertisement-service", "src", "main", "resources");
-        String path = resourceDirectory.toFile().getAbsolutePath() + "\\images\\advertisement\\" + id + "\\";
+        String path = resourceDirectory.toFile().getAbsolutePath() + File.separator + "images" + File.separator + "advertisement" + File.separator + id + File.separator;
         if (!new File(path).exists()) {
             new File(path).mkdir();
         }
@@ -146,7 +151,86 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.basicSearch(dateFromTime, dateFromTo);
-        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, place);
+        List<Advertisement> validAdvertisements = new ArrayList<>();
+
+        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getReservedRentRequests(token);
+        List<RentRequestDto> invalidRentRequestDtos = new ArrayList<>();
+
+        for (RentRequestDto rentRequestDto : rentRequestDtos) {
+            if (rentRequestDto.getReservedTo().isBefore(dateFromTime) || rentRequestDto.getReservedFrom().isAfter(dateFromTo)) {
+                System.out.println("U redu je");
+            } else {
+                invalidRentRequestDtos.add(rentRequestDto);
+            }
+        }
+
+        boolean flag = false;
+        for (Advertisement a : allAdvertisements) {
+            for (RentRequestDto rentRequestDto : invalidRentRequestDtos) {
+                for (AdvertisementDto adto : rentRequestDto.getAdvertisementsForRent()) {
+                    if (a.getId().equals(adto.getId())) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    break;
+                }
+            }
+            if (!flag) {
+                validAdvertisements.add(a);
+            }
+            flag = false;
+        }
+
+
+        return getAdvertisementDtos(token, advertisementDtos, validAdvertisements, place);
+    }
+
+    @Override
+    public List<AdvertisementDto> basicSearchForMyAdvertisements(String dateFrom, String dateTo, Long id, String token) {
+        dateFrom = dateFrom.replace('T', ' ');
+        dateTo = dateTo.replace('T', ' ');
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateFromTime = LocalDateTime.parse(dateFrom, formatter);
+        LocalDateTime dateToTime = LocalDateTime.parse(dateTo, formatter);
+
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+        List<Advertisement> advertisementList = this.advertisementRepository.basicSearchForMyAdvertisements(dateFromTime, dateToTime, id);
+        List<Advertisement> validAdvertisements = new ArrayList<>();
+
+        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getReservedRentRequests(token);
+        List<RentRequestDto> invalidRentRequestDtos = new ArrayList<>();
+
+        for (RentRequestDto rentRequestDto : rentRequestDtos) {
+            if (rentRequestDto.getReservedTo().isBefore(dateFromTime) || rentRequestDto.getReservedFrom().isAfter(dateToTime)) {
+                System.out.println("U redu je");
+            } else {
+                invalidRentRequestDtos.add(rentRequestDto);
+            }
+        }
+
+        boolean flag = false;
+        for (Advertisement a : advertisementList) {
+            for (RentRequestDto rentRequestDto : invalidRentRequestDtos) {
+                for (AdvertisementDto adto : rentRequestDto.getAdvertisementsForRent()) {
+                    if (a.getId().equals(adto.getId())) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    break;
+                }
+            }
+            if (!flag) {
+                validAdvertisements.add(a);
+            }
+            flag = false;
+        }
+
+        return getAdvertisementDtos(token, advertisementDtos, validAdvertisements, "");
     }
 
 
