@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CarModelRepository extends JpaRepository<CarModel, Long> {
     List<CarModel> getByCarBrandId(Long brandId);
+
 }
