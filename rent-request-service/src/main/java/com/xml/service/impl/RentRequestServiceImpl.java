@@ -62,6 +62,30 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     }
 
+    @Override
+    public List<RentRequestDto> getReservedRentRequests(String token) {
+        List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.RESERVED);
+
+        List<RentRequestDto> rentRequestDtos = new ArrayList<>();
+
+        for (RentRequest request : reservedRentRequests) {
+            RentRequestDto rentRequestDto = new RentRequestDto();
+            rentRequestDto.setId(request.getId());
+            rentRequestDto.setReservedFrom(request.getReservedFrom());
+            rentRequestDto.setReservedTo(request.getReservedTo());
+            Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+            for (Long advId : request.getAdvertisementsForRent()) {
+                AdvertisementDto advertisementDto = new AdvertisementDto();
+                advertisementDto.setId(advId);
+                advertisementDtos.add(advertisementDto);
+            }
+            rentRequestDto.setAdvertisementsForRent(advertisementDtos);
+            rentRequestDtos.add(rentRequestDto);
+        }
+
+        return rentRequestDtos;
+    }
+
     private RentRequest createRequest(RentRequestDto rentRequestDto, Long id, boolean bundle, String token) {
         RentRequest newRequest = new RentRequest();
         if (rentRequestDto.isPhysicalRent()) {

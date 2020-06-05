@@ -18,6 +18,9 @@ INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('1', 'TEST');
 
 /* authorities_permission */
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '1');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '1');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '1');
+
 
 /* registration_requests */
 INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`) VALUES ('1', 'username1', '123123', 'pera', 'peric', 'serbia', 'novi sad', 'periccc@gmail.com', '123456789', 'kopernikova');
