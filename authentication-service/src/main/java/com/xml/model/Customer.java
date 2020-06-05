@@ -12,4 +12,9 @@ import java.util.Set;
 @DiscriminatorValue("CUSTOMER")
 public class Customer extends User {
 
+    public Customer() {}
+
+    public Customer(String username, String password, String firstName, String lastName, String country, String city, String address, String email, String phone) {
+        super(username, password, firstName, lastName, country, city, address, email, phone);
+    }
 }

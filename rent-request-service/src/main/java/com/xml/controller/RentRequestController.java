@@ -33,6 +33,17 @@ public class RentRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/allReserved")
+    public ResponseEntity<List<RentRequestDto>> getReservedRentRequests(@RequestHeader("Authorization") String token) {
+        try {
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getReservedRentRequests(token);
+            return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getPeople(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         List<Long> retVal = this.rentRequestService.getPeople(id,token);

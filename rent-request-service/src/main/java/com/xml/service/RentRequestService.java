@@ -8,4 +8,6 @@ public interface RentRequestService {
     void createRentRequest(RentRequestDto rentRequestDto, String token);
 
     List<Long> getPeople(Long id, String token);
+
+    List<RentRequestDto> getReservedRentRequests(String token);
 }
