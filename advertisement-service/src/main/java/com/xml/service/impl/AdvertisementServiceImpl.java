@@ -1,23 +1,28 @@
 package com.xml.service.impl;
 
-import com.xml.dto.AdvertisementDto;
-import com.xml.dto.CarDto;
-import com.xml.dto.CodebookInfoDto;
-import com.xml.dto.UserDto;
+import com.xml.dto.*;
+import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.CodebookFeignClient;
 import com.xml.feignClients.UserFeignClient;
 import com.xml.mapper.CommentDtoMapper;
 import com.xml.model.Advertisement;
+import com.xml.model.Car;
 import com.xml.repository.AdvertisementRepository;
 import com.xml.service.AdvertisementService;
+import com.xml.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -40,13 +45,16 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Autowired
     private CommentDtoMapper commentDtoMapper;
 
+    @Autowired
+    private CarService carService;
+
     @Override
     public List<AdvertisementDto> getAll(String token) {
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.findAll();
 
-        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements);
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, "");
     }
 
     @Override
@@ -74,16 +82,103 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         List<Advertisement> allAdvertisements = this.advertisementRepository.getAllByAdvertiserId(userId);
 
-        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements);
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, "");
     }
 
-    private List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements) {
+    @Override
+    public Long saveAdvertisement(CreateAdvertisementDto createAdvertisementDto, String token) throws ParseException {
+        Car newCar = new Car();
+        newCar.setCarBrandId(createAdvertisementDto.getCarBrand().getId());
+        newCar.setCarModelId(createAdvertisementDto.getCarModel().getId());
+        newCar.setCarClassId(createAdvertisementDto.getCarClass().getId());
+        newCar.setFuelTypeId(createAdvertisementDto.getFuelType().getId());
+        newCar.setTransmissionTypeId(createAdvertisementDto.getTransmissionType().getId());
+        newCar.setMileage(createAdvertisementDto.getMileage());
+        newCar.setCollisionDamageWaiverExists(createAdvertisementDto.isHasACDW());
+        newCar.setChildSeats(createAdvertisementDto.getChildSeats());
+        newCar.setAllowedDistance(createAdvertisementDto.getAllowedDistance());
+        this.carService.save(newCar);
+
+        Advertisement advertisement = new Advertisement();
+        advertisement.setCar(newCar);
+        advertisement.setAdvertiserId(createAdvertisementDto.getAdvertiserId());
+        createAdvertisementDto.setAvailableFrom(createAdvertisementDto.getAvailableFrom().
+                plus(1, ChronoUnit.DAYS));
+        createAdvertisementDto.setAvailableTo(createAdvertisementDto.getAvailableTo().
+                plus(1, ChronoUnit.DAYS));
+        advertisement.setAvailableFrom(createAdvertisementDto.getAvailableFrom());
+        advertisement.setAvailableTo(createAdvertisementDto.getAvailableTo());
+        advertisement.setPricelistId(createAdvertisementDto.getPricelist().getId());
+        advertisement.setDiscount(createAdvertisementDto.convertToHashMap(createAdvertisementDto.getDiscount()));
+        this.advertisementRepository.save(advertisement);
+        this.advertisementRepository.flush();
+
+        if (createAdvertisementDto.getUserRole().equals("ROLE_CUSTOMER")) {
+            this.userFeignClient.updateTimesRated(createAdvertisementDto.getAdvertiserId(), token);
+        }
+
+        return advertisement.getId();
+    }
+
+    @Override
+    public void uploadPhotos(MultipartFile[] files, Long id) throws IOException {
+        Path resourceDirectory = Paths.get("advertisement-service", "src", "main", "resources");
+        String path = resourceDirectory.toFile().getAbsolutePath() + "\\images\\advertisement\\" + id + "\\";
+        if (!new File(path).exists()) {
+            new File(path).mkdir();
+        }
+        for (int i = 0; i < files.length; i++) {
+            String imgName = files[i].getOriginalFilename();
+            String filePath = path + imgName;
+            File dest = new File(filePath);
+            files[i].transferTo(dest);
+        }
+    }
+
+    @Override
+    public List<AdvertisementDto> basicSearch(String dateFrom, String dateTo, String place, String token) {
+        dateFrom = dateFrom.replace('T', ' ');
+        dateTo = dateTo.replace('T', ' ');
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateFromTime = LocalDateTime.parse(dateFrom, formatter);
+        LocalDateTime dateFromTo = LocalDateTime.parse(dateTo, formatter);
+
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+
+        List<Advertisement> allAdvertisements = this.advertisementRepository.basicSearch(dateFromTime, dateFromTo);
+        return getAdvertisementDtos(token, advertisementDtos, allAdvertisements, place);
+    }
+
+    @Override
+    public List<AdvertisementDto> basicSearchForMyAdvertisements(String dateFrom, String dateTo, Long id, String token) {
+        dateFrom = dateFrom.replace('T', ' ');
+        dateTo = dateTo.replace('T', ' ');
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateFromTime = LocalDateTime.parse(dateFrom, formatter);
+        LocalDateTime dateToTime = LocalDateTime.parse(dateTo, formatter);
+
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+        List<Advertisement> advertisementList = this.advertisementRepository.basicSearchForMyAdvertisements(dateFromTime, dateToTime, id, RentRequestStatus.RESERVED.toString());
+        return getAdvertisementDtos(token, advertisementDtos, advertisementList, "");
+    }
+
+
+    private List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements, String place) {
         for (Advertisement advertisement : allAdvertisements) {
+            UserDto advertiserDto = this.userFeignClient.getUserById(advertisement.getAdvertiserId(), token);
+
+            if (!place.equals("")) {
+                if (!advertiserDto.getCity().toLowerCase().contains(place.toLowerCase())) {
+                    continue;
+                }
+            }
+
             CodebookInfoDto codebookInfoDto = this.codebookFeignClient.getMoreInfo(advertisement.getCar().getCarBrandId(),
                     advertisement.getCar().getCarModelId(), advertisement.getCar().getCarClassId(), advertisement.getCar().getFuelTypeId(),
                     advertisement.getCar().getTransmissionTypeId(), advertisement.getPricelistId());
 
-            UserDto advertiserDto = this.userFeignClient.getUserById(advertisement.getAdvertiserId(), token);
 
             AdvertisementDto advertisementDto = new AdvertisementDto();
             advertisementDto.setId(advertisement.getId());
@@ -115,4 +210,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         return advertisementDtos;
     }
+
+
 }

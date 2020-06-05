@@ -3,6 +3,7 @@ package com.xml.service.impl;
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
 import com.xml.model.Authority;
+import com.xml.dto.UserDto;
 import com.xml.model.User;
 import com.xml.repository.UserRepository;
 import com.xml.service.AuthorityService;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+import java.security.SecureRandom;
+
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -24,10 +27,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private AuthorityService authorityService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private AuthorityService authorityService;
 
     @Override
     public User findByUsername(String username) {
@@ -37,6 +40,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User findById(Long id) {
         return this.userRepository.getOne(id);
+    }
+
+    @Override
+    public void updateTimesRated(Long id) {
+        User user = this.userRepository.getOne(id);
+        user.setAdvertisementsPosted((short) (user.getAdvertisementsPosted() + 1));
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public Long createPhysicalUser(UserDto userDto, String token) {
+        User newUser = new User();
+        SecureRandom sri = new SecureRandom();
+        String sni = Long.toString(Math.abs(sri.nextLong()));
+        newUser.setUsername("PhysicalUser" + sni);
+        newUser.setPassword(passwordEncoder.encode(sni));
+        newUser.setFirstName(userDto.getFirstName());
+        newUser.setLastName(userDto.getLastName());
+        newUser.setEmail(userDto.getEmail());
+        newUser.setCountry(userDto.getCountry());
+        newUser.setCity(userDto.getCity());
+        newUser.setAddress(userDto.getAddress());
+        newUser.setPhone(userDto.getPhone());
+        this.userRepository.save(newUser);
+        this.userRepository.flush();
+        return newUser.getId();
     }
 
     @Override

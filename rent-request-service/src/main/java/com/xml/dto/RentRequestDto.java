@@ -2,18 +2,33 @@ package com.xml.dto;
 
 import com.xml.enummeration.RentRequestStatus;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 public class RentRequestDto {
 
     private Long id;
+
+    @NotNull(message = "Date reserved from cannot be empty")
     private LocalDateTime reservedFrom;
+
+    @NotNull(message = "Date reserved to cannot be empty")
     private LocalDateTime reservedTo;
-    private Set<Long> advertisementsForRent;
+
+    @NotNull
+    private Set<AdvertisementDto> advertisementsForRent;
+
     private RentRequestStatus rentRequestStatus;
-    private Long customerId;
+
+    @NotNull
+    private UserDto customer;
+
     private Set<ReportDto> reports;
+
+    private boolean bundle;
+
+    private boolean physicalRent;
 
     public RentRequestDto() {
     }
@@ -42,11 +57,11 @@ public class RentRequestDto {
         this.reservedTo = reservedTo;
     }
 
-    public Set<Long> getAdvertisementsForRent() {
+    public Set<AdvertisementDto> getAdvertisementsForRent() {
         return advertisementsForRent;
     }
 
-    public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
+    public void setAdvertisementsForRent(Set<AdvertisementDto> advertisementsForRent) {
         this.advertisementsForRent = advertisementsForRent;
     }
 
@@ -58,12 +73,12 @@ public class RentRequestDto {
         this.rentRequestStatus = rentRequestStatus;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public UserDto getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(UserDto customer) {
+        this.customer = customer;
     }
 
     public Set<ReportDto> getReports() {
@@ -72,5 +87,36 @@ public class RentRequestDto {
 
     public void setReports(Set<ReportDto> reports) {
         this.reports = reports;
+    }
+
+    public boolean isBundle() {
+        return bundle;
+    }
+
+    public void setBundle(boolean bundle) {
+        this.bundle = bundle;
+    }
+
+    public boolean isPhysicalRent() {
+        return physicalRent;
+    }
+
+    public void setPhysicalRent(boolean physicalRent) {
+        this.physicalRent = physicalRent;
+    }
+
+    @Override
+    public String toString() {
+        return "RentRequestDto{" +
+                "id=" + id +
+                ", reservedFrom=" + reservedFrom +
+                ", reservedTo=" + reservedTo +
+                ", advertisementsForRent=" + advertisementsForRent +
+                ", rentRequestStatus=" + rentRequestStatus +
+                ", customer=" + customer +
+                ", reports=" + reports +
+                ", bundle=" + bundle +
+                ", physicalRent=" + physicalRent +
+                '}';
     }
 }

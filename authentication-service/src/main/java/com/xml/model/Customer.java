@@ -12,8 +12,4 @@ import java.util.Set;
 @DiscriminatorValue("CUSTOMER")
 public class Customer extends User {
 
-    @Column
-    @Range(min = 0, max = 3)
-    private short advertisementsPosted;
-
 }

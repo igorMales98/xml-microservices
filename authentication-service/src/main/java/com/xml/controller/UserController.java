@@ -42,4 +42,26 @@ public class UserController {
         User user1 = (User) auth.getPrincipal();
         return this.userService.findByUsername(user1.getUsername());
     }
+
+    @PutMapping(value = "/updateTimesRated/{id}")
+    public ResponseEntity<?> updateTimesPosted(@PathVariable("id") Long id) {
+        try {
+            this.userService.updateTimesRated(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/physical")
+    public ResponseEntity<?> createPhysicalUser(@RequestBody UserDto userDto, @RequestHeader("Authorization") String token) {
+        try {
+            Long newUserId = this.userService.createPhysicalUser(userDto, token);
+            System.out.println("Id novi je" + newUserId);
+            return new ResponseEntity<>(newUserId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
