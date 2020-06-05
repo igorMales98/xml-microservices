@@ -1,8 +1,13 @@
 package com.xml.service.impl;
 
+import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.model.Authority;
+import com.xml.dto.UserDto;
+import com.xml.model.Customer;
 import com.xml.model.User;
 import com.xml.repository.UserRepository;
+import com.xml.service.AuthorityService;
 import com.xml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import java.security.SecureRandom;
 
@@ -21,6 +30,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthorityService authorityService;
 
     @Override
     public User findByUsername(String username) {
@@ -67,4 +79,89 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return user;
         }
     }
+
+    @Override
+    public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
+        System.out.println("Pass: " + requestDto.getPassword());
+        Customer customer = new Customer(requestDto.getUsername(),
+                passwordEncoder.encode(requestDto.getPassword()),
+                requestDto.getFirstName(),
+                requestDto.getLastName(),
+                requestDto.getCountry(),
+                requestDto.getCity(),
+                requestDto.getAddress(),
+                requestDto.getEmail(),
+                requestDto.getPhone());
+        Set<Authority> auth = authorityService.findByName("ROLE_CUSTOMER");
+        customer.setAuthorities(auth);
+        customer.setEnabled(true);
+
+        return customer;
+    }
+
+    @Override
+    public void saveCustomer(Customer customer) {
+        this.userRepository.save(customer);
+        this.userRepository.flush();
+    }
+
+    @Override
+    public List<UserDto> getAllCustomers() {
+        List<UserDto> allCustomersDtos = new ArrayList();
+        String forQuery = "CUSTOMER";
+        List<User> allCustomers = this.userRepository.findAllCustomers(forQuery);
+
+        return getAllCustomersDtos(allCustomersDtos, allCustomers);
+
+    }
+
+    private List<UserDto> getAllCustomersDtos(List<UserDto> allCustomersDtos, List<User> allCustomers){
+        for(User customer : allCustomers){
+            UserDto customerDto = new UserDto();
+            customerDto.setId(customer.getId());
+            customerDto.setUsername(customer.getUsername());
+            customerDto.setFirstName(customer.getFirstName());
+            customerDto.setLastName(customer.getLastName());
+            customerDto.setCountry(customer.getCountry());
+            customerDto.setCity(customer.getCity());
+            customerDto.setEmail(customer.getEmail());
+            customerDto.setPhone(customer.getPhone());
+            customerDto.setAddress(customer.getAddress());
+            customerDto.setEnabled(customer.isEnabled());
+
+            allCustomersDtos.add(customerDto);
+        }
+
+        return allCustomersDtos;
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        User customerToDelete = this.userRepository.findById(id).get();
+        this.userRepository.delete(customerToDelete);
+    }
+
+    @Override
+    public void blockUser(Long id) {
+        User customer = this.userRepository.findById(id).get();
+        try {
+            customer.setEnabled(false);
+            this.userRepository.save(customer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void activateUser(long id) {
+        User customer = this.userRepository.findById(id).get();
+        try {
+            customer.setEnabled(true);
+            this.userRepository.save(customer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

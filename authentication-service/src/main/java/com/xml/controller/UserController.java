@@ -14,8 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
@@ -65,4 +65,49 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value="/blockActivateRemoveCustomer/all")
+    public ResponseEntity<List<UserDto>> getAllCustomers(){
+        try {
+            List<UserDto> userDtos = this.userService.getAllCustomers();
+            return new ResponseEntity<>(userDtos, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/blockActivateRemoveCustomer/{id}")
+    public ResponseEntity<?> deleteRegistrationRequest(@PathVariable Long id){
+        try {
+            this.userService.deleteCustomer(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value="/blockActivateRemoveCustomer/block/{id}")
+    public ResponseEntity<?> blockCustomer(@PathVariable Long id){
+        try {
+            this.userService.blockUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value="/blockActivateRemoveCustomer/activate/{id}")
+    public ResponseEntity<?> activateCustomer(@PathVariable Long id){
+        try {
+            this.userService.activateUser(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+
 }
