@@ -90,7 +90,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 requestDto.getEmail(),
                 requestDto.getPhone());
         Set<Authority> auth = authorityService.findById(3L);
-        System.out.println("Sta si ti: " + auth);
         user.setAuthorities(auth);
         user.setEnabled(true);
 
