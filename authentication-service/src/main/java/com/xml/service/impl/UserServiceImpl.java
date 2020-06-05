@@ -4,6 +4,7 @@ import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
 import com.xml.model.Authority;
 import com.xml.dto.UserDto;
+import com.xml.model.Customer;
 import com.xml.model.User;
 import com.xml.repository.UserRepository;
 import com.xml.service.AuthorityService;
@@ -79,8 +80,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User createCustomerFromRequest(RegistrationRequestDto requestDto) {
-        User user = new User(requestDto.getUsername(),
+    public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
+        System.out.println("Pass: " + requestDto.getPassword());
+        Customer customer = new Customer(requestDto.getUsername(),
                 passwordEncoder.encode(requestDto.getPassword()),
                 requestDto.getFirstName(),
                 requestDto.getLastName(),
@@ -89,16 +91,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 requestDto.getAddress(),
                 requestDto.getEmail(),
                 requestDto.getPhone());
-        Set<Authority> auth = authorityService.findById(3L);
-        user.setAuthorities(auth);
-        user.setEnabled(true);
+        Set<Authority> auth = authorityService.findByName("ROLE_CUSTOMER");
+        customer.setAuthorities(auth);
+        customer.setEnabled(true);
 
-        return user;
+        return customer;
     }
 
     @Override
-    public void saveCustomer(User customer) {
-        userRepository.save(customer);
+    public void saveCustomer(Customer customer) {
+        this.userRepository.save(customer);
+        this.userRepository.flush();
     }
 
 }

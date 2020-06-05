@@ -5,6 +5,7 @@ import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.model.Customer;
 import com.xml.model.User;
 
 public interface UserService {
@@ -13,9 +14,9 @@ public interface UserService {
 
     User findById(Long id);
 
-    User createCustomerFromRequest(RegistrationRequestDto requestDto);
+    Customer createCustomerFromRequest(RegistrationRequestDto requestDto);
 
-    void saveCustomer(User customer);
+    void saveCustomer(Customer customer);
 
     void updateTimesRated(Long id);
 

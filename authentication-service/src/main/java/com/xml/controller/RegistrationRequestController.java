@@ -2,6 +2,7 @@ package com.xml.controller;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.model.Customer;
 import com.xml.model.User;
 import com.xml.service.RegistrationRequestService;
 import com.xml.service.UserService;
@@ -49,9 +50,9 @@ public class RegistrationRequestController {
     @PostMapping(value = "/confirm")
     public ResponseEntity<?> confirmRegistrationRequest(@RequestBody RegistrationRequestDto requestDto){
         try {
-            User newCustomer = userService.createCustomerFromRequest(requestDto);
-            registrationRequestService.deleteRegistrationRequest(requestDto.getId());
-            userService.saveCustomer(newCustomer);
+            Customer newCustomer = this.userService.createCustomerFromRequest(requestDto);
+            this.registrationRequestService.deleteRegistrationRequest(requestDto.getId());
+            this.userService.saveCustomer(newCustomer);
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e){
