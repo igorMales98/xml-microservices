@@ -18,4 +18,7 @@ INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('1', 'TEST');
 
 /* authorities_permission */
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '1');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '1');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '1');
+
 
