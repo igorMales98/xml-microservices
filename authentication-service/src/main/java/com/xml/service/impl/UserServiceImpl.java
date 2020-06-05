@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -103,5 +104,64 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.userRepository.save(customer);
         this.userRepository.flush();
     }
+
+    @Override
+    public List<UserDto> getAllCustomers() {
+        List<UserDto> allCustomersDtos = new ArrayList();
+        String forQuery = "CUSTOMER";
+        List<User> allCustomers = this.userRepository.findAllCustomers(forQuery);
+
+        return getAllCustomersDtos(allCustomersDtos, allCustomers);
+
+    }
+
+    private List<UserDto> getAllCustomersDtos(List<UserDto> allCustomersDtos, List<User> allCustomers){
+        for(User customer : allCustomers){
+            UserDto customerDto = new UserDto();
+            customerDto.setId(customer.getId());
+            customerDto.setUsername(customer.getUsername());
+            customerDto.setFirstName(customer.getFirstName());
+            customerDto.setLastName(customer.getLastName());
+            customerDto.setCountry(customer.getCountry());
+            customerDto.setCity(customer.getCity());
+            customerDto.setEmail(customer.getEmail());
+            customerDto.setPhone(customer.getPhone());
+            customerDto.setAddress(customer.getAddress());
+            customerDto.setEnabled(customer.isEnabled());
+
+            allCustomersDtos.add(customerDto);
+        }
+
+        return allCustomersDtos;
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        User customerToDelete = this.userRepository.findById(id).get();
+        this.userRepository.delete(customerToDelete);
+    }
+
+    @Override
+    public void blockUser(Long id) {
+        User customer = this.userRepository.findById(id).get();
+        try {
+            customer.setEnabled(false);
+            this.userRepository.save(customer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void activateUser(long id) {
+        User customer = this.userRepository.findById(id).get();
+        try {
+            customer.setEnabled(true);
+            this.userRepository.save(customer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
