@@ -60,6 +60,19 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
 
+    public User () {}
+
+    public User(String username, String password, String firstName, String lastName, String country, String city, String address, String email, String phone) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.city = city;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+    }
 
     public Long getId() {
         return id;
