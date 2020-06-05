@@ -1,6 +1,7 @@
 package com.xml.controller;
 
 import com.xml.dto.MessageDto;
+import com.xml.dto.UserDto;
 import com.xml.mapper.MessageDtoMapper;
 import com.xml.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,10 @@ public class MessageController {
         return "Hello svet";
     }
 
-    @GetMapping(value = "/getReservedCustomers/{token}")
-    public ResponseEntity<?> getReservedCustomers(@RequestHeader("Authorization") String token) {
+    @GetMapping(value = "/getPeople/{id}")
+    public ResponseEntity<?> getPeople(@RequestHeader("Authorization") String token,@PathVariable("id") Long id) {
         try {
-            String username = null; //TODO pronaci username
-            System.out.println("user" + username);
-            List<Long> users = this.messageService.getReservedCustomers(username);
+            List<UserDto> users = this.messageService.getPeople(id,token);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

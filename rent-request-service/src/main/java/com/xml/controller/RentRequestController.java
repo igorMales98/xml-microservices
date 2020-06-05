@@ -11,7 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
+import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
@@ -32,5 +32,10 @@ public class RentRequestController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getPeople(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+        List<Long> retVal = this.rentRequestService.getPeople(id,token);
+        return new ResponseEntity<>(retVal,HttpStatus.OK);
     }
 }

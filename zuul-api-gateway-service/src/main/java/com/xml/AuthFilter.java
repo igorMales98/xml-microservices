@@ -49,36 +49,36 @@ public class AuthFilter extends ZuulFilter {
         System.out.println("Usao je u zuul");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-
-        if (request.getHeader("Authorization") == null) {
-            return null;
-        }
-
-        String fullToken = request.getHeader("Authorization");
-        String token = request.getHeader("Authorization").substring(7);
-        System.out.println(token);
-        try {
-            System.out.println("da li je dobar ");
-            Collection<Permission> permissions = authClient.verify(token);
-            System.out.println(permissions.toString());
-
-            Collection<String> permissionString = new HashSet<>();
-            for (Permission p : permissions) {
-                permissionString.add(p.getName());
+        if (!request.getRequestURI().contains("auth")) {
+            if (request.getHeader("Authorization") == null) {
+                return null;
             }
 
-            Long userId = authClient.getLoggedInUser(token);
-            System.out.println("logovan korisnike je " + userId);
+            String fullToken = request.getHeader("Authorization");
+            String token = request.getHeader("Authorization").substring(7);
+            System.out.println(token);
+            try {
+                System.out.println("da li je dobar ");
+                Collection<Permission> permissions = authClient.verify(token);
+                System.out.println(permissions.toString());
 
-            ctx.addZuulRequestHeader("Authorization", fullToken);
-            ctx.addZuulRequestHeader("Authorities", permissionString.toString());
-            ctx.addZuulRequestHeader("UserId", Long.toString(userId));
+                Collection<String> permissionString = new HashSet<>();
+                for (Permission p : permissions) {
+                    permissionString.add(p.getName());
+                }
 
-        } catch (FeignException e) {
-            e.printStackTrace();
-            setFailedRequest("Consumer does not exist!", 403);
+                Long userId = authClient.getLoggedInUser(token);
+                System.out.println("logovan korisnike je " + userId);
+
+                ctx.addZuulRequestHeader("Authorization", fullToken);
+                ctx.addZuulRequestHeader("Authorities", permissionString.toString());
+                ctx.addZuulRequestHeader("UserId", Long.toString(userId));
+
+            } catch (FeignException e) {
+                e.printStackTrace();
+                setFailedRequest("Consumer does not exist!", 403);
+            }
         }
-
         return null;
     }
 
