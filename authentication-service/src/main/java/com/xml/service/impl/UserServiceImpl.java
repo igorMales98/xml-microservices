@@ -1,8 +1,13 @@
 package com.xml.service.impl;
 
+import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.model.Authority;
+import com.xml.dto.UserDto;
+import com.xml.model.Customer;
 import com.xml.model.User;
 import com.xml.repository.UserRepository;
+import com.xml.service.AuthorityService;
 import com.xml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 import java.security.SecureRandom;
 
@@ -21,6 +29,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthorityService authorityService;
 
     @Override
     public User findByUsername(String username) {
@@ -67,4 +78,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return user;
         }
     }
+
+    @Override
+    public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
+        System.out.println("Pass: " + requestDto.getPassword());
+        Customer customer = new Customer(requestDto.getUsername(),
+                passwordEncoder.encode(requestDto.getPassword()),
+                requestDto.getFirstName(),
+                requestDto.getLastName(),
+                requestDto.getCountry(),
+                requestDto.getCity(),
+                requestDto.getAddress(),
+                requestDto.getEmail(),
+                requestDto.getPhone());
+        Set<Authority> auth = authorityService.findByName("ROLE_CUSTOMER");
+        customer.setAuthorities(auth);
+        customer.setEnabled(true);
+
+        return customer;
+    }
+
+    @Override
+    public void saveCustomer(Customer customer) {
+        this.userRepository.save(customer);
+        this.userRepository.flush();
+    }
+
 }
