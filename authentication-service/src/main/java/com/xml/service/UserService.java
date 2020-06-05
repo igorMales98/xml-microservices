@@ -8,6 +8,8 @@ import com.xml.dto.UserDto;
 import com.xml.model.Customer;
 import com.xml.model.User;
 
+import java.util.List;
+
 public interface UserService {
 
     User findByUsername(String username);
@@ -21,4 +23,12 @@ public interface UserService {
     void updateTimesRated(Long id);
 
     Long createPhysicalUser(UserDto userDto, String token);
+
+    List<UserDto> getAllCustomers();
+
+    void deleteCustomer(Long id);
+
+    void blockUser(Long id);
+
+    void activateUser(long id);
 }
