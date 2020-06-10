@@ -77,7 +77,7 @@ public class RentRequestServiceImpl implements RentRequestService {
                 customersRequests.add(reservedRequest);
             }
         }
-        List<AdvertisementDto> allAdvertisements = this.advertisementFeignClient.all(token);
+        List<AdvertisementDto> allAdvertisements = this.advertisementFeignClient.getAll(token);
         List<Long> advertisers = new ArrayList<>();
         for (RentRequest rentRequest : customersRequests) {
             for (Long advertisementForRent: rentRequest.getAdvertisementsForRent())

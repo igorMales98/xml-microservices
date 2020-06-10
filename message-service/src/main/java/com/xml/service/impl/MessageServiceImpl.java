@@ -32,17 +32,17 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<UserDto> getPeople(Long id, String token) {
-        List<Long> peopleLong = this.rentRequestFeignClient.getPeople(id,token);
+        List<Long> peopleLong = this.rentRequestFeignClient.getPeople(id, token);
         List<UserDto> people = new ArrayList<>();
         for (Long personLong : peopleLong) {
-            people.add(this.userFeignClient.getUserById(id,token));
+            people.add(this.userFeignClient.getUserById(personLong, token));
         }
         return people;
     }
 
     @Override
     public List<Message> getMessages(Long agentId, Long customerId) {
-        List<Message> messages = messageRepository.findAllByAgentIdAndCustomerId(agentId,customerId);
+        List<Message> messages = messageRepository.findAllByAgentIdAndCustomerId(agentId, customerId);
         messages.sort(Comparator.comparing(Message::getId));
         return messages;
     }
