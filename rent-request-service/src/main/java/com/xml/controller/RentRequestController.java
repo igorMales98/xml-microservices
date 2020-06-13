@@ -34,10 +34,10 @@ public class RentRequestController {
         }
     }
 
-    @GetMapping(value = "/allReserved")
-    public ResponseEntity<List<RentRequestDto>> getReservedRentRequests(@RequestHeader("Authorization") String token) {
+    @GetMapping(value = "/allPaid")
+    public ResponseEntity<List<RentRequestDto>> getPaidRentRequests(@RequestHeader("Authorization") String token) {
         try {
-            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getReservedRentRequests(token);
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getPaidRentRequests(token);
             return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

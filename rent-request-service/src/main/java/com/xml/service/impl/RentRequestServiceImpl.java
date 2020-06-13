@@ -99,8 +99,8 @@ public class RentRequestServiceImpl implements RentRequestService {
     }
 
     @Override
-    public List<RentRequestDto> getReservedRentRequests(String token) {
-        List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.RESERVED);
+    public List<RentRequestDto> getPaidRentRequests(String token) {
+        List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.PAID);
 
         List<RentRequestDto> rentRequestDtos = new ArrayList<>();
 
