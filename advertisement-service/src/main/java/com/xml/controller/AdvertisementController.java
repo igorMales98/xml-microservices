@@ -27,6 +27,9 @@ public class AdvertisementController {
     public ResponseEntity<List<AdvertisementDto>> getAll(@RequestHeader("Authorization") String token) {
         try {
             List<AdvertisementDto> advertisementDtos = this.advertisementService.getAll(token);
+            for (AdvertisementDto advertisementDto : advertisementDtos) {
+                advertisementDto.setImg(this.advertisementService.getAdvertisementPhotos(advertisementDto.getId()));
+            }
             return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,7 +37,7 @@ public class AdvertisementController {
         }
     }
 
-    @GetMapping(value = "/getAdvertisementsPhotos/{id}")
+    /*@GetMapping(value = "/getAdvertisementsPhotos/{id}")
     public ResponseEntity<?> getAdvertisementsPhotos(@PathVariable("id") Long id) {
         try {
             List<String> allEncodedImages = this.advertisementService.getAdvertisementPhotos(id);
@@ -44,13 +47,16 @@ public class AdvertisementController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 
     @GetMapping(value = "/all/{userId}")
     public ResponseEntity<List<AdvertisementDto>> getUserAdvertisements(@PathVariable("userId") Long userId,
                                                                         @RequestHeader("Authorization") String token) {
         try {
             List<AdvertisementDto> advertisementDtos = this.advertisementService.getUserAdvertisements(userId, token);
+            for (AdvertisementDto advertisementDto : advertisementDtos) {
+                advertisementDto.setImg(this.advertisementService.getAdvertisementPhotos(advertisementDto.getId()));
+            }
             return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,6 +96,9 @@ public class AdvertisementController {
                                                               @RequestHeader("Authorization") String token) {
         try {
             List<AdvertisementDto> advertisementDtos = this.advertisementService.basicSearch(dateFrom, dateTo, place, token);
+            for (AdvertisementDto advertisementDto : advertisementDtos) {
+                advertisementDto.setImg(this.advertisementService.getAdvertisementPhotos(advertisementDto.getId()));
+            }
             return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -103,6 +112,9 @@ public class AdvertisementController {
                                                                                  @RequestHeader("Authorization") String token) {
         try {
             List<AdvertisementDto> advertisementDtos = this.advertisementService.basicSearchForMyAdvertisements(dateFrom, dateTo, id, token);
+            for (AdvertisementDto advertisementDto : advertisementDtos) {
+                advertisementDto.setImg(this.advertisementService.getAdvertisementPhotos(advertisementDto.getId()));
+            }
             return new ResponseEntity<>(advertisementDtos, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

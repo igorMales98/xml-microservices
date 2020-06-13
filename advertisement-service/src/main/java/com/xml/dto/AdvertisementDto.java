@@ -1,6 +1,7 @@
 package com.xml.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public class AdvertisementDto {
@@ -12,6 +13,7 @@ public class AdvertisementDto {
     private LocalDateTime availableTo;
     private Set<CommentDto> comments;
     private PricelistDto pricelist;
+    private List<String> img;
 
     public AdvertisementDto() {
     }
@@ -70,5 +72,13 @@ public class AdvertisementDto {
 
     public void setPricelist(PricelistDto pricelist) {
         this.pricelist = pricelist;
+    }
+
+    public List<String> getImg() {
+        return img;
+    }
+
+    public void setImg(List<String> img) {
+        this.img = img;
     }
 }
