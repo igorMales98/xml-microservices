@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +34,40 @@ public class FuelTypeController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/addFuelType")
+    public ResponseEntity<?> addFuelType(@Valid @RequestBody FuelTypeDto fuelTypeDto) {
+        System.out.println("Stampa: " + fuelTypeDto.getName());
+        try {
+            this.fuelTypeService.saveFuelType(fuelTypeDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/deleteFuelType/{id}")
+    public ResponseEntity<?> deleteFuelType(@PathVariable Long id) throws ParseException {
+
+        try {
+            this.fuelTypeService.deleteFuelType(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/editFuelType")
+    public ResponseEntity<?> editFuelType(@Valid @RequestBody FuelTypeDto fuelTypeDto) {
+        System.out.println(fuelTypeDto.toString());
+        try {
+            this.fuelTypeService.editFuelType(fuelTypeDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Fuel type already exists.", HttpStatus.BAD_REQUEST);
         }
     }
 }
