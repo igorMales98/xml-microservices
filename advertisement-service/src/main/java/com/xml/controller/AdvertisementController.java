@@ -59,7 +59,7 @@ public class AdvertisementController {
         }
     }
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/user/{userId}")
     public ResponseEntity<List<AdvertisementDto>> getUserAdvertisements(@PathVariable("userId") Long userId,
                                                                         @RequestHeader("Authorization") String token) {
         try {
