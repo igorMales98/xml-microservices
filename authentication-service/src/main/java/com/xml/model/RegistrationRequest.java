@@ -36,6 +36,9 @@ public class RegistrationRequest {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
+    private boolean deleted;
+
 
     public RegistrationRequest() {
     }
@@ -119,4 +122,8 @@ public class RegistrationRequest {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public boolean isDeleted() { return deleted; }
+
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 }
