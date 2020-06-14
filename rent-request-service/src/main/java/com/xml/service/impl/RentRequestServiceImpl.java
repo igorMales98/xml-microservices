@@ -4,6 +4,7 @@ import com.xml.dto.AdvertisementDto;
 import com.xml.dto.RentRequestDto;
 import com.xml.dto.UserDto;
 import com.xml.enummeration.RentRequestStatus;
+import com.xml.feignClients.AdvertisementFeignClient;
 import com.xml.feignClients.UserFeignClient;
 import com.xml.model.RentRequest;
 import com.xml.repository.RentRequestRepository;
@@ -24,6 +25,9 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     @Autowired
     private UserFeignClient userFeignClient;
+
+    @Autowired
+    private AdvertisementFeignClient advertisementFeignClient;
 
     @Override
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
@@ -63,8 +67,40 @@ public class RentRequestServiceImpl implements RentRequestService {
     }
 
     @Override
-    public List<RentRequestDto> getReservedRentRequests(String token) {
-        List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.RESERVED);
+    public List<Long> getPeople(Long id, String token) {
+        List<RentRequest> reservedRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.RESERVED);
+        List<RentRequest> customersRequests = new ArrayList<>();
+        List<Long> customersAds = new ArrayList<>();
+
+        for (RentRequest reservedRequest : reservedRequests) {
+            if (reservedRequest.getCustomerId().equals(id)) {
+                customersRequests.add(reservedRequest);
+            }
+        }
+        List<AdvertisementDto> allAdvertisements = this.advertisementFeignClient.getAll(token);
+        List<Long> advertisers = new ArrayList<>();
+        for (RentRequest rentRequest : customersRequests) {
+            for (Long advertisementForRent: rentRequest.getAdvertisementsForRent())
+                if (!customersAds.contains(advertisementForRent)) {
+                    customersAds.add(advertisementForRent);
+                }
+        }
+        for (Long adId : customersAds) {
+            for (AdvertisementDto advertisementDto : allAdvertisements) {
+                if (adId.equals(advertisementDto.getId())) {
+                    if (!advertisers.contains(advertisementDto.getAdvertiser().getId())) {
+                        advertisers.add(advertisementDto.getAdvertiser().getId());
+                    }
+                }
+            }
+        }
+
+        return advertisers;
+    }
+
+    @Override
+    public List<RentRequestDto> getPaidRentRequests(String token) {
+        List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.PAID);
 
         List<RentRequestDto> rentRequestDtos = new ArrayList<>();
 

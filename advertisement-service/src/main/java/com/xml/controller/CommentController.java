@@ -13,13 +13,13 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/comment", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/comments", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
-    @GetMapping(value = "/all/{adId}")
+    @GetMapping(value = "/{adId}")
     public ResponseEntity<?> getAll(@PathVariable("adId") Long adId, @RequestHeader("Authorization") String token) {
         System.out.println(token);
         try {
@@ -31,7 +31,7 @@ public class CommentController {
         }
     }
 
-    @PostMapping(value = "/sendReply")
+    @PostMapping(value = "/reply")
     public ResponseEntity<?> sendReply(@Valid @RequestBody CommentDto commentDto) {
         try {
 

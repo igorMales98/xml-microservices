@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "http://localhost:4200")
-@RequestMapping(value = "/api/registrationRequest", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(value = "https://localhost:4200")
+@RequestMapping(value = "/api/registration-requests", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistrationRequestController {
 
     @Autowired
@@ -27,9 +27,9 @@ public class RegistrationRequestController {
     private UserService userService;
 
 
-    @GetMapping(value = "/all")
-    public ResponseEntity<List<RegistrationRequestDto>> getAll(){
-        try{
+    @GetMapping(value = "")
+    public ResponseEntity<List<RegistrationRequestDto>> getAll() {
+        try {
             List<RegistrationRequestDto> requestDtos = this.registrationRequestService.getAll();
             return new ResponseEntity<>(requestDtos, HttpStatus.OK);
         } catch (Exception e) {
@@ -37,8 +37,8 @@ public class RegistrationRequestController {
         }
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<?> deleteRegistrationRequest(@PathVariable Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteRegistrationRequest(@PathVariable Long id) {
         try {
             this.registrationRequestService.deleteRegistrationRequest(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -47,15 +47,15 @@ public class RegistrationRequestController {
         }
     }
 
-    @PostMapping(value = "/confirm")
-    public ResponseEntity<?> confirmRegistrationRequest(@RequestBody RegistrationRequestDto requestDto){
+    @PostMapping(value = "")
+    public ResponseEntity<?> confirmRegistrationRequest(@RequestBody RegistrationRequestDto requestDto) {
         try {
             Customer newCustomer = this.userService.createCustomerFromRequest(requestDto);
             this.registrationRequestService.deleteRegistrationRequest(requestDto.getId());
             this.userService.saveCustomer(newCustomer);
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RentRequestRepository extends JpaRepository<RentRequest, Long> {
-    List<RentRequest> findByRentRequestStatus(RentRequestStatus status);
+    List<RentRequest> findByRentRequestStatus(RentRequestStatus rentRequestStatus);
 }

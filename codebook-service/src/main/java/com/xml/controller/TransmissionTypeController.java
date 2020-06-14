@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/transmission-type", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/transmission-types", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TransmissionTypeController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class TransmissionTypeController {
     @Autowired
     private TransmissionTypeDtoMapper transmissionTypeDtoMapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public ResponseEntity<List<TransmissionTypeDto>> getAll() {
         try {
             List<TransmissionTypeDto> transmissionTypeDtos = this.transmissionTypeService.getAll().stream()

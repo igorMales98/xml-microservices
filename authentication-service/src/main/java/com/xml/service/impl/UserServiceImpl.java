@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateTimesRated(Long id) {
+    public void updateTimesPosted(Long id) {
         User user = this.userRepository.getOne(id);
         user.setAdvertisementsPosted((short) (user.getAdvertisementsPosted() + 1));
         this.userRepository.save(user);
@@ -115,8 +115,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
-    private List<UserDto> getAllCustomersDtos(List<UserDto> allCustomersDtos, List<User> allCustomers){
-        for(User customer : allCustomers){
+    private List<UserDto> getAllCustomersDtos(List<UserDto> allCustomersDtos, List<User> allCustomers) {
+        for (User customer : allCustomers) {
             UserDto customerDto = new UserDto();
             customerDto.setId(customer.getId());
             customerDto.setUsername(customer.getUsername());

@@ -71,51 +71,51 @@ services:
     depends_on:
       - mysql
       - eureka-service
-
-  advertisement-service:
-    image: advertisement-service
-    build:
-      context: ./advertisement-service
-      dockerfile: Dockerfile
-    tty: true
-    ports:
-      - "8085:8085"
-    networks:
-      - xml-network
-    container_name: advertisement-service
-    restart: on-failure
-    environment:
-      DATABASE_USERNAME: root
-      DATABASE_PASSWORD: igor
-      DATABASE_DOMAIN: mysql
-      DATABASE_SCHEMA: xml
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
-    depends_on:
-      - mysql
-      - eureka-service
-
-  codebook-service:
-    image: codebook-service
-    build:
-      context: ./codebook-service
-      dockerfile: Dockerfile
-    tty: true
-    ports:
-      - "8084:8084"
-    networks:
-      - xml-network
-    container_name: codebook-service
-    restart: on-failure
-    environment:
-      DATABASE_USERNAME: root
-      DATABASE_PASSWORD: igor
-      DATABASE_DOMAIN: mysql
-      DATABASE_SCHEMA: xml
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
-    depends_on:
-      - mysql
-      - eureka-service
 #
+#  advertisement-service:
+#    image: advertisement-service
+#    build:
+#      context: ./advertisement-service
+#      dockerfile: Dockerfile
+#    tty: true
+#    ports:
+#      - "8085:8085"
+#    networks:
+#      - xml-network
+#    container_name: advertisement-service
+#    restart: on-failure
+#    environment:
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: igor
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: xml
+#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+#    depends_on:
+#      - mysql
+#      - eureka-service
+#
+#  codebook-service:
+#    image: codebook-service
+#    build:
+#      context: ./codebook-service
+#      dockerfile: Dockerfile
+#    tty: true
+#    ports:
+#      - "8084:8084"
+#    networks:
+#      - xml-network
+#    container_name: codebook-service
+#    restart: on-failure
+#    environment:
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: igor
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: xml
+#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka/
+#    depends_on:
+#      - mysql
+#      - eureka-service
+
 #  location-service:
 #    image: location-service
 #    build:
@@ -137,7 +137,7 @@ services:
 #    depends_on:
 #      - mysql
 #      - eureka-service
-#
+
 #  message-service:
 #    image: message-service
 #    build:

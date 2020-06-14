@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/car-model", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/car-models", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CarModelController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class CarModelController {
     @Autowired
     private CarModelDtoMapper carModelDtoMapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public ResponseEntity<List<CarModelDto>> getAll() {
         try {
             List<CarModelDto> carModelDtos = this.carModelService.getAll().stream().map(carModelDtoMapper::toDto)
@@ -38,7 +38,7 @@ public class CarModelController {
         }
     }
 
-    @GetMapping(value = "/brand/{brandId}")
+    @GetMapping(value = "/{brandId}")
     public ResponseEntity<List<CarModelDto>> getBrandModels(@PathVariable("brandId") Long brandId) {
         try {
             List<CarModelDto> carModelDtos = this.carModelService.getBrandModels(brandId).stream()

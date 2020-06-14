@@ -12,6 +12,4 @@ public interface UserFeignClient {
     @GetMapping(value = "/api/users/{id}", headers = {"Authorization={token}"})
     UserDto getUserById(@PathVariable("id") Long id, @PathVariable("token") String token);
 
-    @PutMapping(value = "/api/users/updateTimesPosted/{id}", headers = {"Authorization={token}"})
-    void updateTimesPosted(@PathVariable("id") Long id, @PathVariable("token") String token);
 }

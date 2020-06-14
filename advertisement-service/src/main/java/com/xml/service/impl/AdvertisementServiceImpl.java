@@ -118,7 +118,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         this.advertisementRepository.flush();
 
         if (createAdvertisementDto.getUserRole().equals("ROLE_CUSTOMER")) {
-            this.userFeignClient.updateTimesRated(createAdvertisementDto.getAdvertiserId(), token);
+            this.userFeignClient.updateTimesPosted(createAdvertisementDto.getAdvertiserId(), token);
         }
 
         return advertisement.getId();
@@ -153,7 +153,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         List<Advertisement> allAdvertisements = this.advertisementRepository.basicSearch(dateFromTime, dateFromTo);
         List<Advertisement> validAdvertisements = new ArrayList<>();
 
-        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getReservedRentRequests(token);
+        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getPaidRentRequests(token);
         List<RentRequestDto> invalidRentRequestDtos = new ArrayList<>();
 
         for (RentRequestDto rentRequestDto : rentRequestDtos) {
@@ -200,7 +200,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         List<Advertisement> advertisementList = this.advertisementRepository.basicSearchForMyAdvertisements(dateFromTime, dateToTime, id);
         List<Advertisement> validAdvertisements = new ArrayList<>();
 
-        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getReservedRentRequests(token);
+        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getPaidRentRequests(token);
         List<RentRequestDto> invalidRentRequestDtos = new ArrayList<>();
 
         for (RentRequestDto rentRequestDto : rentRequestDtos) {

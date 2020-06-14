@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/fuel-type", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/fuel-types", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FuelTypeController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class FuelTypeController {
     @Autowired
     private FuelTypeDtoMapper fuelTypeDtoMapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public ResponseEntity<List<FuelTypeDto>> getAll() {
         try {
             List<FuelTypeDto> fuelTypeDtos = this.fuelTypeService.getAll().stream()
