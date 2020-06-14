@@ -23,6 +23,6 @@ INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUE
 
 
 /* registration_requests */
-INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`) VALUES ('1', 'username1', '123123', 'pera', 'peric', 'serbia', 'novi sad', 'periccc@gmail.com', '123456789', 'kopernikova');
-INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`) VALUES ('2', 'username2', '123123', 'stefan', 'stefanovic', 'usa', 'nyc', 'stefanoviccc@gmail.com', '1111111111', 'time square');
-INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`) VALUES ('3', 'username3', '123123', 'marko', 'markovic', 'serbia', 'belgrade', 'markoviccc@gmail.com', '111222333', 'vojislava ilica');
+INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`, `deleted`) VALUES ('1', 'username1', '123123', 'pera', 'peric', 'serbia', 'novi sad', 'periccc@gmail.com', '123456789', 'kopernikova', b'0');
+INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`, `deleted`) VALUES ('2', 'username2', '123123', 'stefan', 'stefanovic', 'usa', 'nyc', 'stefanoviccc@gmail.com', '1111111111', 'time square', b'0');
+INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`, `deleted`) VALUES ('3', 'username3', '123123', 'marko', 'markovic', 'serbia', 'belgrade', 'markoviccc@gmail.com', '111222333', 'vojislava ilica', b'0');
