@@ -138,7 +138,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void deleteCustomer(Long id) {
         User customerToDelete = this.userRepository.findById(id).get();
-        this.userRepository.delete(customerToDelete);
+        customerToDelete.setDeleted(true);
+        userRepository.save(customerToDelete);
     }
 
     @Override
