@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/messages", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MessageController {
     @Autowired
     private MessageService messageService;
