@@ -57,12 +57,9 @@ public class MessageController {
     @PostMapping(value = "/sendMessage")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         try {
-            //TODO: sender-senderId
             this.messageService.sendMessage(messageDto);
-            System.out.println("usao1");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("usao2");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

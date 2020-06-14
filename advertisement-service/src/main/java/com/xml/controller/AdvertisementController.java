@@ -46,6 +46,17 @@ public class AdvertisementController {
         }
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<AdvertisementDto> getOne(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+        try {
+            AdvertisementDto advertisementDto = this.advertisementService.getOne(id, token);
+            return new ResponseEntity<>(advertisementDto, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/all/{userId}")
     public ResponseEntity<List<AdvertisementDto>> getUserAdvertisements(@PathVariable("userId") Long userId,
                                                                         @RequestHeader("Authorization") String token) {

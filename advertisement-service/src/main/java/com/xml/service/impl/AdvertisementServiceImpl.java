@@ -81,6 +81,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public AdvertisementDto getOne(Long id, String token) {
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+        List<Advertisement> advertisements = new ArrayList<>();
+        advertisements.add(this.advertisementRepository.getOne(id));
+        advertisementDtos = this.getAdvertisementDtos(token, advertisementDtos, advertisements, "");
+        return advertisementDtos.get(0);
+    }
+
+    @Override
     public List<AdvertisementDto> getUserAdvertisements(Long userId, String token) {
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
