@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/car-class", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/car-classes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CarClassController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class CarClassController {
     @Autowired
     private CarClassDtoMapper carClassDtoMapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public ResponseEntity<List<CarClassDto>> getAll() {
         try {
             List<CarClassDto> carClassDtos = this.carClassService.getAll().stream()

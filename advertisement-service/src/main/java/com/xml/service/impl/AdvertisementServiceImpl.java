@@ -118,7 +118,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         this.advertisementRepository.flush();
 
         if (createAdvertisementDto.getUserRole().equals("ROLE_CUSTOMER")) {
-            this.userFeignClient.updateTimesRated(createAdvertisementDto.getAdvertiserId(), token);
+            this.userFeignClient.updateTimesPosted(createAdvertisementDto.getAdvertiserId(), token);
         }
 
         return advertisement.getId();

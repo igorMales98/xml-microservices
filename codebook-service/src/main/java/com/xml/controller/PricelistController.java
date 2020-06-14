@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/pricelist", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/pricelists", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PricelistController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class PricelistController {
     @Autowired
     private PricelistDtoMapper pricelistDtoMapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public ResponseEntity<List<PricelistDto>> getAll() {
         try {
             List<PricelistDto> pricelistDtos = this.pricelistService.getAll().stream()

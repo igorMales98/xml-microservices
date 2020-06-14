@@ -20,7 +20,7 @@ public interface UserService {
 
     void saveCustomer(Customer customer);
 
-    void updateTimesRated(Long id);
+    void updateTimesPosted(Long id);
 
     Long createPhysicalUser(UserDto userDto, String token);
 

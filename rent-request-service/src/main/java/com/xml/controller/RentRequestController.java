@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/rent-request", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/rent-requests", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RentRequestController {
 
     @Autowired
@@ -44,9 +44,10 @@ public class RentRequestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getPeople(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
-        List<Long> retVal = this.rentRequestService.getPeople(id,token);
-        return new ResponseEntity<>(retVal,HttpStatus.OK);
+        List<Long> retVal = this.rentRequestService.getPeople(id, token);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 }

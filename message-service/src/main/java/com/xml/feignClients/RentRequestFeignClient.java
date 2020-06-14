@@ -9,6 +9,6 @@ import java.util.List;
 
 @FeignClient(name = "rent-request-service")
 public interface RentRequestFeignClient {
-    @GetMapping(value = "/api/rent-request/{id}", headers = {"Authorities=[TEST], Authorization={token}"})
+    @GetMapping(value = "/api/rent-requests/{id}", headers = {"Authorities=[TEST], Authorization={token}"})
     List<Long> getPeople(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
 }
