@@ -14,7 +14,7 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| AditionalBill, Administrator, Agent, Authority
+| Administrator, Agent, Authority
   Customer, Permission, RegistrationRequest, User
   UserTokenState |
 
@@ -38,7 +38,7 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| Advertisment, Authority, Car, Comment |
+| Advertisment, Car, Comment |
 ### 3. Rent request service
 
 Funkcionalnosti:
@@ -52,7 +52,7 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| Authority, RentRequest, Report |
+| Additional Bill, RentRequest, Report |
 
 ### 4. Message service
 
