@@ -34,6 +34,19 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<UserDto> getPeople(Long id, String token) {
         List<Long> peopleLong = this.rentRequestFeignClient.getPeople(id, token);
+        //history
+        for (Message message : this.messageRepository.findAll()) {
+            if (message.getSenderId().equals(id)) {
+                if (!peopleLong.contains(message.getReceiverId())) {
+                    peopleLong.add(message.getReceiverId());
+                }
+            }
+            if (message.getReceiverId().equals(id)) {
+                if (!peopleLong.contains(message.getSenderId())) {
+                    peopleLong.add(message.getSenderId());
+                }
+            }
+        }
         List<UserDto> people = new ArrayList<>();
         for (Long personLong : peopleLong) {
             people.add(this.userFeignClient.getUserById(personLong, token));
