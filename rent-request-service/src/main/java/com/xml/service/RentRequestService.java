@@ -9,5 +9,5 @@ public interface RentRequestService {
 
     List<Long> getPeople(Long id, String token);
 
-    List<RentRequestDto> getReservedRentRequests(String token);
+    List<RentRequestDto> getPaidRentRequests(String token);
 }

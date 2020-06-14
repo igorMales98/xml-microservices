@@ -12,6 +12,7 @@ public class RegistrationRequestDto {
     private String email;
     private String phone;
     private String address;
+    private boolean deleted;
 
     public RegistrationRequestDto() {
     }
@@ -95,4 +96,8 @@ public class RegistrationRequestDto {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public boolean isDeleted() { return deleted; }
+
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 }

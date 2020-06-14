@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/rent-request", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/rent-requests", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RentRequestController {
 
     @Autowired
@@ -34,19 +34,20 @@ public class RentRequestController {
         }
     }
 
-    @GetMapping(value = "/allReserved")
-    public ResponseEntity<List<RentRequestDto>> getReservedRentRequests(@RequestHeader("Authorization") String token) {
+    @GetMapping(value = "/allPaid")
+    public ResponseEntity<List<RentRequestDto>> getPaidRentRequests(@RequestHeader("Authorization") String token) {
         try {
-            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getReservedRentRequests(token);
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getPaidRentRequests(token);
             return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getPeople(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
-        List<Long> retVal = this.rentRequestService.getPeople(id,token);
-        return new ResponseEntity<>(retVal,HttpStatus.OK);
+        List<Long> retVal = this.rentRequestService.getPeople(id, token);
+        return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 }

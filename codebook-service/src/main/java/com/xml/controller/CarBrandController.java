@@ -7,20 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api/car-brand", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/car-brands", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CarBrandController {
 
     @Autowired
@@ -29,7 +25,7 @@ public class CarBrandController {
     @Autowired
     private CarBrandDtoMapper carBrandDtoMapper;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public ResponseEntity<List<CarBrandDto>> getAll() {
         try {
             List<CarBrandDto> carBrandDtos = carBrandService.getAll().stream().map(carBrandDtoMapper::toDto).
@@ -38,6 +34,40 @@ public class CarBrandController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/addCarBrand")
+    public ResponseEntity<?> addCarBrand(@Valid @RequestBody CarBrandDto carBrandDto) {
+        System.out.println("Stampa: " + carBrandDto.getName());
+        try {
+            this.carBrandService.saveCarBrand(carBrandDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/deleteCarBrand/{id}")
+    public ResponseEntity<?> deleteCarBrand(@PathVariable Long id) throws ParseException {
+
+        try {
+            this.carBrandService.deleteCarBrand(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/editCarBrand")
+    public ResponseEntity<?> editCarBrand(@Valid @RequestBody CarBrandDto carBrandDto) {
+        System.out.println(carBrandDto.toString());
+        try {
+            this.carBrandService.editCarBrand(carBrandDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Car brand already exists.", HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @FeignClient(name = "rent-request-service")
 public interface RentRequestFeignClient {
 
-    @GetMapping(value = "/api/rent-request/allReserved", headers = {"Authorities=[TEST], Authorization={token}"})
-    List<RentRequestDto> getReservedRentRequests(@RequestHeader("Authorization") String token);
+    @GetMapping(value = "/api/rent-requests/allPaid", headers = {"Authorities=[TEST], Authorization={token}"})
+    List<RentRequestDto> getPaidRentRequests(@RequestHeader("Authorization") String token);
 
 }

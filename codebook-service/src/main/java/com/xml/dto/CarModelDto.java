@@ -4,6 +4,7 @@ public class CarModelDto {
 
     private Long id;
     private String name;
+    private CarBrandDto carBrand;
 
     public CarModelDto() {
     }
@@ -22,5 +23,22 @@ public class CarModelDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public CarBrandDto getCarBrandDto() {
+        return carBrand;
+    }
+
+    public void setCarBrandDto(CarBrandDto carBrandDto) {
+        this.carBrand = carBrandDto;
+    }
+
+    @Override
+    public String toString() {
+        return "CarModelDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", carBrandDto=" + carBrand +
+                '}';
     }
 }

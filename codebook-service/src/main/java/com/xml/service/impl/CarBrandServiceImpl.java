@@ -1,5 +1,7 @@
 package com.xml.service.impl;
 
+import com.xml.dto.CarBrandDto;
+import com.xml.mapper.CarBrandDtoMapper;
 import com.xml.model.CarBrand;
 import com.xml.repository.CarBrandRepository;
 import com.xml.service.CarBrandService;
@@ -12,6 +14,9 @@ import java.util.List;
 public class CarBrandServiceImpl implements CarBrandService {
 
     @Autowired
+    private CarBrandDtoMapper carBrandDtoMapper;
+
+    @Autowired
     private CarBrandRepository carBrandRepository;
 
     @Override
@@ -22,5 +27,33 @@ public class CarBrandServiceImpl implements CarBrandService {
     @Override
     public List<CarBrand> getAll() {
         return this.carBrandRepository.findAll();
+    }
+
+    @Override
+    public void saveCarBrand(CarBrandDto carBrandDto) {
+        CarBrand newCarBrand = new CarBrand();
+
+        newCarBrand.setName(carBrandDto.getName());
+
+        this.carBrandRepository.save(newCarBrand);
+    }
+
+    @Override
+    public void deleteCarBrand(Long id) {
+
+        CarBrand carBrandForDelete = this.carBrandRepository.getOne(id);
+
+        this.carBrandRepository.delete(carBrandForDelete);
+
+    }
+
+    @Override
+    public void editCarBrand(CarBrandDto carBrandDto) {
+
+        CarBrand carBrandToEdit = this.carBrandRepository.getOne(carBrandDto.getId());
+
+        carBrandToEdit.setName(carBrandDto.getName());
+        this.carBrandRepository.save(carBrandToEdit);
+
     }
 }

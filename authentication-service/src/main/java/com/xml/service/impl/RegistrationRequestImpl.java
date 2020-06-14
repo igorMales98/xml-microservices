@@ -20,7 +20,7 @@ public class RegistrationRequestImpl implements RegistrationRequestService {
     public List<RegistrationRequestDto> getAll() {
         List<RegistrationRequestDto> registrationRequestDtos = new ArrayList<>();
 
-        List<RegistrationRequest> allRequests = this.registrationRequestRepository.findAll();
+        List<RegistrationRequest> allRequests = this.registrationRequestRepository.findAllActive();
 
         return getRegistrationRequestDtos(registrationRequestDtos, allRequests);
     }
@@ -49,11 +49,8 @@ public class RegistrationRequestImpl implements RegistrationRequestService {
     @Override
     public void deleteRegistrationRequest(Long id) {
         RegistrationRequest request = this.registrationRequestRepository.findOneById(id);
-        try {
-            this.registrationRequestRepository.delete(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        request.setDeleted(true);
+        this.registrationRequestRepository.save(request);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.xml.controller;
 
-import com.netflix.discovery.converters.Auto;
 import com.xml.dto.UserDto;
 import com.xml.mapper.UserDtoMapper;
 import com.xml.model.User;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     @Autowired
@@ -44,10 +42,10 @@ public class UserController {
         return this.userService.findByUsername(user1.getUsername());
     }
 
-    @PutMapping(value = "/updateTimesRated/{id}")
+    @PutMapping(value = "/updateTimesPosted/{id}")
     public ResponseEntity<?> updateTimesPosted(@PathVariable("id") Long id) {
         try {
-            this.userService.updateTimesRated(id);
+            this.userService.updateTimesPosted(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,8 +64,8 @@ public class UserController {
         }
     }
 
-    @GetMapping(value="/blockActivateRemoveCustomer/all")
-    public ResponseEntity<List<UserDto>> getAllCustomers(){
+    @GetMapping(value = "/customers")
+    public ResponseEntity<List<UserDto>> getAllCustomers() {
         try {
             List<UserDto> userDtos = this.userService.getAllCustomers();
             return new ResponseEntity<>(userDtos, HttpStatus.OK);
@@ -77,8 +75,8 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "/blockActivateRemoveCustomer/{id}")
-    public ResponseEntity<?> deleteRegistrationRequest(@PathVariable Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
         try {
             this.userService.deleteCustomer(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -87,8 +85,8 @@ public class UserController {
         }
     }
 
-    @PutMapping(value="/blockActivateRemoveCustomer/block/{id}")
-    public ResponseEntity<?> blockCustomer(@PathVariable Long id){
+    @PutMapping(value = "/block/{id}")
+    public ResponseEntity<?> blockCustomer(@PathVariable Long id) {
         try {
             this.userService.blockUser(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -97,8 +95,8 @@ public class UserController {
         }
     }
 
-    @PutMapping(value="/blockActivateRemoveCustomer/activate/{id}")
-    public ResponseEntity<?> activateCustomer(@PathVariable Long id){
+    @PutMapping(value = "/activate/{id}")
+    public ResponseEntity<?> activateCustomer(@PathVariable Long id) {
         try {
             this.userService.activateUser(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -106,8 +104,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-
 
 
 }
