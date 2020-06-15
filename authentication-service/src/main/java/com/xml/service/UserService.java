@@ -31,4 +31,6 @@ public interface UserService {
     void blockUser(Long id);
 
     void activateUser(long id);
+
+    void registerAgent(UserDto userDto);
 }

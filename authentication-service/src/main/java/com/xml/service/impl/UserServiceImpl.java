@@ -2,6 +2,7 @@ package com.xml.service.impl;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.model.Agent;
 import com.xml.model.Authority;
 import com.xml.dto.UserDto;
 import com.xml.model.Customer;
@@ -82,7 +83,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
-        System.out.println("Pass: " + requestDto.getPassword());
         Customer customer = new Customer(requestDto.getUsername(),
                 passwordEncoder.encode(requestDto.getPassword()),
                 requestDto.getFirstName(),
@@ -162,6 +162,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void registerAgent(UserDto userDto) {
+        Agent agent = new Agent(userDto.getUsername(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getCountry(),
+                userDto.getCity(),
+                userDto.getAddress(),
+                userDto.getEmail(),
+                userDto.getPhone(),
+                userDto.getBusinessSocialNumber());
+        Set<Authority> auth = authorityService.findByName("ROLE_AGENT");
+        agent.setAuthorities(auth);
+        agent.setEnabled(true);
+
+        this.userRepository.save(agent);
+        this.userRepository.flush();
     }
 
 
