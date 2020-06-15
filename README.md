@@ -10,7 +10,7 @@ Funkcionalnosti:
 * PUT: Blokiranje običnih korisnika.
 * PUT: Aktiviranje običnih korisnika.
 * DELETE: Uklanjanje običnih korisnika iz sistema.
-* POST: Registrovanje agenata/firmi na sistem.
+* POST: Registrovanje agenata na sistem.
 
 | Modeli |
 | --- |
