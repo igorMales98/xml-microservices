@@ -5,6 +5,8 @@ import com.xml.model.UserTokenState;
 import com.xml.security.auth.JwtAuthenticationRequest;
 import com.xml.service.AuthorityService;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,16 +21,20 @@ public class AuthorityController {
     @Autowired
     private AuthorityService authorityService;
 
+    Logger logger = LoggerFactory.getLogger(AuthorityController.class);
 
     @PostMapping(value = "/login")
     public ResponseEntity<UserTokenState> login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
         try {
+            logger.info("E brate radi ovo, znaci usao sam hehic :) ");
             UserTokenState userTokenState = authorityService.login(authenticationRequest);
             if (userTokenState == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+            logger.warn("stvatno ne znam sto ne pise u fajl");
             return new ResponseEntity<>(userTokenState, HttpStatus.OK);
         } catch (Exception e) {
+            logger.error("e ne radi jbg ");
             e.printStackTrace();
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

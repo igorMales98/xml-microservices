@@ -4,6 +4,8 @@ import com.xml.dto.UserDto;
 import com.xml.mapper.UserDtoMapper;
 import com.xml.model.User;
 import com.xml.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,11 +28,15 @@ public class UserController {
     @Autowired
     private UserDtoMapper userDtoMapper;
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         try {
+            logger.info("da li postoji korniki?");
             return new ResponseEntity<>(this.userDtoMapper.toDto(this.userService.findById(id)), HttpStatus.OK);
         } catch (Exception e) {
+            logger.error("korisnik ne postoji");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -106,7 +112,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/agent")
-    public ResponseEntity<?> agentRegister(@RequestBody UserDto userDto){
+    public ResponseEntity<?> agentRegister(@RequestBody UserDto userDto) {
         try {
             this.userService.registerAgent(userDto);
             return new ResponseEntity<>(HttpStatus.OK);
