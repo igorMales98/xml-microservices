@@ -71,7 +71,7 @@ public class RentRequestServiceImpl implements RentRequestService {
         List<RentRequest> reservedRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.RESERVED);
         List<RentRequest> customersRequests = new ArrayList<>();
         List<Long> customersAds = new ArrayList<>();
-
+        //kada je logovan customer
         for (RentRequest reservedRequest : reservedRequests) {
             if (reservedRequest.getCustomerId().equals(id)) {
                 customersRequests.add(reservedRequest);
@@ -94,7 +94,16 @@ public class RentRequestServiceImpl implements RentRequestService {
                 }
             }
         }
-
+        //kad je logovan agent
+        for (RentRequest reservedRequest : reservedRequests) {
+            for (Long advertisementForRent: reservedRequest.getAdvertisementsForRent()) {
+                AdvertisementDto reservedAd = this.advertisementFeignClient.getOne(advertisementForRent,token);
+                if (reservedAd.getAdvertiser().getId().equals(id)) {
+                    if (!advertisers.contains(reservedRequest.getCustomerId()))
+                        advertisers.add(reservedRequest.getCustomerId());
+                }
+            }
+        }
         return advertisers;
     }
 

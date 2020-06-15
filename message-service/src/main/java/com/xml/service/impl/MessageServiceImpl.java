@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,9 +34,23 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<UserDto> getPeople(Long id, String token) {
         List<Long> peopleLong = this.rentRequestFeignClient.getPeople(id, token);
+        //history
+        for (Message message : this.messageRepository.findAll()) {
+            if (message.getSenderId().equals(id)) {
+                if (!peopleLong.contains(message.getReceiverId())) {
+                    peopleLong.add(message.getReceiverId());
+                }
+            }
+            if (message.getReceiverId().equals(id)) {
+                if (!peopleLong.contains(message.getSenderId())) {
+                    peopleLong.add(message.getSenderId());
+                }
+            }
+        }
         List<UserDto> people = new ArrayList<>();
         for (Long personLong : peopleLong) {
             people.add(this.userFeignClient.getUserById(personLong, token));
+            System.out.println("ima: "+personLong);
         }
         return people;
     }
@@ -49,6 +64,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void sendMessage(MessageDto messageDto) throws ParseException {
-
+        Message message = new Message();
+        message.setMessage(messageDto.getMessage());
+        message.setReceiverId(messageDto.getReceiver().getId());
+        message.setSenderId(messageDto.getSender().getId());
+        message.setMessageDate(LocalDateTime.now());
+        messageRepository.save(message);
     }
 }

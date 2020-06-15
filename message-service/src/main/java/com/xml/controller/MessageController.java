@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/messages", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MessageController {
     @Autowired
     private MessageService messageService;
@@ -57,12 +57,9 @@ public class MessageController {
     @PostMapping(value = "/sendMessage")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         try {
-            //TODO: sender-senderId
             this.messageService.sendMessage(messageDto);
-            System.out.println("usao1");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("usao2");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
