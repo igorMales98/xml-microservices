@@ -8,3 +8,5 @@
 16-06-2020 00:18:00.851 WARN  [main] c.n.c.sources.URLConfigurationSource - No URLs will be polled as dynamic configuration sources.
 16-06-2020 00:18:03.681 WARN  [main] o.s.c.l.c.BlockingLoadBalancerClientAutoConfiguration$BlockingLoadBalancerClientRibbonWarnLogger - You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
 16-06-2020 00:18:28.485 WARN  [http-nio-8083-exec-1] c.xml.controller.AuthorityController - stvatno ne znam sto ne pise u fajl
+16-06-2020 01:14:19.415 WARN  [http-nio-8083-exec-5] c.xml.controller.AuthorityController - stvatno ne znam sto ne pise u fajl
+16-06-2020 01:14:33.756 WARN  [http-nio-8083-exec-6] o.s.web.servlet.PageNotFound - No mapping for GET /api/advertisements

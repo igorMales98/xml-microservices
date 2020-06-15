@@ -147,3 +147,20 @@
 16-06-2020 00:43:06.344 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
 16-06-2020 00:48:06.347 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
 16-06-2020 00:53:06.350 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+16-06-2020 00:58:06.352 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+16-06-2020 01:03:06.354 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+16-06-2020 01:08:06.358 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+16-06-2020 01:13:06.363 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+16-06-2020 01:14:05.674 INFO  [http-nio-8083-exec-4] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:19.243 INFO  [http-nio-8083-exec-5] c.xml.controller.AuthorityController - E brate radi ovo, znaci usao sam hehic :) 
+16-06-2020 01:14:48.538 INFO  [http-nio-8083-exec-9] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.461 INFO  [http-nio-8083-exec-10] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.533 INFO  [http-nio-8083-exec-1] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.597 INFO  [http-nio-8083-exec-2] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.666 INFO  [http-nio-8083-exec-3] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.739 INFO  [http-nio-8083-exec-4] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.802 INFO  [http-nio-8083-exec-5] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.864 INFO  [http-nio-8083-exec-6] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:49.925 INFO  [http-nio-8083-exec-7] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:14:50.000 INFO  [http-nio-8083-exec-8] com.xml.controller.UserController - da li postoji korniki?
+16-06-2020 01:18:06.365 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration

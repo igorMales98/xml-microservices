@@ -3,6 +3,8 @@ package com.xml.controller;
 import com.xml.dto.AdvertisementDto;
 import com.xml.dto.CreateAdvertisementDto;
 import com.xml.service.AdvertisementService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,9 +24,12 @@ public class AdvertisementController {
     @Autowired
     private AdvertisementService advertisementService;
 
+    Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
+
     @GetMapping(value = "")
     public ResponseEntity<List<AdvertisementDto>> getAll(@RequestHeader("Authorization") String token) {
         try {
+            logger.info("Zelim da dobavim sve oglase i slike");
             List<AdvertisementDto> advertisementDtos = this.advertisementService.getAll(token);
             for (AdvertisementDto advertisementDto : advertisementDtos) {
                 advertisementDto.setImg(this.advertisementService.getAdvertisementPhotos(advertisementDto.getId()));
