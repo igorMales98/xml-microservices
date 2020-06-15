@@ -105,5 +105,15 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/agent")
+    public ResponseEntity<?> agentRegister(@RequestBody UserDto userDto){
+        try {
+            this.userService.registerAgent(userDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
