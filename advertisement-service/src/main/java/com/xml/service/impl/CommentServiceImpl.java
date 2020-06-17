@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAll(Long adId, String token) {
-        List<Comment> allComments = commentRepository.getAllByAdvertisement_id(adId);
+        List<Comment> allComments = this.commentRepository.getAllByAdvertisement_id(adId);
         List<Comment> approvedComments = new ArrayList<>();
         for (Comment comment : allComments) {
             if (comment.isApproved()) {
@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
             commentDto.setComment(comment.getComment());
             commentDto.setReply(comment.getReply());
             commentDto.setId(comment.getId());
-            UserDto advertiserDto = userFeignClient.getUserById(comment.getCommenterId(), token);
+            UserDto advertiserDto = this.userFeignClient.getUserById(comment.getCommenterId(), token);
             commentDto.setCommenter(advertiserDto);
             allApprovedComments.add(commentDto);
         }
@@ -48,9 +48,24 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void sendReply(Long id, String reply) {
         System.out.println(reply);
-        Comment comment = commentRepository.findOneById(id);
+        Comment comment = this.commentRepository.findOneById(id);
         comment.setReply(reply);
-        commentRepository.save(comment);
+        this.commentRepository.save(comment);
+    }
+
+    @Override
+    public void postComment(CommentDto commentDto) {
+        Comment comment = new Comment();
+        comment.setCommenterId(commentDto.getCommenter().getId());
+        comment.setComment(commentDto.getComment());
+        //    Advertisement ad = this.advertisementRepository.getOne(commentDto.getAdvertisement().getId());
+        //    Set<Comment> comments = ad.getComments();
+        //    comments.add(comment);
+        //    ad.setComments(comments);
+        this.commentRepository.save(comment);
+        //    this.advertisementRepository.save(ad);
+        //treba da se posalje i za koji oglas je vezan komentar
+        //moze u commentDto ili u zahtevu da se doda, restful
     }
 
 }

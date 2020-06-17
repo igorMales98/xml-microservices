@@ -41,4 +41,14 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping(value = "")
+    public ResponseEntity<?> postComment(@Valid @RequestBody CommentDto commentDto) {
+        try {
+            this.commentService.postComment(commentDto);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
