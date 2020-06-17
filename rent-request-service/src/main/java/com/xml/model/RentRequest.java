@@ -36,6 +36,9 @@ public class RentRequest {
     @OneToMany(mappedBy = "rentRequest")
     private Set<Report> reports;
 
+    @Column(nullable = false)
+    LocalDateTime created;
+
     public Long getId() {
         return id;
     }
@@ -91,4 +94,8 @@ public class RentRequest {
     public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
         this.advertisementsForRent = advertisementsForRent;
     }
+
+    public LocalDateTime getCreated() { return created; }
+
+    public void setCreated(LocalDateTime created) { this.created = created; }
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ad="http://localhost:8085/advertisement-service"
+           version="1.0"
+           targetNamespace="http://localhost:8085/advertisement-service">
+
+    <xs:complexType name="Advertisement">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="car" type="ad:car" minOccurs="0"/>
+            <xs:element name="advertiserId" type="xs:long" minOccurs="0"/>
+            <xs:element name="availableFrom" type="xs:string" minOccurs="0"/>
+            <xs:element name="availableTo" type="xs:string" minOccurs="0"/>
+            <xs:element name="pricelistId" type="xs:long" minOccurs="0"/>
+            <xs:element name="comments" type="ad:comment" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="car">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="carBrandId" type="xs:long" minOccurs="0"/>
+            <xs:element name="carModelId" type="xs:long" minOccurs="0"/>
+            <xs:element name="carClassId" type="xs:long" minOccurs="0"/>
+            <xs:element name="transmissionTypeId" type="xs:long" minOccurs="0"/>
+            <xs:element name="fuelTypeId" type="xs:long" minOccurs="0"/>
+            <xs:element name="collisionDamageWaiverExists" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="hasAndroid" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="mileage" type="xs:float" minOccurs="0"/>
+            <xs:element name="allowedDistance" type="xs:float" minOccurs="0"/>
+            <xs:element name="averageRating" type="xs:float" minOccurs="0"/>
+            <xs:element name="timesRated" type="xs:int" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="comment">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="commenterId" type="xs:long" minOccurs="0"/>
+            <xs:element name="comment" type="xs:string" minOccurs="0"/>
+            <xs:element name="reply" type="xs:string" minOccurs="0"/>
+            <xs:element name="approved" type="xs:boolean" minOccurs="0"/>
+            <xs:element name="advertisement" type="ad:Advertisement" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="advertisementRequest">
+        <xs:complexType>
+            <xs:sequence>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="advertisementResponse">
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
