@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,20 +34,27 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('READ_USER')")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info("Date : {}, A user with username : {} has requested information about a user.", LocalDateTime.now(),
+                userDetails.getUsername());
         try {
-            logger.info("da li postoji korniki?");
-            return new ResponseEntity<>(this.userDtoMapper.toDto(this.userService.findById(id)), HttpStatus.OK);
+            UserDto userDto = this.userDtoMapper.toDto(this.userService.findById(id));
+            logger.info("Date : {}, Requested user was : {}.", LocalDateTime.now(), userDto.getUsername());
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("korisnik ne postoji");
+            logger.error("Date : {}, There was an error finding a requested user.", LocalDateTime.now());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping(value = "/whoami", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('WHO_AM_I')")
     public User user(Principal user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user1 = (User) auth.getPrincipal();
+        logger.info("Date : {}, A user : {} has requested information about himself.", LocalDateTime.now(), user1.getUsername());
         return this.userService.findByUsername(user1.getUsername());
     }
 
