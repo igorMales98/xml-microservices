@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Advertisement", namespace = "http://localhost:8085/advertisement-service")
+@XmlType(name = "Advertisement", namespace = "http://localhost:8085/advertisement-service-schema")
 @XmlRootElement(name = "advertisementClass")
 public class Advertisement {
 

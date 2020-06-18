@@ -29,7 +29,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("advertisementSchemaPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://localhost:8085/advertisement-service");
+        wsdl11Definition.setTargetNamespace("http://localhost:8085/advertisement-service-schema");
         wsdl11Definition.setSchema(adSchema);
         return wsdl11Definition;
     }

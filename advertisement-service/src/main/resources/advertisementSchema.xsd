@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ad="http://localhost:8085/advertisement-service"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ad="http://localhost:8085/advertisement-service-schema"
            version="1.0"
-           targetNamespace="http://localhost:8085/advertisement-service">
+           targetNamespace="http://localhost:8085/advertisement-service-schema">
 
     <xs:complexType name="Advertisement">
         <xs:sequence>
@@ -46,7 +46,12 @@
     <xs:element name="advertisementRequest">
         <xs:complexType>
             <xs:sequence>
-
+                <xs:element name="advertiserId" type="xs:long" minOccurs="0"/>
+                <xs:element name="availableFrom" type="xs:string" minOccurs="0"/>
+                <xs:element name="availableTo" type="xs:string" minOccurs="0"/>
+                <xs:element name="comments" type="ad:comment" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="car" type="ad:car" minOccurs="0"/>
+                <xs:element name="pricelistId" type="xs:long" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -54,6 +59,8 @@
     <xs:element name="advertisementResponse">
         <xs:complexType>
             <xs:sequence>
+                <xs:element type="xs:long" name="advertisementId"/>
+                <xs:element type="xs:long" name="carId"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
