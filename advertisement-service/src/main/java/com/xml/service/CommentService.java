@@ -8,4 +8,6 @@ public interface CommentService {
     List<CommentDto> getAll(Long adId, String token);
 
     void sendReply(Long id, String reply);
+
+    void postComment(CommentDto commentDto);
 }
