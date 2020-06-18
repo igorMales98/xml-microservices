@@ -65,7 +65,8 @@ public class AuthorityController {
             logger.info("Date : {}, Successfully returned user id from token.", LocalDateTime.now());
             return new ResponseEntity<>(userId, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Date : {}, Unsuccessfully returned user id.", LocalDateTime.now());
+            logger.error("Date : {}, Unsuccessfully returned user id." +
+                    "Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -79,7 +80,8 @@ public class AuthorityController {
             logger.info("Date : {}, Registration request has been successfully saved.", LocalDateTime.now());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            logger.error("Date : {}, An error has occurred during registration. Request has not been saved.", LocalDateTime.now());
+            logger.error("Date : {}, An error has occurred during registration. Request has not been saved." +
+                    " Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

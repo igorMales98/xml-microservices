@@ -19,8 +19,12 @@ INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('2', 'DELETE_REGISTRATION_
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('3', 'CONFIRM_REGISTRATION_REQUESTS');
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('4', 'READ_USER');
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('5', 'WHO_AM_I');
-INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('6', 'CONFIRM_REGISTRATION_REQUESTS');
-INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('7', 'CONFIRM_REGISTRATION_REQUESTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('6', 'UPDATE_POSTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('7', 'CREATE_PHYSICAL_USER');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('8', 'READ_CUSTOMERS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('9', 'EDIT_CUSTOMERS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('10', 'CREATE_AGENTS');
+
 
 
 
@@ -29,8 +33,23 @@ INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('7', 'CONFIRM_REGISTRATION
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '1');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '2');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '3');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '4');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '5');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '8');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '9');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '10');
+
 
 /* agent = authority = 2 */
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '4');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '5');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '7');
+
+/* customer = authority = 3 */
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '4');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '5');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '6');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '7');
 
 /* registration_requests */
 INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`, `deleted`) VALUES ('1', 'username1', '123123', 'pera', 'peric', 'serbia', 'novi sad', 'periccc@gmail.com', '123456789', 'kopernikova', b'0');

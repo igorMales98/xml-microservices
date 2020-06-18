@@ -42,7 +42,8 @@ public class RegistrationRequestController {
             logger.info("Date : {}, Successfully returned list of all registration requests.", LocalDateTime.now());
             return new ResponseEntity<>(requestDtos, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Date : {}, Error while returning list of all registration requests.", LocalDateTime.now());
+            logger.error("Date : {}, Error while returning list of all registration requests. " +
+                    "Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -58,7 +59,8 @@ public class RegistrationRequestController {
             logger.info("Date : {}, Successfully deleted registration request.", LocalDateTime.now());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Date : {}, Error while deleting registration request.", LocalDateTime.now());
+            logger.error("Date : {}, Error while deleting registration request. " +
+                    "Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -78,7 +80,8 @@ public class RegistrationRequestController {
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {
-            logger.error("Date : {}, Error while accepting registration request.", LocalDateTime.now());
+            logger.error("Date : {}, Error while accepting registration request. " +
+                    "Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
