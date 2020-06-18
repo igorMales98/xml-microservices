@@ -12,6 +12,7 @@
             <xs:element name="availableTo" type="xs:string" minOccurs="0"/>
             <xs:element name="pricelistId" type="xs:long" minOccurs="0"/>
             <xs:element name="comments" type="ad:comment" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="discount" type="xs:string" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -52,6 +53,7 @@
                 <xs:element name="comments" type="ad:comment" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="car" type="ad:car" minOccurs="0"/>
                 <xs:element name="pricelistId" type="xs:long" minOccurs="0"/>
+                <xs:element name="discount" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
