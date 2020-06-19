@@ -12,6 +12,7 @@ import com.xml.service.RentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +48,10 @@ public class RentRequestServiceImpl implements RentRequestService {
         if (!rentRequestDto.isBundle()) {
             for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
                 RentRequest newRequest = this.createRequest(rentRequestDto, advertisementDto.getId(), false, token);
+                AdvertisementDto advertisementDto1 = this.advertisementFeignClient.getOne(advertisementDto.getId(), token);
+                newRequest.setAdvertiserId(advertisementDto1.getAdvertiser().getId());
+                newRequest.setCreated(LocalDateTime.now());
+                System.out.println("Advertiser: " + advertisementDto1.getAdvertiser().getId());
                 this.rentRequestRepository.save(newRequest);
             }
         } else {
@@ -59,6 +64,10 @@ public class RentRequestServiceImpl implements RentRequestService {
 
             for (Long id : temp) {
                 RentRequest newRequest = this.createRequest(rentRequestDto, id, true, token);
+                AdvertisementDto advertisementDto1 = this.advertisementFeignClient.getOne(id, token);
+                newRequest.setAdvertiserId(advertisementDto1.getAdvertiser().getId());
+                System.out.println(advertisementDto1.getAdvertiser().getId());
+                newRequest.setCreated(LocalDateTime.now());
                 this.rentRequestRepository.save(newRequest);
             }
 
