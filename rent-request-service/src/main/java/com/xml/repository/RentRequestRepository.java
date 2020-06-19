@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface RentRequestRepository extends JpaRepository<RentRequest, Long> {
     List<RentRequest> findByRentRequestStatus(RentRequestStatus rentRequestStatus);
+    List<RentRequest> findByCustomerId(Long customerId);
 }
