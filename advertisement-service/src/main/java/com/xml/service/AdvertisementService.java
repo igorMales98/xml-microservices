@@ -2,6 +2,7 @@ package com.xml.service;
 
 import com.xml.dto.AdvertisementDto;
 import com.xml.dto.CreateAdvertisementDto;
+import com.xml.model.Advertisement;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,4 +26,5 @@ public interface AdvertisementService {
     List<AdvertisementDto> basicSearch(String dateFrom, String dateTo, String place, String token);
 
     List<AdvertisementDto> basicSearchForMyAdvertisements(String dateFrom, String dateTo, Long id, String token);
+
 }
