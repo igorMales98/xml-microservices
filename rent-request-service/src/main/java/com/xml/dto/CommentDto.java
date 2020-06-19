@@ -16,6 +16,16 @@ public class CommentDto {
 
     private String reply;
 
+    @NotNull(message = "Approved cannot be null")
+    private boolean approved = false;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     public CommentDto() {
     }
