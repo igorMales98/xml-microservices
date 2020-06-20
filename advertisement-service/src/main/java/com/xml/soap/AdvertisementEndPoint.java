@@ -3,19 +3,18 @@ package com.xml.soap;
 import com.xml.dto.CodebookInfoDto;
 import com.xml.dto.CreateAdvertisementDto;
 import com.xml.feignClients.CodebookFeignClient;
-import com.xml.model.Advertisement;
 import com.xml.model.Car;
 import com.xml.repository.CarRepository;
 import com.xml.service.AdvertisementService;
 import localhost._8085.advertisement_service_schema.AdvertisementRequest;
 import localhost._8085.advertisement_service_schema.AdvertisementResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 
@@ -36,7 +35,7 @@ public class AdvertisementEndPoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "advertisementRequest")
     @ResponsePayload
-    public AdvertisementResponse createAdvertisement(@RequestPayload AdvertisementRequest request) throws ParseException {
+    public AdvertisementResponse createAdvertisement(@RequestPayload AdvertisementRequest request) throws ParseException, IOException {
         System.out.println("SOAP - Create Advertisement");
         AdvertisementResponse response = new AdvertisementResponse();
         CreateAdvertisementDto advertisementDto = new CreateAdvertisementDto();
@@ -62,7 +61,7 @@ public class AdvertisementEndPoint {
         advertisementDto.setDiscount(request.getDiscount());
         advertisementDto.setUserRole("");
 
-        // Fale Android i ChildSeats
+        // Fale Android i ChildSeats i slike
         long advertisementId = advertisementService.saveAdvertisement(advertisementDto, "");
         Car car = this.carRepository.findTopByOrderByIdDesc();
         response.setAdvertisementId(advertisementId);
