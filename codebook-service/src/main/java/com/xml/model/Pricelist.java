@@ -6,8 +6,8 @@ import java.util.Set;
 
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Advertisement", namespace = "http://localhost:8084/codebook-service")
-@XmlRootElement(name = "codebookClass")
+@XmlType(name = "Pricelist", namespace = "http://localhost:8084/codebook-service-schema")
+@XmlRootElement(name = "pricelistClass")
 public class Pricelist {
 
     @Id
