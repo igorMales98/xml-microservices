@@ -50,4 +50,15 @@ public class RentRequestController {
         List<Long> retVal = this.rentRequestService.getPeople(id, token);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/all/{id}")
+    public ResponseEntity<?> getAdvertiserRequests(@PathVariable("id") Long id, @RequestHeader("Authorization") String token){
+        try {
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getUserRentRequests(id, token);
+            return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

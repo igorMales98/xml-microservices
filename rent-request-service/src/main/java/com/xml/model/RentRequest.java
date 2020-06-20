@@ -70,9 +70,7 @@ public class RentRequest {
         return rentRequestStatus;
     }
 
-    public void setRentRequestStatus(RentRequestStatus rentRequestStatus) {
-        this.rentRequestStatus = rentRequestStatus;
-    }
+    public void setRentRequestStatus(RentRequestStatus rentRequestStatus) { this.rentRequestStatus = rentRequestStatus; }
 
     public Long getCustomerId() {
         return customerId;
@@ -90,9 +88,7 @@ public class RentRequest {
         this.reports = reports;
     }
 
-    public Set<Long> getAdvertisementsForRent() {
-        return advertisementsForRent;
-    }
+    public Set<Long> getAdvertisementsForRent() { return advertisementsForRent; }
 
     public void setAdvertisementsForRent(Set<Long> advertisementsForRent) { this.advertisementsForRent = advertisementsForRent; }
 
