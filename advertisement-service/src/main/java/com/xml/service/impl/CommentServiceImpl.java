@@ -62,6 +62,7 @@ public class CommentServiceImpl implements CommentService {
             commentDto.setReply(comment.getReply());
             commentDto.setId(comment.getId());
             commentDto.setApproved(comment.isApproved());
+            commentDto.setRejected(comment.isRejected());
             UserDto advertiserDto = this.userFeignClient.getUserById(comment.getCommenterId(), token);
             commentDto.setCommenter(advertiserDto);
             commentDtos.add(commentDto);
@@ -101,7 +102,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long id) {
         Comment comment = this.commentRepository.findById(id).get();
-        comment.setApproved(false);
+        comment.setRejected(true);
         this.commentRepository.save(comment);
     }
 

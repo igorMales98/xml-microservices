@@ -21,6 +21,9 @@ public class Comment {
     private boolean approved = false;
 
     @Column
+    private boolean rejected = false;
+
+    @Column
     private String reply;
 
     @ManyToOne
@@ -79,4 +82,7 @@ public class Comment {
         this.advertisement = advertisement;
     }
 
+    public boolean isRejected() { return rejected; }
+
+    public void setRejected(boolean rejected) { this.rejected = rejected; }
 }
