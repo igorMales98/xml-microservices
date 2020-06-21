@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .cors().and().addFilterBefore(new AuthoritiesFilter(), BasicAuthenticationFilter.class)
 
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**", "/ws/**").permitAll()
 
                 .anyRequest().authenticated().and();
 

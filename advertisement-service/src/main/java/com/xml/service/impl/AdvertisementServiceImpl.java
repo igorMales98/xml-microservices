@@ -9,6 +9,7 @@ import com.xml.mapper.CommentDtoMapper;
 import com.xml.model.Advertisement;
 import com.xml.model.Car;
 import com.xml.repository.AdvertisementRepository;
+import com.xml.repository.CarRepository;
 import com.xml.service.AdvertisementService;
 import com.xml.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private CarRepository carRepository;
 
     @Autowired
     private RentRequestFeignClient rentRequestFeignClient;
@@ -111,6 +115,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         newCar.setChildSeats(createAdvertisementDto.getChildSeats());
         newCar.setAllowedDistance(createAdvertisementDto.getAllowedDistance());
         this.carService.save(newCar);
+        this.carRepository.flush();
 
         Advertisement advertisement = new Advertisement();
         advertisement.setCar(newCar);

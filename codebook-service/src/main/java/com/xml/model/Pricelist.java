@@ -1,22 +1,30 @@
 package com.xml.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.util.Set;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Pricelist", namespace = "http://localhost:8084/codebook-service-schema")
+@XmlRootElement(name = "pricelistClass")
 public class Pricelist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlElement
     private Long id;
 
     @Column
+    @XmlElement
     private Float pricePerDay;
 
     @Column
+    @XmlElement
     private Float pricePerKm;
 
     @Column
+    @XmlElement
     private Float priceForCDW;
 
     public Long getId() {
