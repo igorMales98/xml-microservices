@@ -22,7 +22,6 @@ public class CommentController {
 
     @GetMapping(value = "")
     public ResponseEntity<?> getAll(@RequestHeader("Authorization") String token) {
-        System.out.println(token);
         try {
             List<CommentDto> commentDtos = this.commentService.getAll(token);
             return new ResponseEntity<>(commentDtos, HttpStatus.OK);
@@ -34,7 +33,6 @@ public class CommentController {
 
     @GetMapping(value = "/{adId}")
     public ResponseEntity<?> getApproved(@PathVariable("adId") Long adId, @RequestHeader("Authorization") String token) {
-        System.out.println(token);
         try {
             List<CommentDto> commentDtos = this.commentService.getApproved(adId, token);
             return new ResponseEntity<>(commentDtos, HttpStatus.OK);
@@ -47,7 +45,6 @@ public class CommentController {
     @PutMapping(value = "")
     public ResponseEntity<?> sendReply(@Valid @RequestBody CommentDto commentDto) {
         try {
-
             this.commentService.sendReply(commentDto.getId(), commentDto.getReply());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
@@ -67,25 +64,23 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/approve")
-    public ResponseEntity<?> approveComment(@RequestBody CommentDto commentDto) {
+    @PutMapping(value = "/approve/{id}")
+    public ResponseEntity<?> approveComment(@PathVariable Long id) {
         try {
-            this.commentService.approveComment(commentDto);
+            this.commentService.approveComment(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping(value = "")
-    public ResponseEntity<?> deleteComment(@RequestBody CommentDto commentDto) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
         try {
-            this.commentService.deleteComment(commentDto);
+            this.commentService.deleteComment(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

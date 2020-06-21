@@ -48,11 +48,11 @@ INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisemen
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('5', b'1', 'Auto je bas lep', 'Jeste slazem se', '3', '3');
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('6', b'1', 'Sve je super', 'Jeste slazem se', '4', '3');
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('7', b'1', 'Auto je bas lep', 'Jeste slazem se', '5', '3');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('8', b'1', 'Auto je bas lep', 'Jeste slazem se', '6', '3');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('8', b'1', 'Previse se cuje auspuh.', 'Hvala Vam, popravicemo to.', '6', '3');
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('9', b'1', 'Auto je bas lep', 'Jeste slazem se', '6', '3');
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('10', b'1', 'Auto je bas lep', 'Jeste slazem se', '7', '3');
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('11', b'1', 'Auto je bas lep', 'Jeste slazem se', '8', '3');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('12', b'1', 'Auto je bas lep', 'Jeste slazem se', '8', '3');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('13', b'1', 'Auto je bas lep', 'Jeste slazem se', '9', '3');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('12', b'0', 'Krs, najiskrenije', 'Ok', '8', '3');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('13', b'0', 'Auto je bas lep', 'Jeste slazem se', '9', '3');
 INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('14', b'1', 'Auto je bas lep', 'Jeste slazem se', '9', '3');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('15', b'1', 'Auto je bas lep', 'Jeste slazem se', '10', '3');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('15', b'0', 'Auto je bas lep', 'Jeste slazem se', '10', '3');
