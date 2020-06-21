@@ -140,6 +140,7 @@ public class RentRequestServiceImpl implements RentRequestService {
             rentRequestDto.setId(request.getId());
             rentRequestDto.setReservedFrom(request.getReservedFrom());
             rentRequestDto.setReservedTo(request.getReservedTo());
+            rentRequestDto.setRentRequestStatus(request.getRentRequestStatus());
             Set<AdvertisementDto> advertisementDtos = new HashSet<>();
             for (Long advId : request.getAdvertisementsForRent()) {
                 AdvertisementDto advertisementDto = advertisementFeignClient.getOne(advId,token);
