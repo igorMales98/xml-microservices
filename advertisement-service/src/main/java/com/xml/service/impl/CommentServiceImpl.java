@@ -92,15 +92,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void approveComment(CommentDto commentDto) {
-        Comment comment = this.commentRepository.getOne(commentDto.getId());
+    public void approveComment(Long id) {
+        Comment comment = this.commentRepository.findById(id).get();
         comment.setApproved(true);
         this.commentRepository.save(comment);
     }
 
     @Override
-    public void deleteComment(CommentDto commentDto) {
-        Comment comment = this.commentRepository.getOne(commentDto.getId());
+    public void deleteComment(Long id) {
+        Comment comment = this.commentRepository.findById(id).get();
         comment.setApproved(false);
         this.commentRepository.save(comment);
     }

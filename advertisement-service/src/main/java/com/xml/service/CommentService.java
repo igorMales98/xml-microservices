@@ -12,7 +12,7 @@ public interface CommentService {
 
     void postComment(CommentDto commentDto);
 
-    void approveComment(CommentDto commentDto);
+    void approveComment(Long id);
 
-    void deleteComment(CommentDto commentDto);
+    void deleteComment(Long id);
 }
