@@ -61,4 +61,24 @@ public class RentRequestController {
         }
     }
 
+    @DeleteMapping(value="/{id}")
+    public ResponseEntity<?> cancelRentRequest(@PathVariable("id") Long id){
+        try {
+            this.rentRequestService.cancelRentRequest(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value="/{id}")
+    public ResponseEntity<?> acceptRentRequest(@PathVariable("id") Long id){
+        try {
+            this.rentRequestService.acceptRentRequest(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

@@ -161,7 +161,6 @@ public class RentRequestServiceImpl implements RentRequestService {
             }
         }
 
-
         newRequest.setAdvertisementsForRent(newSet);
         newRequest.setCustomerId(rentRequestDto.getCustomer().getId());
         newRequest.setReports(new HashSet<>());
@@ -203,27 +202,64 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     private List<RentRequestDto> getUserRentRequestsDtos(List<RentRequestDto> rentRequestDtos, List<RentRequest> allRequests, String token){
         for(RentRequest request : allRequests) {
-            if (!request.getRentRequestStatus().equals(RentRequestStatus.RESERVED)){
-                RentRequestDto requestDto = new RentRequestDto();
-                requestDto.setId(request.getId());
-                requestDto.setReservedFrom(request.getReservedFrom());
-                requestDto.setReservedTo(request.getReservedTo());
-                requestDto.setRentRequestStatus(request.getRentRequestStatus());
+            if (!request.getRentRequestStatus().equals(RentRequestStatus.RESERVED)) {
+                if (request.getCreated().isBefore(LocalDateTime.now().minusHours(24L)) && request.getRentRequestStatus().equals(RentRequestStatus.PENDING)){
+                    RentRequestDto requestDto = new RentRequestDto();
+                    requestDto.setId(request.getId());
+                    RentRequest temp = this.rentRequestRepository.findById(request.getId()).get();
+                    temp.setRentRequestStatus(RentRequestStatus.CANCELED);
+                    this.rentRequestRepository.save(temp);
+                    requestDto.setReservedFrom(request.getReservedFrom());
+                    requestDto.setReservedTo(request.getReservedTo());
+                    requestDto.setRentRequestStatus(RentRequestStatus.CANCELED);
 
-                UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
-                requestDto.setCustomer(customer);
+                    UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
+                    requestDto.setCustomer(customer);
 
-                Set<AdvertisementDto> advertisementDtos = new HashSet<>();
-                for (Long advertisementId : request.getAdvertisementsForRent()) {
-                    advertisementDtos.add(this.advertisementFeignClient.getOne(advertisementId, token));
+                    Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+                    for (Long advertisementId : request.getAdvertisementsForRent()) {
+                        advertisementDtos.add(this.advertisementFeignClient.getOne(advertisementId, token));
+                    }
+
+                    requestDto.setAdvertisementsForRent(advertisementDtos);
+
+                    rentRequestDtos.add(requestDto);
+                } else {
+                    RentRequestDto requestDto = new RentRequestDto();
+                    requestDto.setId(request.getId());
+                    requestDto.setReservedFrom(request.getReservedFrom());
+                    requestDto.setReservedTo(request.getReservedTo());
+                    requestDto.setRentRequestStatus(request.getRentRequestStatus());
+
+                    UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
+                    requestDto.setCustomer(customer);
+
+                    Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+                    for (Long advertisementId : request.getAdvertisementsForRent()) {
+                        advertisementDtos.add(this.advertisementFeignClient.getOne(advertisementId, token));
+                    }
+
+                    requestDto.setAdvertisementsForRent(advertisementDtos);
+
+                    rentRequestDtos.add(requestDto);
                 }
-
-                requestDto.setAdvertisementsForRent(advertisementDtos);
-
-                rentRequestDtos.add(requestDto);
             }
         }
 
         return rentRequestDtos;
+    }
+
+    @Override
+    public void cancelRentRequest(Long id) {
+        RentRequest rentRequest = this.rentRequestRepository.findById(id).get();
+        rentRequest.setRentRequestStatus(RentRequestStatus.CANCELED);
+        this.rentRequestRepository.save(rentRequest);
+    }
+
+    @Override
+    public void acceptRentRequest(Long id) {
+        RentRequest rentRequest = this.rentRequestRepository.findById(id).get();
+        rentRequest.setRentRequestStatus(RentRequestStatus.PAID);
+        this.rentRequestRepository.save(rentRequest);
     }
 }
