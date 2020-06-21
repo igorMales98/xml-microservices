@@ -15,4 +15,5 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
     @Query(value = "SELECT * FROM rent_request WHERE rent_request.advertiser_id = :id", nativeQuery = true)
     List<RentRequest> findByAdvertiserId(Long id);
 
+    List<RentRequest> findByCustomerId(Long customerId);
 }

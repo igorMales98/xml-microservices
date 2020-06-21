@@ -57,6 +57,7 @@ public class AdvertisementController {
     public ResponseEntity<AdvertisementDto> getOne(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         try {
             AdvertisementDto advertisementDto = this.advertisementService.getOne(id, token);
+            advertisementDto.setImg(this.advertisementService.getAdvertisementPhotos(advertisementDto.getId()));
             return new ResponseEntity<>(advertisementDto, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,7 +3,9 @@ package com.xml.service.impl;
 import com.xml.dto.CommentDto;
 import com.xml.dto.UserDto;
 import com.xml.feignClients.UserFeignClient;
+import com.xml.model.Advertisement;
 import com.xml.model.Comment;
+import com.xml.repository.AdvertisementRepository;
 import com.xml.repository.CommentRepository;
 import com.xml.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,13 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Autowired
+    private AdvertisementRepository advertisementRepository;
+
+    @Autowired
     private UserFeignClient userFeignClient;
 
     @Override
-    public List<CommentDto> getAll(Long adId, String token) {
+    public List<CommentDto> getApproved(Long adId, String token) {
         List<Comment> allComments = this.commentRepository.getAllByAdvertisement_id(adId);
         List<Comment> approvedComments = new ArrayList<>();
         for (Comment comment : allComments) {
@@ -38,11 +43,30 @@ public class CommentServiceImpl implements CommentService {
             commentDto.setComment(comment.getComment());
             commentDto.setReply(comment.getReply());
             commentDto.setId(comment.getId());
+            commentDto.setApproved(comment.isApproved());
             UserDto advertiserDto = this.userFeignClient.getUserById(comment.getCommenterId(), token);
             commentDto.setCommenter(advertiserDto);
             allApprovedComments.add(commentDto);
         }
         return allApprovedComments;
+    }
+
+    @Override
+    public List<CommentDto> getAll(String token) {
+        List<Comment> comments = this.commentRepository.findAll();
+        List<CommentDto> commentDtos = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            CommentDto commentDto = new CommentDto();
+            commentDto.setComment(comment.getComment());
+            commentDto.setReply(comment.getReply());
+            commentDto.setId(comment.getId());
+            commentDto.setApproved(comment.isApproved());
+            UserDto advertiserDto = this.userFeignClient.getUserById(comment.getCommenterId(), token);
+            commentDto.setCommenter(advertiserDto);
+            commentDtos.add(commentDto);
+        }
+        return commentDtos;
     }
 
     @Override
@@ -56,16 +80,29 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void postComment(CommentDto commentDto) {
         Comment comment = new Comment();
-        comment.setCommenterId(commentDto.getCommenter().getId());
         comment.setComment(commentDto.getComment());
-        //    Advertisement ad = this.advertisementRepository.getOne(commentDto.getAdvertisement().getId());
-        //    Set<Comment> comments = ad.getComments();
-        //    comments.add(comment);
-        //    ad.setComments(comments);
+        System.out.println("komentar1: "+commentDto.getAdvertisementDto().getId()+commentDto.getAdvertisementDto().getAvailableFrom());
+        Advertisement advertisement = this.advertisementRepository.getOne(commentDto.getAdvertisementDto().getId());
+        System.out.println("komentar2: "+commentDto.getComment());
+        comment.setAdvertisement(advertisement);
+        comment.setCommenterId(commentDto.getCommenter().getId());
+        System.out.println("komentar3: "+commentDto.getComment());
         this.commentRepository.save(comment);
-        //    this.advertisementRepository.save(ad);
-        //treba da se posalje i za koji oglas je vezan komentar
-        //moze u commentDto ili u zahtevu da se doda, restful
+        System.out.println("komentar: "+comment.getComment());
+    }
+
+    @Override
+    public void approveComment(CommentDto commentDto) {
+        Comment comment = this.commentRepository.getOne(commentDto.getId());
+        comment.setApproved(true);
+        this.commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteComment(CommentDto commentDto) {
+        Comment comment = this.commentRepository.getOne(commentDto.getId());
+        comment.setApproved(false);
+        this.commentRepository.save(comment);
     }
 
 }

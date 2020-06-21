@@ -31,7 +31,7 @@ public class MessageController {
         return "Hello svet";
     }
 
-    @GetMapping(value = "/getPeople/{id}")
+    @GetMapping(value = "/people/{id}")
     public ResponseEntity<?> getPeople(@RequestHeader("Authorization") String token,@PathVariable("id") Long id) {
         try {
             List<UserDto> users = this.messageService.getPeople(id,token);
@@ -42,7 +42,7 @@ public class MessageController {
         }
     }
 
-    @GetMapping(value = "/getMessages/{agentId}/{customerId}")
+    @GetMapping(value = "/{agentId}/{customerId}")
     public ResponseEntity<?> getMessages(@PathVariable("agentId") Long agentId, @PathVariable("customerId") Long customerId) {
         try {
             List<MessageDto> messageDtos = this.messageService.getMessages(agentId, customerId).stream()
@@ -54,7 +54,7 @@ public class MessageController {
         }
     }
 
-    @PostMapping(value = "/sendMessage")
+    @PostMapping(value = "")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         try {
             this.messageService.sendMessage(messageDto);
