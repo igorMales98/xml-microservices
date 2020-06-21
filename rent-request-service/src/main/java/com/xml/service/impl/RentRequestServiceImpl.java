@@ -12,6 +12,7 @@ import com.xml.service.RentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +48,10 @@ public class RentRequestServiceImpl implements RentRequestService {
         if (!rentRequestDto.isBundle()) {
             for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
                 RentRequest newRequest = this.createRequest(rentRequestDto, advertisementDto.getId(), false, token);
+                AdvertisementDto advertisementDto1 = this.advertisementFeignClient.getOne(advertisementDto.getId(), token);
+                newRequest.setAdvertiserId(advertisementDto1.getAdvertiser().getId());
+                newRequest.setCreated(LocalDateTime.now());
+                System.out.println("Advertiser: " + advertisementDto1.getAdvertiser().getId());
                 this.rentRequestRepository.save(newRequest);
             }
         } else {
@@ -59,6 +64,10 @@ public class RentRequestServiceImpl implements RentRequestService {
 
             for (Long id : temp) {
                 RentRequest newRequest = this.createRequest(rentRequestDto, id, true, token);
+                AdvertisementDto advertisementDto1 = this.advertisementFeignClient.getOne(id, token);
+                newRequest.setAdvertiserId(advertisementDto1.getAdvertiser().getId());
+                System.out.println(advertisementDto1.getAdvertiser().getId());
+                newRequest.setCreated(LocalDateTime.now());
                 this.rentRequestRepository.save(newRequest);
             }
 
@@ -152,7 +161,6 @@ public class RentRequestServiceImpl implements RentRequestService {
             }
         }
 
-
         newRequest.setAdvertisementsForRent(newSet);
         newRequest.setCustomerId(rentRequestDto.getCustomer().getId());
         newRequest.setReports(new HashSet<>());
@@ -182,5 +190,76 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     private boolean checkDates(RentRequestDto rentRequestDto, RentRequest request) {
         return (rentRequestDto.getReservedTo().isBefore(request.getReservedFrom()) || rentRequestDto.getReservedFrom().isAfter(request.getReservedTo()));
+    }
+
+    @Override
+    public List<RentRequestDto> getUserRentRequests(Long id, String token) {
+        List<RentRequestDto> rentRequestDtos = new ArrayList<>();
+
+        List<RentRequest> allRequests = this.rentRequestRepository.findByAdvertiserId(id);
+        return getUserRentRequestsDtos(rentRequestDtos, allRequests, token);
+    }
+
+    private List<RentRequestDto> getUserRentRequestsDtos(List<RentRequestDto> rentRequestDtos, List<RentRequest> allRequests, String token){
+        for(RentRequest request : allRequests) {
+            if (!request.getRentRequestStatus().equals(RentRequestStatus.RESERVED)) {
+                if (request.getCreated().isBefore(LocalDateTime.now().minusHours(24L)) && request.getRentRequestStatus().equals(RentRequestStatus.PENDING)){
+                    RentRequestDto requestDto = new RentRequestDto();
+                    requestDto.setId(request.getId());
+                    RentRequest temp = this.rentRequestRepository.findById(request.getId()).get();
+                    temp.setRentRequestStatus(RentRequestStatus.CANCELED);
+                    this.rentRequestRepository.save(temp);
+                    requestDto.setReservedFrom(request.getReservedFrom());
+                    requestDto.setReservedTo(request.getReservedTo());
+                    requestDto.setRentRequestStatus(RentRequestStatus.CANCELED);
+
+                    UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
+                    requestDto.setCustomer(customer);
+
+                    Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+                    for (Long advertisementId : request.getAdvertisementsForRent()) {
+                        advertisementDtos.add(this.advertisementFeignClient.getOne(advertisementId, token));
+                    }
+
+                    requestDto.setAdvertisementsForRent(advertisementDtos);
+
+                    rentRequestDtos.add(requestDto);
+                } else {
+                    RentRequestDto requestDto = new RentRequestDto();
+                    requestDto.setId(request.getId());
+                    requestDto.setReservedFrom(request.getReservedFrom());
+                    requestDto.setReservedTo(request.getReservedTo());
+                    requestDto.setRentRequestStatus(request.getRentRequestStatus());
+
+                    UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
+                    requestDto.setCustomer(customer);
+
+                    Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+                    for (Long advertisementId : request.getAdvertisementsForRent()) {
+                        advertisementDtos.add(this.advertisementFeignClient.getOne(advertisementId, token));
+                    }
+
+                    requestDto.setAdvertisementsForRent(advertisementDtos);
+
+                    rentRequestDtos.add(requestDto);
+                }
+            }
+        }
+
+        return rentRequestDtos;
+    }
+
+    @Override
+    public void cancelRentRequest(Long id) {
+        RentRequest rentRequest = this.rentRequestRepository.findById(id).get();
+        rentRequest.setRentRequestStatus(RentRequestStatus.CANCELED);
+        this.rentRequestRepository.save(rentRequest);
+    }
+
+    @Override
+    public void acceptRentRequest(Long id) {
+        RentRequest rentRequest = this.rentRequestRepository.findById(id).get();
+        rentRequest.setRentRequestStatus(RentRequestStatus.PAID);
+        this.rentRequestRepository.save(rentRequest);
     }
 }

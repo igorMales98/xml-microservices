@@ -39,6 +39,9 @@ public class RentRequest {
     @Column(nullable = false)
     LocalDateTime created;
 
+    @Column(nullable = false)
+    Long advertiserId;
+
     public Long getId() {
         return id;
     }
@@ -67,9 +70,7 @@ public class RentRequest {
         return rentRequestStatus;
     }
 
-    public void setRentRequestStatus(RentRequestStatus rentRequestStatus) {
-        this.rentRequestStatus = rentRequestStatus;
-    }
+    public void setRentRequestStatus(RentRequestStatus rentRequestStatus) { this.rentRequestStatus = rentRequestStatus; }
 
     public Long getCustomerId() {
         return customerId;
@@ -87,15 +88,15 @@ public class RentRequest {
         this.reports = reports;
     }
 
-    public Set<Long> getAdvertisementsForRent() {
-        return advertisementsForRent;
-    }
+    public Set<Long> getAdvertisementsForRent() { return advertisementsForRent; }
 
-    public void setAdvertisementsForRent(Set<Long> advertisementsForRent) {
-        this.advertisementsForRent = advertisementsForRent;
-    }
+    public void setAdvertisementsForRent(Set<Long> advertisementsForRent) { this.advertisementsForRent = advertisementsForRent; }
 
     public LocalDateTime getCreated() { return created; }
 
     public void setCreated(LocalDateTime created) { this.created = created; }
+
+    public Long getAdvertiserId() { return advertiserId; }
+
+    public void setAdvertiserId(Long advertiserId) { this.advertiserId = advertiserId; }
 }
