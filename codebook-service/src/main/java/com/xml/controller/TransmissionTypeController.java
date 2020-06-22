@@ -38,7 +38,7 @@ public class TransmissionTypeController {
         }
     }
 
-    @PostMapping(value = "/addTransmissionType")
+    @PostMapping(value = "")
     public ResponseEntity<?> addTransmissionType(@Valid @RequestBody TransmissionTypeDto transmissionTypeDto) {
         System.out.println("Stampa: " + transmissionTypeDto.getName());
         try {
@@ -50,7 +50,7 @@ public class TransmissionTypeController {
         }
     }
 
-    @DeleteMapping(value = "/deleteTransmissionType/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteTransmissionType(@PathVariable Long id) throws ParseException {
 
         try {
@@ -61,7 +61,7 @@ public class TransmissionTypeController {
         }
     }
 
-    @PutMapping(value = "/editTransmissionTypr")
+    @PutMapping(value = "")
     public ResponseEntity<?> editTransmissionType(@Valid @RequestBody TransmissionTypeDto transmissionTypeDto) {
         System.out.println(transmissionTypeDto.toString());
         try {

@@ -82,14 +82,14 @@ public class CommentServiceImpl implements CommentService {
     public void postComment(CommentDto commentDto) {
         Comment comment = new Comment();
         comment.setComment(commentDto.getComment());
-        System.out.println("komentar1: "+commentDto.getAdvertisementDto().getId()+commentDto.getAdvertisementDto().getAvailableFrom());
+        System.out.println("komentar1: " + commentDto.getAdvertisementDto().getId() + commentDto.getAdvertisementDto().getAvailableFrom());
         Advertisement advertisement = this.advertisementRepository.getOne(commentDto.getAdvertisementDto().getId());
-        System.out.println("komentar2: "+commentDto.getComment());
+        System.out.println("komentar2: " + commentDto.getComment());
         comment.setAdvertisement(advertisement);
         comment.setCommenterId(commentDto.getCommenter().getId());
-        System.out.println("komentar3: "+commentDto.getComment());
+        System.out.println("komentar3: " + commentDto.getComment());
         this.commentRepository.save(comment);
-        System.out.println("komentar: "+comment.getComment());
+        System.out.println("komentar: " + comment.getComment());
     }
 
     @Override
@@ -105,5 +105,18 @@ public class CommentServiceImpl implements CommentService {
         comment.setRejected(true);
         this.commentRepository.save(comment);
     }
+
+    @Override
+    public boolean sentFeedback(Long commenterId, Long adId) {
+        List<Comment> comments = this.commentRepository.findAllByCommenterId(commenterId);
+        System.out.println(comments.size());
+        for (Comment comment : comments) {
+            if (comment.getAdvertisement().getId().equals(adId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

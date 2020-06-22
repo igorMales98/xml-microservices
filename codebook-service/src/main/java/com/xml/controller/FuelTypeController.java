@@ -37,7 +37,7 @@ public class FuelTypeController {
         }
     }
 
-    @PostMapping(value = "/addFuelType")
+    @PostMapping(value = "")
     public ResponseEntity<?> addFuelType(@Valid @RequestBody FuelTypeDto fuelTypeDto) {
         System.out.println("Stampa: " + fuelTypeDto.getName());
         try {
@@ -49,7 +49,7 @@ public class FuelTypeController {
         }
     }
 
-    @DeleteMapping(value = "/deleteFuelType/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteFuelType(@PathVariable Long id) throws ParseException {
 
         try {
@@ -60,7 +60,7 @@ public class FuelTypeController {
         }
     }
 
-    @PutMapping(value = "/editFuelType")
+    @PutMapping(value = "")
     public ResponseEntity<?> editFuelType(@Valid @RequestBody FuelTypeDto fuelTypeDto) {
         System.out.println(fuelTypeDto.toString());
         try {

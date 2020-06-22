@@ -55,7 +55,7 @@ public class CommentController {
     @PostMapping(value = "")
     public ResponseEntity<?> postComment(@RequestBody CommentDto commentDto) {
         try {
-            System.out.println("ad: "+commentDto.getAdvertisementDto().getId());
+            System.out.println("ad: " + commentDto.getAdvertisementDto().getId());
             this.commentService.postComment(commentDto);
         } catch (Exception e) {
             System.out.println(e);
@@ -83,4 +83,17 @@ public class CommentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/{commenterId}/{adId}")
+    public ResponseEntity<?> sentFeedback(@PathVariable("commenterId") Long commenterDto, @PathVariable("adId") Long adId) {
+        try {
+            boolean retVal = this.commentService.sentFeedback(commenterDto, adId);
+            System.out.println("okej");
+            return new ResponseEntity<>(retVal, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

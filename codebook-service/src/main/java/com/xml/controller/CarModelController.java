@@ -49,7 +49,7 @@ public class CarModelController {
         }
     }
 
-    @PostMapping(value = "/addCarModel")
+    @PostMapping(value = "")
     public ResponseEntity<?> addCarModel(@Valid @RequestBody CarModelDto carModelDto) {
         System.out.println("Stampa: " + carModelDto.toString());
         try {
@@ -62,7 +62,7 @@ public class CarModelController {
         }
     }
 
-    @DeleteMapping(value = "/deleteCarModel/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteCarModel(@PathVariable Long id) throws ParseException {
 
         try {
@@ -73,7 +73,7 @@ public class CarModelController {
         }
     }
 
-    @PutMapping(value = "/editCarModel")
+    @PutMapping(value = "")
     public ResponseEntity<?> editCarModel(@Valid @RequestBody CarModelDto carModelDto) {
         System.out.println(carModelDto.toString());
         try {

@@ -15,4 +15,6 @@ public interface CommentService {
     void approveComment(Long id);
 
     void deleteComment(Long id);
+
+    boolean sentFeedback(Long commenterDto, Long adId);
 }

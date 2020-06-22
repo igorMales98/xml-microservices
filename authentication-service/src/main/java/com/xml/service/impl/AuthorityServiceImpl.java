@@ -22,6 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -78,6 +79,9 @@ public class AuthorityServiceImpl implements AuthorityService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
+        if (user.isDeleted()) {
+            throw new UsernameNotFoundException("User is deleted.");
+        }
         Authority a = user.getRoleAuthorities().iterator().next();
         String token = tokenUtils.generateToken(user.getUsername(), a);
         int expiresIn = tokenUtils.getExpiredIn();

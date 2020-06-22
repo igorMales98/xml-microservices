@@ -37,7 +37,7 @@ public class CarClassController {
         }
     }
 
-    @PostMapping(value = "/addCarClass")
+    @PostMapping(value = "")
     public ResponseEntity<?> addCarClass(@Valid @RequestBody CarClassDto carClassDto) {
         System.out.println("Stampa: " + carClassDto.getName());
         try {
@@ -49,7 +49,7 @@ public class CarClassController {
         }
     }
 
-    @DeleteMapping(value = "/deleteCarClass/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteCarClass(@PathVariable Long id) throws ParseException {
         try {
             this.carClassService.deleteCarClass(id);
@@ -59,7 +59,7 @@ public class CarClassController {
         }
     }
 
-    @PutMapping(value = "/editCarClass")
+    @PutMapping(value = "")
     public ResponseEntity<?> editCarClass(@Valid @RequestBody CarClassDto carClassDto) {
         System.out.println(carClassDto.toString());
         try {

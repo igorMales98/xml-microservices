@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,7 +30,7 @@ public class AuthorityController {
     Logger logger = LoggerFactory.getLogger(AuthorityController.class);
 
     @PostMapping(value = "/login")
-    public ResponseEntity<UserTokenState> login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) {
         try {
             logger.info("Date : {}, A user tried to login with username : {}.", LocalDateTime.now(), authenticationRequest.getUsername());
             UserTokenState userTokenState = authorityService.login(authenticationRequest);
@@ -37,6 +40,15 @@ public class AuthorityController {
             }
             logger.info("Date : {}, A user with username : {} has successfully logged in.", LocalDateTime.now(), authenticationRequest.getUsername());
             return new ResponseEntity<>(userTokenState, HttpStatus.OK);
+        } catch (DisabledException de) {
+            logger.warn("Date : {}, Unsuccessful log in. A disabled user : {} has tried to log in.", LocalDateTime.now(), authenticationRequest.getUsername());
+            return new ResponseEntity<>("Blocked user.", HttpStatus.BAD_REQUEST);
+        } catch (UsernameNotFoundException unfe) {
+            logger.error("Date : {}, Unsuccessful log in. A deleted user : {}, has tried to log in.", LocalDateTime.now(), authenticationRequest.getUsername());
+            return new ResponseEntity<>("Deleted user.", HttpStatus.BAD_REQUEST);
+        } catch (BadCredentialsException bce) {
+            logger.warn("Date : {}, Unsuccessful log in. Wrong username or password.", LocalDateTime.now());
+            return new ResponseEntity<>("Wrong username or password.", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
