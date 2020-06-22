@@ -21,6 +21,9 @@ public class CommentDto {
     @NotNull(message = "Approved cannot be null")
     private boolean approved = false;
 
+    @NotNull(message = "Rejected cannot be null")
+    private boolean rejected = false;
+
     public boolean isApproved() {
         return approved;
     }
@@ -68,4 +71,8 @@ public class CommentDto {
     public void setReply(String reply) {
         this.reply = reply;
     }
+
+    public boolean isRejected() { return rejected; }
+
+    public void setRejected(boolean rejected) { this.rejected = rejected; }
 }
