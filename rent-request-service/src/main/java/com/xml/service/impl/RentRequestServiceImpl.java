@@ -229,25 +229,15 @@ public class RentRequestServiceImpl implements RentRequestService {
                     requestDto.setId(request.getId());
                     RentRequest temp = this.rentRequestRepository.findById(request.getId()).get();
                     temp.setRentRequestStatus(RentRequestStatus.CANCELED);
+
                     this.rentRequestRepository.save(temp);
-                    requestDto.setReservedFrom(request.getReservedFrom());
-                    requestDto.setReservedTo(request.getReservedTo());
-                    requestDto.setRentRequestStatus(RentRequestStatus.CANCELED);
 
-                    UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
-                    requestDto.setCustomer(customer);
-
-                    Set<AdvertisementDto> advertisementDtos = new HashSet<>();
-                    for (Long advertisementId : request.getAdvertisementsForRent()) {
-                        advertisementDtos.add(this.advertisementFeignClient.getOne(advertisementId, token));
-                    }
-
-                    requestDto.setAdvertisementsForRent(advertisementDtos);
-
-                    rentRequestDtos.add(requestDto);
-                } else {
+                } else if (request.getRentRequestStatus().equals(RentRequestStatus.PENDING)) {
                     RentRequestDto requestDto = new RentRequestDto();
                     requestDto.setId(request.getId());
+                    RentRequest temp = this.rentRequestRepository.findById(request.getId()).get();
+                    temp.setRentRequestStatus(request.getRentRequestStatus());
+                    this.rentRequestRepository.save(temp);
                     requestDto.setReservedFrom(request.getReservedFrom());
                     requestDto.setReservedTo(request.getReservedTo());
                     requestDto.setRentRequestStatus(request.getRentRequestStatus());
