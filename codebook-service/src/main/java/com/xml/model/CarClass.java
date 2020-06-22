@@ -21,6 +21,9 @@ public class CarClass {
     @XmlElement
     private String name;
 
+    @Column
+    private boolean deleted;
+
     public CarClass() {
     }
 
@@ -38,6 +41,14 @@ public class CarClass {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
 }

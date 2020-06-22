@@ -21,6 +21,9 @@ public class TransmissionType {
     @XmlElement
     private String name;
 
+    @Column
+    private boolean deleted;
+
     public Long getId() {
         return id;
     }
@@ -35,5 +38,13 @@ public class TransmissionType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

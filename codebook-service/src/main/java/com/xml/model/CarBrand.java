@@ -25,6 +25,9 @@ public class CarBrand {
     @OneToMany(mappedBy = "carBrand")
     private Set<CarModel> carModels;
 
+    @Column
+    private boolean deleted;
+
     public Long getId() {
         return id;
     }
@@ -47,5 +50,13 @@ public class CarBrand {
 
     public void setCarModels(Set<CarModel> carModels) {
         this.carModels = carModels;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

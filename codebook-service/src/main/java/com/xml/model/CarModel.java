@@ -26,6 +26,9 @@ public class CarModel {
     @XmlElement
     private CarBrand carBrand;
 
+    @Column
+    private boolean deleted;
+
     public Long getId() {
         return id;
     }
@@ -48,5 +51,13 @@ public class CarModel {
 
     public void setCarBrand(CarBrand carBrand) {
         this.carBrand = carBrand;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

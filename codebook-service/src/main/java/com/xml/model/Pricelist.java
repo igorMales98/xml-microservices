@@ -27,6 +27,9 @@ public class Pricelist {
     @XmlElement
     private Float priceForCDW;
 
+    @Column
+    private boolean deleted;
+
     public Long getId() {
         return id;
     }
@@ -57,6 +60,14 @@ public class Pricelist {
 
     public void setPriceForCDW(Float priceForCDW) {
         this.priceForCDW = priceForCDW;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
 }
