@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_COMMENTS')")
     public ResponseEntity<?> getAll(@RequestHeader("Authorization") String token) {
         try {
             List<CommentDto> commentDtos = this.commentService.getAll(token);
@@ -32,6 +34,7 @@ public class CommentController {
     }
 
     @GetMapping(value = "/{adId}")
+    @PreAuthorize("hasAuthority('READ_APPROVED_COMMENTS')")
     public ResponseEntity<?> getApproved(@PathVariable("adId") Long adId, @RequestHeader("Authorization") String token) {
         try {
             List<CommentDto> commentDtos = this.commentService.getApproved(adId, token);
@@ -43,6 +46,7 @@ public class CommentController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('REPLY_COMMENT')")
     public ResponseEntity<?> sendReply(@Valid @RequestBody CommentDto commentDto) {
         try {
             this.commentService.sendReply(commentDto.getId(), commentDto.getReply());
@@ -53,6 +57,7 @@ public class CommentController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_COMMENT')")
     public ResponseEntity<?> postComment(@RequestBody CommentDto commentDto) {
         try {
             System.out.println("ad: " + commentDto.getAdvertisementDto().getId());
@@ -65,6 +70,7 @@ public class CommentController {
     }
 
     @PutMapping(value = "/approve/{id}")
+    @PreAuthorize("hasAuthority('APPROVE_COMMENT')")
     public ResponseEntity<?> approveComment(@PathVariable Long id) {
         try {
             this.commentService.approveComment(id);
@@ -75,6 +81,7 @@ public class CommentController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('DECLINE_COMMENT')")
     public ResponseEntity<?> deleteComment(@PathVariable Long id) {
         try {
             this.commentService.deleteComment(id);
@@ -85,6 +92,7 @@ public class CommentController {
     }
 
     @GetMapping(value = "/{commenterId}/{adId}")
+    @PreAuthorize("hasAuthority('FEEDBACK')")
     public ResponseEntity<?> sentFeedback(@PathVariable("commenterId") Long commenterDto, @PathVariable("adId") Long adId) {
         try {
             boolean retVal = this.commentService.sentFeedback(commenterDto, adId);

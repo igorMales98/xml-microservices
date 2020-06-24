@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ public class CarBrandController {
     private CarBrandDtoMapper carBrandDtoMapper;
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_CAR_BRANDS')")
     public ResponseEntity<List<CarBrandDto>> getAll() {
         try {
             List<CarBrandDto> carBrandDtos = carBrandService.getAll().stream().map(carBrandDtoMapper::toDto).
@@ -38,6 +40,7 @@ public class CarBrandController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_CAR_BRANDS')")
     public ResponseEntity<?> addCarBrand(@Valid @RequestBody CarBrandDto carBrandDto) {
         System.out.println("Stampa: " + carBrandDto.getName());
         try {
@@ -50,6 +53,7 @@ public class CarBrandController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('EDIT_CAR_BRANDS')")
     public ResponseEntity<?> deleteCarBrand(@PathVariable Long id) throws ParseException {
 
         try {
@@ -61,6 +65,7 @@ public class CarBrandController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('EDIT_CAR_BRANDS')")
     public ResponseEntity<?> editCarBrand(@Valid @RequestBody CarBrandDto carBrandDto) {
         System.out.println(carBrandDto.toString());
         try {
