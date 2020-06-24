@@ -22,6 +22,7 @@ public class RentRequestController {
     private RentRequestService rentRequestService;
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_RENT_REQUESTS')")
     public ResponseEntity<?> createRentRequest(@Valid @RequestBody RentRequestDto rentRequestDto,
                                                @RequestHeader("Authorization") String token) {
         System.out.println(rentRequestDto.toString());
@@ -35,6 +36,7 @@ public class RentRequestController {
     }
 
     @GetMapping(value = "/allPaid")
+    @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<List<RentRequestDto>> getPaidRentRequests(@RequestHeader("Authorization") String token) {
         try {
             List<RentRequestDto> rentRequestDtos = this.rentRequestService.getPaidRentRequests(token);
@@ -46,6 +48,7 @@ public class RentRequestController {
     }
 
     @GetMapping(value = "/customer/{id}")
+    @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<List<RentRequestDto>> getCustomerRentRequests(@RequestHeader("Authorization") String token,
                                                                          @PathVariable("id") Long id) {
         try {
@@ -58,12 +61,14 @@ public class RentRequestController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<?> getPeople(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         List<Long> retVal = this.rentRequestService.getPeople(id, token);
         return new ResponseEntity<>(retVal, HttpStatus.OK);
     }
 
     @GetMapping(value = "/all/{id}")
+    @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<?> getAdvertiserRequests(@PathVariable("id") Long id, @RequestHeader("Authorization") String token){
         try {
             List<RentRequestDto> rentRequestDtos = this.rentRequestService.getUserRentRequests(id, token);
@@ -74,6 +79,7 @@ public class RentRequestController {
     }
 
     @DeleteMapping(value="/{id}")
+    @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
     public ResponseEntity<?> cancelRentRequest(@PathVariable("id") Long id){
         try {
             this.rentRequestService.cancelRentRequest(id);
@@ -84,6 +90,7 @@ public class RentRequestController {
     }
 
     @PutMapping(value="/{id}")
+    @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
     public ResponseEntity<?> acceptRentRequest(@PathVariable("id") Long id){
         try {
             this.rentRequestService.acceptRentRequest(id);

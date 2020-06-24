@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ public class FuelTypeController {
     private FuelTypeDtoMapper fuelTypeDtoMapper;
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_FUEL_TYPES')")
     public ResponseEntity<List<FuelTypeDto>> getAll() {
         try {
             List<FuelTypeDto> fuelTypeDtos = this.fuelTypeService.getAll().stream()
@@ -38,6 +40,7 @@ public class FuelTypeController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_FUEL_TYPES')")
     public ResponseEntity<?> addFuelType(@Valid @RequestBody FuelTypeDto fuelTypeDto) {
         System.out.println("Stampa: " + fuelTypeDto.getName());
         try {
@@ -50,6 +53,7 @@ public class FuelTypeController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('EDIT_FUEL_TYPES')")
     public ResponseEntity<?> deleteFuelType(@PathVariable Long id) throws ParseException {
 
         try {
@@ -61,6 +65,7 @@ public class FuelTypeController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('EDIT_FUEL_TYPES')")
     public ResponseEntity<?> editFuelType(@Valid @RequestBody FuelTypeDto fuelTypeDto) {
         System.out.println(fuelTypeDto.toString());
         try {
