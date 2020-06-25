@@ -49,7 +49,9 @@ public class MessageServiceImpl implements MessageService {
         }
         List<UserDto> people = new ArrayList<>();
         for (Long personLong : peopleLong) {
-            people.add(this.userFeignClient.getUserById(personLong, token));
+            if (personLong!=id) {
+                people.add(this.userFeignClient.getUserById(personLong, token));
+            }
             System.out.println("ima: "+personLong);
         }
         return people;
