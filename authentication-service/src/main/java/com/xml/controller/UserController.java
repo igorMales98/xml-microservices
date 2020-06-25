@@ -3,6 +3,7 @@ package com.xml.controller;
 import com.xml.dto.UserDto;
 import com.xml.mapper.UserDtoMapper;
 import com.xml.model.User;
+import com.xml.security.TokenUtils;
 import com.xml.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserDtoMapper userDtoMapper;
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -166,6 +170,18 @@ public class UserController {
         } catch (Exception e) {
             logger.error("Date : {}, There was an error while activating a customer with id {}. " +
                     "Error : {}.", LocalDateTime.now(), id, e.toString());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/activateUser/{token:.+}")
+    @PreAuthorize("hasAuthority('EDIT_CUSTOMERS')")
+    public ResponseEntity<?> activateUser(@PathVariable("token") String token) {
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        try {
+            this.userService.activateUserEmail(username);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
