@@ -85,3 +85,14 @@ javassist.NotFoundException: User not found.
 	at java.lang.Thread.run(Thread.java:748)
 18-06-2020 02:37:20.229 ERROR [http-nio-8083-exec-3] com.xml.controller.UserController - Date : 2020-06-18T02:37:20.229, There was an error finding a requested user.
 18-06-2020 02:38:49.056 ERROR [http-nio-8083-exec-1] com.xml.controller.UserController - Date : 2020-06-18T02:38:49.056, There was an error finding a requested user.
+18-06-2020 02:57:35.267 ERROR [http-nio-8083-exec-4] com.xml.controller.UserController - Date : 2020-06-18T02:57:35.267, There was an error finding a requested user.
+18-06-2020 03:00:06.092 ERROR [http-nio-8083-exec-1] com.xml.controller.UserController - Date : 2020-06-18T03:00:06.092, There was an error finding a requested user. Error : org.modelmapper.MappingException: ModelMapper mapping errors:
+
+1) Error mapping com.xml.model.User to com.xml.dto.UserDto
+
+1 error.
+22-06-2020 21:09:24.530 ERROR [http-nio-8083-exec-5] c.xml.controller.AuthorityController - Date : 2020-06-22, Unsuccessful log in. A user with username : peraPetar does not exist.
+22-06-2020 21:21:26.199 ERROR [http-nio-8083-exec-4] c.xml.controller.AuthorityController - Date : 2020-06-22, Unsuccessful log in. A user with username : markomarkovic does not exist.
+22-06-2020 21:26:43.652 ERROR [http-nio-8083-exec-10] c.xml.controller.AuthorityController - Date : 2020-06-22, Unsuccessful log in. A user with username : markomarkovic does not exist.
+22-06-2020 21:27:26.623 ERROR [http-nio-8083-exec-9] c.xml.controller.AuthorityController - Date : 2020-06-22T21:27:26.622, Unsuccessful log in. A deleted user : markomarkovic, has tried to log in.
+22-06-2020 22:15:05.569 ERROR [http-nio-8083-exec-5] c.xml.controller.AuthorityController - Date : 2020-06-22, Unsuccessful log in. A user with username : peraPetar does not exist.

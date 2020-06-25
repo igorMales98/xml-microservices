@@ -18,6 +18,13 @@ INSERT INTO `xml`.`authority` (`id`, `name`) VALUES ('3', 'ROLE_CUSTOMER');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('1', '1');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('2', '2');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('3', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('4', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('5', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('6', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('7', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('8', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('9', '3');
+
 
 /* permissions */
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('1', 'READ_REGISTRATION_REQUESTS');
@@ -30,9 +37,42 @@ INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('7', 'CREATE_PHYSICAL_USER
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('8', 'READ_CUSTOMERS');
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('9', 'EDIT_CUSTOMERS');
 INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('10', 'CREATE_AGENTS');
-
-
-
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('11', 'READ_ADVERTISEMENTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('12', 'READ_USER_ADVERTISEMENTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('13', 'CREATE_ADVERTISEMENTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('14', 'UPLOAD_PHOTOS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('15', 'BASIC_SEARCH');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('16', 'BASIC_SEARCH_USER');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('17', 'RATE_CAR');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('18', 'READ_COMMENTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('19', 'READ_APPROVED_COMMENTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('20', 'REPLY_COMMENT');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('21', 'CREATE_COMMENT');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('22', 'APPROVE_COMMENT');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('23', 'DECLINE_COMMENT');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('24', 'FEEDBACK');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('25', 'READ_CAR_BRANDS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('26', 'CREATE_CAR_BRANDS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('27', 'EDIT_CAR_BRANDS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('28', 'READ_CAR_CLASSES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('29', 'CREATE_CAR_CLASSES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('30', 'EDIT_CAR_CLASSES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('31', 'READ_CAR_MODELS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('32', 'CREATE_CAR_MODELS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('33', 'EDIT_CAR_MODELS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('34', 'READ_FUEL_TYPES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('35', 'CREATE_FUEL_TYPES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('36', 'EDIT_FUEL_TYPES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('37', 'READ_TRANSMISSION_TYPES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('38', 'CREATE_TRANSMISSION_TYPES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('39', 'EDIT_TRANSMISSION_TYPES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('40', 'READ_PRICELISTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('41', 'PEOPLE_FOR_CHAT');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('42', 'READ_MESSAGES');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('43', 'CREATE_MESSAGE');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('44', 'CREATE_RENT_REQUESTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('45', 'READ_RENT_REQUESTS');
+INSERT INTO `xml`.`permission` (`id`, `name`) VALUES ('46', 'EDIT_RENT_REQUESTS');
 
 /* authorities_permission */
 /* admin = authority = 1 */
@@ -44,18 +84,84 @@ INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUE
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '8');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '9');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '10');
-
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '11');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '12');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '18');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '19');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '22');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '23');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '25');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '26');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '27');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '28');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '29');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '30');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '31');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '32');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '33');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '34');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '35');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '36');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '37');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '38');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '39');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '40');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('1', '41');
 
 /* agent = authority = 2 */
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '4');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '5');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '7');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '11');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '12');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '13');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '14');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '15');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '16');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '19');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '20');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '21');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '25');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '28');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '31');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '34');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '37');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '40');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '41');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '42');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '43');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '44');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '45');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('2', '46');
 
 /* customer = authority = 3 */
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '4');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '5');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '6');
 INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '7');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '11');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '12');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '13');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '14');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '15');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '16');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '17');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '19');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '20');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '21');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '24');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '25');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '28');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '31');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '34');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '37');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '40');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '41');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '42');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '43');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '44');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '45');
+INSERT INTO `xml`.`authority_permission` (`authority_id`, `permission_id`) VALUES ('3', '46');
 
 /* registration_requests */
 INSERT INTO `xml`.`registration_request` (`id`, `username`, `password`, `first_name`, `last_name`, `country`, `city`, `email`, `phone`, `address`, `deleted`) VALUES ('1', 'peraperic', '123123', 'Pera', 'Peric', 'Serbia', 'Novi Sad', 'periccc@gmail.com', '0625555555', 'Kopernikova', b'0');

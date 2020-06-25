@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ public class TransmissionTypeController {
     private TransmissionTypeDtoMapper transmissionTypeDtoMapper;
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_TRANSMISSION_TYPES')")
     public ResponseEntity<List<TransmissionTypeDto>> getAll() {
         try {
             List<TransmissionTypeDto> transmissionTypeDtos = this.transmissionTypeService.getAll().stream()
@@ -39,6 +41,7 @@ public class TransmissionTypeController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_TRANSMISSION_TYPES')")
     public ResponseEntity<?> addTransmissionType(@Valid @RequestBody TransmissionTypeDto transmissionTypeDto) {
         System.out.println("Stampa: " + transmissionTypeDto.getName());
         try {
@@ -51,6 +54,7 @@ public class TransmissionTypeController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('EDIT_TRANSMISSION_TYPES')")
     public ResponseEntity<?> deleteTransmissionType(@PathVariable Long id) throws ParseException {
 
         try {
@@ -62,6 +66,7 @@ public class TransmissionTypeController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('EDIT_TRANSMISSION_TYPES')")
     public ResponseEntity<?> editTransmissionType(@Valid @RequestBody TransmissionTypeDto transmissionTypeDto) {
         System.out.println(transmissionTypeDto.toString());
         try {

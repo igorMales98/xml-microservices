@@ -24,14 +24,8 @@ public class MessageController {
     @Autowired
     private MessageDtoMapper messageDtoMapper;
 
-    @GetMapping(value = "/test")
-    @PreAuthorize("hasAuthority('TEST')")
-    public String test() {
-        System.out.println("iz message " + SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        return "Hello svet";
-    }
-
     @GetMapping(value = "/people/{id}")
+    @PreAuthorize("hasAuthority('PEOPLE_FOR_CHAT')")
     public ResponseEntity<?> getPeople(@RequestHeader("Authorization") String token,@PathVariable("id") Long id) {
         try {
             List<UserDto> users = this.messageService.getPeople(id,token);
@@ -43,6 +37,7 @@ public class MessageController {
     }
 
     @GetMapping(value = "/{agentId}/{customerId}")
+    @PreAuthorize("hasAuthority('READ_MESSAGES')")
     public ResponseEntity<?> getMessages(@PathVariable("agentId") Long agentId, @PathVariable("customerId") Long customerId) {
         try {
             List<MessageDto> messageDtos = this.messageService.getMessages(agentId, customerId).stream()
@@ -55,6 +50,7 @@ public class MessageController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_MESSAGE')")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         try {
             this.messageService.sendMessage(messageDto);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ public class CarModelController {
     private CarModelDtoMapper carModelDtoMapper;
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_CAR_MODELS')")
     public ResponseEntity<List<CarModelDto>> getAll() {
         try {
             List<CarModelDto> carModelDtos = this.carModelService.getAll().stream().map(carModelDtoMapper::toDto)
@@ -39,6 +41,7 @@ public class CarModelController {
     }
 
     @GetMapping(value = "/{brandId}")
+    @PreAuthorize("hasAuthority('READ_CAR_MODELS')")
     public ResponseEntity<List<CarModelDto>> getBrandModels(@PathVariable("brandId") Long brandId) {
         try {
             List<CarModelDto> carModelDtos = this.carModelService.getBrandModels(brandId).stream()
@@ -50,6 +53,7 @@ public class CarModelController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_CAR_MODELS')")
     public ResponseEntity<?> addCarModel(@Valid @RequestBody CarModelDto carModelDto) {
         System.out.println("Stampa: " + carModelDto.toString());
         try {
@@ -63,6 +67,7 @@ public class CarModelController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('EDIT_CAR_MODELS')")
     public ResponseEntity<?> deleteCarModel(@PathVariable Long id) throws ParseException {
 
         try {
@@ -74,6 +79,7 @@ public class CarModelController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('EDIT_CAR_MODELS')")
     public ResponseEntity<?> editCarModel(@Valid @RequestBody CarModelDto carModelDto) {
         System.out.println(carModelDto.toString());
         try {

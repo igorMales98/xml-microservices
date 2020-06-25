@@ -2,6 +2,9 @@ package com.xml.controller;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.model.Customer;
+import com.xml.security.TokenUtils;
+import com.xml.service.AuthorityService;
+import com.xml.service.EmailService;
 import com.xml.service.RegistrationRequestService;
 import com.xml.service.UserService;
 import org.slf4j.Logger;
@@ -29,6 +32,15 @@ public class RegistrationRequestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private AuthorityService authorityService;
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     Logger logger = LoggerFactory.getLogger(RegistrationRequestController.class);
 
@@ -78,6 +90,8 @@ public class RegistrationRequestController {
             logger.info("Date : {}, Registration request has been deleted.", LocalDateTime.now());
             this.userService.saveCustomer(newCustomer);
             logger.info("Date : {}, A customer has been created.", LocalDateTime.now());
+            emailService.sendMailToUser(requestDto.getEmail(), "https://localhost:4200/activateUser/"
+                    + tokenUtils.generateToken(requestDto.getUsername(), authorityService.findByName("ROLE_CUSTOMER").iterator().next()), "Automated mail : Activate account");
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {

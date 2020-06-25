@@ -2,11 +2,8 @@ package com.xml.service.impl;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
-import com.xml.model.Agent;
-import com.xml.model.Authority;
+import com.xml.model.*;
 import com.xml.dto.UserDto;
-import com.xml.model.Customer;
-import com.xml.model.User;
 import com.xml.repository.UserRepository;
 import com.xml.service.AuthorityService;
 import com.xml.service.UserService;
@@ -94,7 +91,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 requestDto.getPhone());
         Set<Authority> auth = authorityService.findByName("ROLE_CUSTOMER");
         customer.setAuthorities(auth);
-        customer.setEnabled(true);
+        customer.setEnabled(false);
 
         return customer;
     }
@@ -182,6 +179,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         this.userRepository.save(agent);
         this.userRepository.flush();
+    }
+
+    @Override
+    public void activateUserEmail(String username) {
+        User customer = this.userRepository.findByUsername(username);
+        customer.setEnabled(true);
+        this.userRepository.save(customer);
     }
 
 
