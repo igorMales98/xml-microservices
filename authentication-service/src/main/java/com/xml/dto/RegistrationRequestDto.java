@@ -1,9 +1,12 @@
 package com.xml.dto;
 
+import com.xml.validator.ValidPassword;
+
 public class RegistrationRequestDto {
 
     private Long id;
     private String username;
+    @ValidPassword
     private String password;
     private String firstName;
     private String lastName;

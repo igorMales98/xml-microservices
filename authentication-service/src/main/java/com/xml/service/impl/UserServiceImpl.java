@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
         Customer customer = new Customer(requestDto.getUsername(),
-                passwordEncoder.encode(requestDto.getPassword()),
+                requestDto.getPassword(),
                 requestDto.getFirstName(),
                 requestDto.getLastName(),
                 requestDto.getCountry(),

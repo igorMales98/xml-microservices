@@ -13,6 +13,7 @@ import com.xml.security.TokenUtils;
 import com.xml.security.auth.JwtAuthenticationRequest;
 import com.xml.security.auth.TokenBasedAuthentication;
 import com.xml.service.AuthorityService;
+import com.xml.validator.PasswordConstraintValidator;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +24,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,6 +54,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 
     @Autowired
     private RegistrationRequestDtoMapper registrationRequestDtoMapper;
+
+    private PasswordConstraintValidator passwordConstraintValidator = new PasswordConstraintValidator();
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private UserDetailsService userDetailsService;
 
@@ -105,8 +113,13 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public void register(RegistrationRequestDto registrationRequest) throws ParseException {
-        this.registrationRequestRepository.save(registrationRequestDtoMapper.toEntity(registrationRequest));
+    public void register(RegistrationRequestDto registrationRequest) throws ParseException, ValidationException {
+        if(passwordConstraintValidator.isValid(registrationRequest.getPassword(), null)) {
+            registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+            this.registrationRequestRepository.save(registrationRequestDtoMapper.toEntity(registrationRequest));
+        } else {
+            throw new ValidationException("Password is not valid.");
+        }
     }
 
     @Override
