@@ -2,10 +2,9 @@ package com.xml.controller;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.model.UserTokenState;
-import com.xml.security.TokenUtils;
 import com.xml.security.auth.JwtAuthenticationRequest;
 import com.xml.service.AuthorityService;
-import com.xml.service.EmailService;
+import com.xml.service.UserService;
 import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +28,9 @@ public class AuthorityController {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Autowired
+    private UserService userService;
 
     Logger logger = LoggerFactory.getLogger(AuthorityController.class);
 
@@ -103,6 +105,18 @@ public class AuthorityController {
             logger.error("Date : {}, An error has occurred during registration. Request has not been saved." +
                     " Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/forgotPassword/{email:.+}/restore", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> forgotPassword(@PathVariable("email") String email) {
+        System.out.println("e gadja metodu.");
+        try {
+            this.userService.forgotPassword(email);
+            return new ResponseEntity<>("It's ok.", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("It's not ok.", HttpStatus.BAD_REQUEST);
         }
     }
 

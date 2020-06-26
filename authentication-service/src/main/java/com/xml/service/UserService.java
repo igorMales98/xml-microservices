@@ -35,4 +35,10 @@ public interface UserService {
     void registerAgent(UserDto userDto);
 
     void activateUserEmail(String username);
+
+    void forgotPassword(String email);
+
+    boolean checkPassword(String password);
+
+    void changePassword(String password);
 }

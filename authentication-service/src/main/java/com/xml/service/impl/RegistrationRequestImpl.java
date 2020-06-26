@@ -3,6 +3,7 @@ package com.xml.service.impl;
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.repository.RegistrationRequestRepository;
 import com.xml.model.RegistrationRequest;
+import com.xml.service.EmailService;
 import com.xml.service.RegistrationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class RegistrationRequestImpl implements RegistrationRequestService {
 
     @Autowired
     private RegistrationRequestRepository registrationRequestRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public List<RegistrationRequestDto> getAll() {
@@ -51,6 +55,7 @@ public class RegistrationRequestImpl implements RegistrationRequestService {
         RegistrationRequest request = this.registrationRequestRepository.findOneById(id);
         request.setDeleted(true);
         this.registrationRequestRepository.save(request);
+        emailService.sendMailToUser(request.getEmail(), "Your request for registration has been denied.", "Automated mail : Denied account");
     }
 
 }

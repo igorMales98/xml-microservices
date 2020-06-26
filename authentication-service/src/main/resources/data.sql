@@ -8,6 +8,7 @@ INSERT INTO `xml`.`users` (`type`, `id`, `address`, `city`, `country`, `email`, 
 INSERT INTO `xml`.`users` (`type`, `id`, `address`, `city`, `country`, `email`, `enabled`, `password`, `phone`, `username`, `last_name`, `first_name`,`advertisements_posted`, `deleted`) VALUES ('CUSTOMER', '7', 'Deligradska', 'Belgrade', 'Serbia', 'anja@gmail.com', b'1', '$2a$10$1hoVKaxcWC6/T/.NSGcOm.F7E8vT2xbuJfFuIWEl4hexg28P09CJm', '0612233444', 'anjaaa', 'Jovanovic', 'Anja','0', b'0');
 INSERT INTO `xml`.`users` (`type`, `id`, `address`, `city`, `country`, `email`, `enabled`, `password`, `phone`, `username`, `last_name`, `first_name`,`advertisements_posted`, `deleted`) VALUES ('CUSTOMER', '8', 'Rumenacka', 'Novi Sad', 'Serbia', 'milan@gmail.com', b'1', '$2a$10$1hoVKaxcWC6/T/.NSGcOm.F7E8vT2xbuJfFuIWEl4hexg28P09CJm', '0612233444', 'milannn', 'Milankovic', 'Milan','0', b'0');
 INSERT INTO `xml`.`users` (`type`, `id`, `address`, `city`, `country`, `email`, `enabled`, `password`, `phone`, `username`, `last_name`, `first_name`,`advertisements_posted`, `deleted`) VALUES ('CUSTOMER', '9', 'Micurinova', 'Novi Sad', 'Serbia', 'nikola@gmail.com', b'1', '$2a$10$1hoVKaxcWC6/T/.NSGcOm.F7E8vT2xbuJfFuIWEl4hexg28P09CJm', '0612233444', 'nikolan', 'Nikolic', 'Nikola','0', b'0');
+INSERT INTO `xml`.`users` (`type`, `id`, `address`, `advertisements_posted`, `city`, `country`, `deleted`, `email`, `enabled`, `first_name`, `last_name`, `password`, `phone`, `username`) VALUES ('CUSTOMER', '10', 'lk', '0', 'in', 'srb', b'0', 'igor_malesevic@yahoo.com', b'1', 'ig', 'mal', '$2a$10$1hoVKaxcWC6/T/.NSGcOm.F7E8vT2xbuJfFuIWEl4hexg28P09CJm', '2345678922', 'iggy');
 
 /* authorities */
 INSERT INTO `xml`.`authority` (`id`, `name`) VALUES ('1', 'ROLE_ADMIN');
@@ -24,6 +25,7 @@ INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('6', '3')
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('7', '3');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('8', '3');
 INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('9', '3');
+INSERT INTO `xml`.`user_authority` (`user_id`, `authority_id`) VALUES ('10', '3');
 
 
 /* permissions */
