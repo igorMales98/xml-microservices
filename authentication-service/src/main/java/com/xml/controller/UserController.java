@@ -3,6 +3,7 @@ package com.xml.controller;
 import com.xml.dto.UserDto;
 import com.xml.mapper.UserDtoMapper;
 import com.xml.model.User;
+import com.xml.security.TokenUtils;
 import com.xml.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private UserDtoMapper userDtoMapper;
+
+    @Autowired
+    private TokenUtils tokenUtils;
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -170,6 +174,18 @@ public class UserController {
         }
     }
 
+    @PutMapping(value = "/activateUser/{token:.+}")
+    @PreAuthorize("hasAuthority('EDIT_CUSTOMERS')")
+    public ResponseEntity<?> activateUser(@PathVariable("token") String token) {
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        try {
+            this.userService.activateUserEmail(username);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(value = "/agent")
     @PreAuthorize("hasAuthority('CREATE_AGENTS')")
     public ResponseEntity<?> agentRegister(@RequestBody UserDto userDto) {
@@ -188,5 +204,37 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/checkPassword")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody String password) {
+        System.out.println("sifra" + password);
+        password = password.replace("\"", "");
+        password = password.replace("{", "");
+        password = password.replace("}", "");
+        password = password.split(":")[1];
+        System.out.println("sad je sifra" + password);
+
+        try {
+            boolean valid = this.userService.checkPassword(password);
+            return new ResponseEntity<>(valid, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody String password) {
+        System.out.println("sifra za menjanje je" + password);
+        password = password.replace("\"", "");
+        password = password.replace("{", "");
+        password = password.replace("}", "");
+        password = password.split(":")[1];
+        System.out.println("sad je sifra" + password);
+        try {
+            this.userService.changePassword(password);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

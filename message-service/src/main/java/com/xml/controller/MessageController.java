@@ -38,6 +38,7 @@ public class MessageController {
     }
 
     @GetMapping(value = "/people/{id}")
+    @PreAuthorize("hasAuthority('PEOPLE_FOR_CHAT')")
     public ResponseEntity<?> getPeople(@RequestHeader("Authorization") String token,@PathVariable("id") Long id) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -54,6 +55,7 @@ public class MessageController {
     }
 
     @GetMapping(value = "/{agentId}/{customerId}")
+    @PreAuthorize("hasAuthority('READ_MESSAGES')")
     public ResponseEntity<?> getMessages(@PathVariable("agentId") Long agentId, @PathVariable("customerId") Long customerId) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -71,6 +73,7 @@ public class MessageController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_MESSAGE')")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

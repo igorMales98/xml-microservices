@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +35,7 @@ public class TransmissionTypeController {
     Logger logger = LoggerFactory.getLogger(TransmissionTypeController.class);
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_TRANSMISSION_TYPES')")
     public ResponseEntity<List<TransmissionTypeDto>> getAll() {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,6 +53,7 @@ public class TransmissionTypeController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_TRANSMISSION_TYPES')")
     public ResponseEntity<?> addTransmissionType(@Valid @RequestBody TransmissionTypeDto transmissionTypeDto) {
         System.out.println("Stampa: " + transmissionTypeDto.getName());
         try {
@@ -67,6 +70,7 @@ public class TransmissionTypeController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('EDIT_TRANSMISSION_TYPES')")
     public ResponseEntity<?> deleteTransmissionType(@PathVariable Long id) throws ParseException {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -82,6 +86,7 @@ public class TransmissionTypeController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('EDIT_TRANSMISSION_TYPES')")
     public ResponseEntity<?> editTransmissionType(@Valid @RequestBody TransmissionTypeDto transmissionTypeDto) {
         System.out.println(transmissionTypeDto.toString());
         try {

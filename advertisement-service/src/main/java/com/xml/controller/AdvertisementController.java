@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,7 @@ public class AdvertisementController {
     Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_ADVERTISEMENTS')")
     public ResponseEntity<List<AdvertisementDto>> getAll(@RequestHeader("Authorization") String token) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -62,6 +64,7 @@ public class AdvertisementController {
     }*/
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('READ_ADVERTISEMENTS')")
     public ResponseEntity<AdvertisementDto> getOne(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -80,6 +83,7 @@ public class AdvertisementController {
     }
 
     @GetMapping(value = "/user/{userId}")
+    @PreAuthorize("hasAuthority('READ_USER_ADVERTISEMENTS')")
     public ResponseEntity<List<AdvertisementDto>> getUserAdvertisements(@PathVariable("userId") Long userId,
                                                                         @RequestHeader("Authorization") String token) {
         try {
@@ -101,6 +105,7 @@ public class AdvertisementController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_ADVERTISEMENTS')")
     public ResponseEntity<Long> createAdvertisement(@Valid @RequestBody CreateAdvertisementDto createAdvertisementDto,
                                                     @RequestHeader("Authorization") String token) {
         try {
@@ -119,6 +124,7 @@ public class AdvertisementController {
     }
 
     @PostMapping(value = "/uploadPhotos/{id}")
+    @PreAuthorize("hasAuthority('UPLOAD_PHOTOS')")
     public ResponseEntity<?> uploadPhotosForAdvertisement(@RequestPart("myFile") MultipartFile[] files, @PathVariable("id") Long advertisementId) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -135,6 +141,7 @@ public class AdvertisementController {
     }
 
     @GetMapping(value = "/basicSearch/{dateFrom}/{dateTo}/{place}")
+    @PreAuthorize("hasAuthority('BASIC_SEARCH')")
     public ResponseEntity<List<AdvertisementDto>> getInPeriod(@PathVariable("dateFrom") String dateFrom,
                                                               @PathVariable("dateTo") String dateTo,
                                                               @PathVariable("place") String place,
@@ -157,6 +164,7 @@ public class AdvertisementController {
     }
 
     @GetMapping(value = "/basicSearchForMyAdvertisements/{dateFrom}/{dateTo}/{id}")
+    @PreAuthorize("hasAuthority('BASIC_SEARCH_USER')")
     public ResponseEntity<List<AdvertisementDto>> getInPeriodForMyAdvertisements(@PathVariable("dateFrom") String dateFrom,
                                                                                  @PathVariable("dateTo") String dateTo,
                                                                                  @PathVariable("id") Long id,

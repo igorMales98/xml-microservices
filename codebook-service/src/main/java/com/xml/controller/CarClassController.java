@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,6 +36,7 @@ public class CarClassController {
 
 
     @GetMapping(value = "")
+    @PreAuthorize("hasAuthority('READ_CAR_CLASSES')")
     public ResponseEntity<List<CarClassDto>> getAll() {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -52,6 +54,7 @@ public class CarClassController {
     }
 
     @PostMapping(value = "")
+    @PreAuthorize("hasAuthority('CREATE_CAR_CLASSES')")
     public ResponseEntity<?> addCarClass(@Valid @RequestBody CarClassDto carClassDto) {
         System.out.println("Stampa: " + carClassDto.getName());
         try {
@@ -68,6 +71,7 @@ public class CarClassController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAuthority('EDIT_CAR_CLASSES')")
     public ResponseEntity<?> deleteCarClass(@PathVariable Long id) throws ParseException {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -83,6 +87,7 @@ public class CarClassController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('EDIT_CAR_CLASSES')")
     public ResponseEntity<?> editCarClass(@Valid @RequestBody CarClassDto carClassDto) {
         System.out.println(carClassDto.toString());
         try {

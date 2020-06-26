@@ -4,24 +4,25 @@ import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
 import com.xml.model.Agent;
 import com.xml.model.Authority;
-import com.xml.dto.UserDto;
 import com.xml.model.Customer;
 import com.xml.model.User;
 import com.xml.repository.UserRepository;
 import com.xml.service.AuthorityService;
+import com.xml.service.EmailService;
 import com.xml.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
-
-import java.security.SecureRandom;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public User findByUsername(String username) {
@@ -84,7 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
         Customer customer = new Customer(requestDto.getUsername(),
-                passwordEncoder.encode(requestDto.getPassword()),
+                requestDto.getPassword(),
                 requestDto.getFirstName(),
                 requestDto.getLastName(),
                 requestDto.getCountry(),
@@ -94,7 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 requestDto.getPhone());
         Set<Authority> auth = authorityService.findByName("ROLE_CUSTOMER");
         customer.setAuthorities(auth);
-        customer.setEnabled(true);
+        customer.setEnabled(false);
 
         return customer;
     }
@@ -182,6 +186,50 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         this.userRepository.save(agent);
         this.userRepository.flush();
+    }
+
+    @Override
+    public void activateUserEmail(String username) {
+        User customer = this.userRepository.findByUsername(username);
+        customer.setEnabled(true);
+        this.userRepository.save(customer);
+    }
+
+    @Override
+    public void forgotPassword(String email) {
+        User user = this.userRepository.findByEmail(email);
+
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        System.out.println(generatedString);
+
+        emailService.sendMailToUser(user.getEmail(), "Your new password is : " + generatedString, "Successfully reset password");
+        user.setPassword(this.passwordEncoder.encode(generatedString));
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public boolean checkPassword(String password) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = this.userRepository.findByUsername(userDetails.getUsername());
+        System.out.println("kad menjam sigfru korisnik je " + userDetails.getUsername());
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    public void changePassword(String password) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = this.userRepository.findByUsername(userDetails.getUsername());
+        user.setPassword(passwordEncoder.encode(password));
+        this.userRepository.save(user);
     }
 
 

@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class CarController {
     Logger logger = LoggerFactory.getLogger(CarController.class);
 
     @PutMapping(value = "")
+    @PreAuthorize("hasAuthority('RATE_CAR')")
     public ResponseEntity<?> rate(@RequestBody CarDto carDto) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
