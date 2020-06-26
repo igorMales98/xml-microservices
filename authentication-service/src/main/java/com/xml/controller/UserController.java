@@ -204,5 +204,37 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/checkPassword")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody String password) {
+        System.out.println("sifra" + password);
+        password = password.replace("\"", "");
+        password = password.replace("{", "");
+        password = password.replace("}", "");
+        password = password.split(":")[1];
+        System.out.println("sad je sifra" + password);
+
+        try {
+            boolean valid = this.userService.checkPassword(password);
+            return new ResponseEntity<>(valid, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody String password) {
+        System.out.println("sifra za menjanje je" + password);
+        password = password.replace("\"", "");
+        password = password.replace("{", "");
+        password = password.replace("}", "");
+        password = password.split(":")[1];
+        System.out.println("sad je sifra" + password);
+        try {
+            this.userService.changePassword(password);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value="SELECT * FROM users WHERE users.deleted = 0 AND users.type LIKE %:customer%", nativeQuery = true)
     List<User> findAllCustomers(@Param("customer") String customer);
+
+    User findByEmail(String email);
 }
