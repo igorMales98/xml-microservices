@@ -16,7 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import sun.security.validator.ValidatorException;
 
+import javax.xml.bind.ValidationException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -232,8 +234,8 @@ public class UserController {
         try {
             this.userService.changePassword(password);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception ve) {
+            return new ResponseEntity<>("Password is not valid.", HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -10,6 +10,7 @@ import com.xml.repository.UserRepository;
 import com.xml.service.AuthorityService;
 import com.xml.service.EmailService;
 import com.xml.service.UserService;
+import com.xml.validator.PasswordConstraintValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private EmailService emailService;
+
+    private PasswordConstraintValidator passwordConstraintValidator = new PasswordConstraintValidator();
 
     @Override
     public User findByUsername(String username) {
@@ -225,11 +229,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void changePassword(String password) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = this.userRepository.findByUsername(userDetails.getUsername());
-        user.setPassword(passwordEncoder.encode(password));
-        this.userRepository.save(user);
+    public void changePassword(String password) throws ValidationException {
+        if (passwordConstraintValidator.isValid(password, null)) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user = this.userRepository.findByUsername(userDetails.getUsername());
+            user.setPassword(passwordEncoder.encode(password));
+            this.userRepository.save(user);
+        } else {
+            throw new ValidationException("Password is not valid.");
+        }
     }
 
 

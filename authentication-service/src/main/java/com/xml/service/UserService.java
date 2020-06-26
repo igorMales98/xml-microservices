@@ -8,6 +8,7 @@ import com.xml.dto.UserDto;
 import com.xml.model.Customer;
 import com.xml.model.User;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 public interface UserService {
@@ -40,5 +41,5 @@ public interface UserService {
 
     boolean checkPassword(String password);
 
-    void changePassword(String password);
+    void changePassword(String password) throws ValidationException;
 }
