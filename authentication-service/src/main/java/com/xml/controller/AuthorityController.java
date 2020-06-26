@@ -1,6 +1,7 @@
 package com.xml.controller;
 
 import com.xml.dto.RegistrationRequestDto;
+import com.xml.model.User;
 import com.xml.model.UserTokenState;
 import com.xml.security.auth.JwtAuthenticationRequest;
 import com.xml.service.AuthorityService;
@@ -74,11 +75,11 @@ public class AuthorityController {
     }
 
     @GetMapping(value = "/getUser/{token:.+}")
-    public ResponseEntity<Long> getLoggedInUserId(@PathVariable("token") String token) {
+    public ResponseEntity<User> getLoggedInUserId(@PathVariable("token") String token) {
         System.out.println(token);
         try {
             logger.info("Date : {}, Returning user id after verifying it, from api gateway.", LocalDateTime.now());
-            Long userId = this.authorityService.getLoggedInUserId(token);
+            User userId = this.authorityService.getLoggedInUserId(token);
             logger.info("Date : {}, Successfully returned user id from token.", LocalDateTime.now());
             return new ResponseEntity<>(userId, HttpStatus.OK);
         } catch (Exception e) {

@@ -123,9 +123,9 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public Long getLoggedInUserId(String token) {
+    public User getLoggedInUserId(String token) {
         String username = tokenUtils.getUsernameFromToken(token);
-        return this.userRepository.findByUsername(username).getId();
+        return this.userRepository.findByUsername(username);
     }
 
 
