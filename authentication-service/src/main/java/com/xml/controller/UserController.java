@@ -92,7 +92,7 @@ public class UserController {
             System.out.println("Id novi je" + newUserId);
             return new ResponseEntity<>(newUserId, HttpStatus.CREATED);
         } catch (Exception e) {
-            logger.info("Date : {}, There was an error saving new physical user. " +
+            logger.error("Date : {}, There was an error saving new physical user. " +
                     "Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -110,7 +110,7 @@ public class UserController {
                     userDetails.getUsername());
             return new ResponseEntity<>(userDtos, HttpStatus.OK);
         } catch (Exception e) {
-            logger.info("Date : {}, There was an error while retrieving a list of all customers. " +
+            logger.error("Date : {}, There was an error while retrieving a list of all customers. " +
                     "Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
