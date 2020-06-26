@@ -17,6 +17,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -95,7 +96,12 @@ public class AuthorityController {
             this.authorityService.register(registrationRequest);
             logger.info("Date : {}, Registration request has been successfully saved.", LocalDateTime.now());
             return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (ValidationException ve) {
+            logger.error("Date : {}, An error has occurred during registration. Request has not been saved." +
+                    " Error : {}.", LocalDateTime.now(), ve.toString());
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("Date : {}, An error has occurred during registration. Request has not been saved." +
                     " Error : {}.", LocalDateTime.now(), e.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

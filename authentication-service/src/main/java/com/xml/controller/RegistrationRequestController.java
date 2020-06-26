@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class RegistrationRequestController {
 
     @PostMapping(value = "")
     @PreAuthorize("hasAuthority('CONFIRM_REGISTRATION_REQUESTS')")
-    public ResponseEntity<?> confirmRegistrationRequest(@RequestBody RegistrationRequestDto requestDto) {
+    public ResponseEntity<?> confirmRegistrationRequest(@Valid @RequestBody RegistrationRequestDto requestDto) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         logger.info("Date : {}, A user with username : {} has accepted registration request.", LocalDateTime.now(),
                 userDetails.getUsername());
