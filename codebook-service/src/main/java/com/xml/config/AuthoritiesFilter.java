@@ -30,7 +30,7 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
         } else {
             String token = httpServletRequest.getHeader("Authorization");
             String authorities = httpServletRequest.getHeader("Authorities");
-
+            String username = httpServletRequest.getHeader("Username");
 
             System.out.println(authorities);
             System.out.println(authorities.substring(1, authorities.length() - 1));
@@ -68,7 +68,7 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
 
                         @Override
                         public String getUsername() {
-                            return "jovanjo";
+                            return username;
                         }
 
                         @Override

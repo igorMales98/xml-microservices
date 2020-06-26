@@ -67,12 +67,13 @@ public class AuthFilter extends ZuulFilter {
                     permissionString.add(p.getName());
                 }
 
-                Long userId = authClient.getLoggedInUser(token);
-                System.out.println("logovan korisnike je " + userId);
+                User user = authClient.getLoggedInUser(token);
+                System.out.println("logovan korisnike je " + user.getUsername());
 
                 ctx.addZuulRequestHeader("Authorization", fullToken);
                 ctx.addZuulRequestHeader("Authorities", permissionString.toString());
-                ctx.addZuulRequestHeader("UserId", Long.toString(userId));
+                ctx.addZuulRequestHeader("UserId", Long.toString(user.getId()));
+                ctx.addZuulRequestHeader("Username", user.getUsername());
 
             } catch (FeignException e) {
                 e.printStackTrace();

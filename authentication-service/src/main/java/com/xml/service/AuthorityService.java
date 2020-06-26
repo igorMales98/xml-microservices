@@ -3,6 +3,7 @@ package com.xml.service;
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.model.Authority;
 import com.xml.model.Permission;
+import com.xml.model.User;
 import com.xml.model.UserTokenState;
 import com.xml.security.auth.JwtAuthenticationRequest;
 import com.xml.security.auth.TokenBasedAuthentication;
@@ -26,5 +27,5 @@ public interface AuthorityService {
 
     void register(RegistrationRequestDto registrationRequest) throws ParseException, ValidationException;
 
-    Long getLoggedInUserId(String token);
+    User getLoggedInUserId(String token);
 }

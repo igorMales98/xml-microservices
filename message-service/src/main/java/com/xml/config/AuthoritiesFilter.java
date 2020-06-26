@@ -27,6 +27,8 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
         String token = httpServletRequest.getHeader("Authorization");
         String authorities = httpServletRequest.getHeader("Authorities");
         String userId = httpServletRequest.getHeader("UserId");
+        String username = httpServletRequest.getHeader("Username");
+
         Long id = Long.parseLong(userId);
         System.out.println("user id je " + id);
         System.out.println(authorities);
@@ -65,7 +67,7 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
 
                     @Override
                     public String getUsername() {
-                        return "jovanjo";
+                        return username;
                     }
 
                     @Override

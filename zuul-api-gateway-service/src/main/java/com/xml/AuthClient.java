@@ -13,5 +13,5 @@ public interface AuthClient {
     Collection<Permission> verify(@PathVariable("token") String token);
 
     @GetMapping(value = "/api/auth/getUser/{token}")
-    Long getLoggedInUser(@PathVariable("token") String token);
+    User getLoggedInUser(@PathVariable("token") String token);
 }
