@@ -11,16 +11,16 @@ INSERT INTO `xml`.`car` (`id`, `allowed_distance`, `average_rating`, `child_seat
 INSERT INTO `xml`.`car` (`id`, `allowed_distance`, `average_rating`, `child_seats`, `collision_damage_waiver_exists`, `has_android`, `mileage`, `times_rated`, `car_brand_id`, `car_class_id`, `car_model_id`, `fuel_type_id`, `transmission_type_id`) VALUES ('10', '2000', '4.1', '0', b'1', b'1', '106000', '4', '6', '2', '17', '2', '2');
 
 /* advertisements */
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('1', '2020-05-01 22:00:00.000000', '2020-05-20 22:00:00.000000', '1', '1', '1');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('2', '2020-05-01 22:00:00.000000', '2020-05-25 22:00:00.000000', '1', '2', '1');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('3', '2020-05-01 22:00:00.000000', '2020-05-20 22:00:00.000000', '1', '3', '2');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('4', '2020-05-10 22:00:00.000000', '2020-06-05 22:00:00.000000', '1', '4', '3');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('5', '2020-04-10 22:00:00.000000', '2020-04-25 22:00:00.000000', '1', '5', '5');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('6', '2020-04-10 22:00:00.000000', '2020-06-25 22:00:00.000000', '1', '6', '7');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('7', '2020-05-01 22:00:00.000000', '2020-07-05 22:00:00.000000', '1', '7', '4');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('8', '2020-05-25 22:00:00.000000', '2020-06-05 22:00:00.000000', '1', '8', '7');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('9', '2020-06-10 22:00:00.000000', '2020-07-05 22:00:00.000000', '1', '9', '2');
-INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('10', '2020-05-01 22:00:00.000000', '2020-06-01 22:00:00.000000', '1', '10', '3');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('1', '2020-05-01 22:00:00.000000', '2020-08-20 22:00:00.000000', '2', '1', '1');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('2', '2020-05-01 22:00:00.000000', '2020-08-25 22:00:00.000000', '2', '2', '1');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('3', '2020-05-01 22:00:00.000000', '2020-08-20 22:00:00.000000', '3', '3', '2');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('4', '2020-05-10 22:00:00.000000', '2020-08-05 22:00:00.000000', '3', '4', '3');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('5', '2020-04-10 22:00:00.000000', '2020-08-25 22:00:00.000000', '3', '5', '5');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('6', '2020-04-10 22:00:00.000000', '2020-08-25 22:00:00.000000', '2', '6', '7');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('7', '2020-05-01 22:00:00.000000', '2020-08-05 22:00:00.000000', '2', '7', '4');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('8', '2020-05-25 22:00:00.000000', '2020-08-05 22:00:00.000000', '2', '8', '7');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('9', '2020-06-10 22:00:00.000000', '2020-08-05 22:00:00.000000', '4', '9', '2');
+INSERT INTO `xml`.`advertisement` (`id`, `available_from`, `available_to`, `advertiser_id`, `car_id`, `pricelist_id`) VALUES ('10', '2020-05-01 22:00:00.000000', '2020-08-01 22:00:00.000000', '4', '10', '3');
 
 /* advertisement-discount */
 INSERT INTO `xml`.`advertisement_discount` (`advertisement_id`, `discount`, `days`) VALUES ('1', '10', '10');
@@ -41,18 +41,18 @@ INSERT INTO `xml`.`advertisement_discount` (`advertisement_id`, `discount`, `day
 INSERT INTO `xml`.`advertisement_discount` (`advertisement_id`, `discount`, `days`) VALUES ('4', '18', '17');
 
 /* comments */
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('1', b'1', 'Volvo je masinerija.', 'Kao tenk.', '1', '2');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('2', b'1', 'Auto je bas lep. Ide ovaj volvo', 'Jeste slazem se', '1', '5');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('3', b'1', 'Al je udoban.', 'Kao u duseku.', '1', '3');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('4', b'1', 'Auto je bas lep', 'Jeste slazem se', '2', '7');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('5', b'1', 'Auto je bas lep', 'Jeste slazem se', '3', '8');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('6', b'1', 'Sve je super', 'Jeste slazem se', '4', '5');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('7', b'1', 'Auto je bas lep', 'Jeste slazem se', '5', '2');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('8', b'1', 'Auto je bas lep', 'Jeste slazem se', '6', '6');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('9', b'1', 'Auto je bas lep', 'Jeste slazem se', '6', '2');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('10', b'1', 'Auto je bas lep', 'Jeste slazem se', '7', '3');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('11', b'1', 'Auto je bas lep', 'Jeste slazem se', '8', '4');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('12', b'1', 'Auto je bas lep', 'Jeste slazem se', '8', '5');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('13', b'1', 'Auto je bas lep', 'Jeste slazem se', '9', '6');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('14', b'1', 'Auto je bas lep', 'Jeste slazem se', '9', '7');
-INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`) VALUES ('15', b'1', 'Auto je bas lep', 'Jeste slazem se', '10', '8');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('1', b'0', 'Volvo je masinerija.', 'Kao tenk.', '1', '3', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('2', b'0', 'Auto je bas lep. Ide ovaj volvo', null, '1', '4', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('3', b'1', 'Al je udoban.', 'Kao u duseku.', '1', '5', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('4', b'0', 'Auto je bas lep', 'Jeste slazem se', '2', '6', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('5', b'1', 'Ne rade brisaci omg', 'Jeste slazem se', '3', '7', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('6', b'1', 'Sve je super', 'Jeste slazem se', '4', '8', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('7', b'0', 'Njesra', 'Jeste slazem se', '5', '3', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('8', b'1', 'Previse se cuje auspuh.', 'Hvala Vam, popravicemo to.', '6', '9', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('9', b'1', 'Auto je bas lep', 'Jeste slazem se', '6', '4', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('10', b'1', 'Mnogo trosi', 'Jeste slazem se', '7', '3', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('11', b'1', 'Auto je bas lep', 'Jeste slazem se', '8', '6', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('12', b'0', 'Krs, najiskrenije', 'Ok', '8', '8', b'1');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('13', b'0', 'Koja sitara od auta', 'Jeste slazem se', '9', '7', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('14', b'1', 'Auto je bas lep', 'Jeste slazem se', '9', '4', b'0');
+INSERT INTO `xml`.`comment` (`id`, `approved`, `comment`, `reply`, `advertisement_id`, `commenter_id`, `rejected`) VALUES ('15', b'0', 'Ukrali ste mi deset poena pozz', 'Jeste slazem se', '10', '9', b'0');

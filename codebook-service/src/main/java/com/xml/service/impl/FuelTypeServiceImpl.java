@@ -1,16 +1,14 @@
 package com.xml.service.impl;
 
-import com.xml.dto.CarModelDto;
 import com.xml.dto.FuelTypeDto;
-import com.xml.mapper.CarModelDtoMapper;
 import com.xml.mapper.FuelTypeDtoMapper;
-import com.xml.model.CarModel;
 import com.xml.model.FuelType;
 import com.xml.repository.FuelTypeRepository;
 import com.xml.service.FuelTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,7 +27,7 @@ public class FuelTypeServiceImpl implements FuelTypeService {
 
     @Override
     public List<FuelType> getAll() {
-        return this.fuelTypeRepository.findAll();
+        return this.enabledFuelTypes(this.fuelTypeRepository.findAll());
     }
 
     @Override
@@ -45,8 +43,8 @@ public class FuelTypeServiceImpl implements FuelTypeService {
     public void deleteFuelType(Long id) {
 
         FuelType fuelTypeForDelete = this.fuelTypeRepository.getOne(id);
-
-        this.fuelTypeRepository.delete(fuelTypeForDelete);
+        fuelTypeForDelete.setDeleted(true);
+        this.fuelTypeRepository.save(fuelTypeForDelete);
 
     }
 
@@ -57,5 +55,15 @@ public class FuelTypeServiceImpl implements FuelTypeService {
         fuelTypeToEdit.setName(fuelTypeDto.getName());
         this.fuelTypeRepository.save(fuelTypeToEdit);
 
+    }
+
+    private List<FuelType> enabledFuelTypes(List<FuelType> allFuelTypes) {
+        List<FuelType> temp = new ArrayList<>();
+        for (FuelType fuelType : allFuelTypes) {
+            if (!fuelType.isDeleted()) {
+                temp.add(fuelType);
+            }
+        }
+        return temp;
     }
 }

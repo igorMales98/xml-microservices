@@ -9,6 +9,7 @@ import com.xml.mapper.CommentDtoMapper;
 import com.xml.model.Advertisement;
 import com.xml.model.Car;
 import com.xml.repository.AdvertisementRepository;
+import com.xml.repository.CarRepository;
 import com.xml.service.AdvertisementService;
 import com.xml.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private CarService carService;
 
     @Autowired
+    private CarRepository carRepository;
+
+    @Autowired
     private RentRequestFeignClient rentRequestFeignClient;
 
     @Override
@@ -81,6 +85,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public AdvertisementDto getOne(Long id, String token) {
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+        List<Advertisement> advertisements = new ArrayList<>();
+        advertisements.add(this.advertisementRepository.getOne(id));
+        advertisementDtos = this.getAdvertisementDtos(token, advertisementDtos, advertisements, "");
+        return advertisementDtos.get(0);
+    }
+
+    @Override
     public List<AdvertisementDto> getUserAdvertisements(Long userId, String token) {
         List<AdvertisementDto> advertisementDtos = new ArrayList<>();
 
@@ -102,6 +115,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         newCar.setChildSeats(createAdvertisementDto.getChildSeats());
         newCar.setAllowedDistance(createAdvertisementDto.getAllowedDistance());
         this.carService.save(newCar);
+        this.carRepository.flush();
 
         Advertisement advertisement = new Advertisement();
         advertisement.setCar(newCar);
@@ -118,7 +132,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         this.advertisementRepository.flush();
 
         if (createAdvertisementDto.getUserRole().equals("ROLE_CUSTOMER")) {
-            this.userFeignClient.updateTimesRated(createAdvertisementDto.getAdvertiserId(), token);
+            this.userFeignClient.updateTimesPosted(createAdvertisementDto.getAdvertiserId(), token);
         }
 
         return advertisement.getId();
@@ -153,7 +167,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         List<Advertisement> allAdvertisements = this.advertisementRepository.basicSearch(dateFromTime, dateFromTo);
         List<Advertisement> validAdvertisements = new ArrayList<>();
 
-        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getReservedRentRequests(token);
+        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getPaidRentRequests(token);
         List<RentRequestDto> invalidRentRequestDtos = new ArrayList<>();
 
         for (RentRequestDto rentRequestDto : rentRequestDtos) {
@@ -200,7 +214,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         List<Advertisement> advertisementList = this.advertisementRepository.basicSearchForMyAdvertisements(dateFromTime, dateToTime, id);
         List<Advertisement> validAdvertisements = new ArrayList<>();
 
-        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getReservedRentRequests(token);
+        List<RentRequestDto> rentRequestDtos = this.rentRequestFeignClient.getPaidRentRequests(token);
         List<RentRequestDto> invalidRentRequestDtos = new ArrayList<>();
 
         for (RentRequestDto rentRequestDto : rentRequestDtos) {

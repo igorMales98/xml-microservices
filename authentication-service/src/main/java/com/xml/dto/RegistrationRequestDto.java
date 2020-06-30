@@ -1,9 +1,12 @@
 package com.xml.dto;
 
+import com.xml.validator.ValidPassword;
+
 public class RegistrationRequestDto {
 
     private Long id;
     private String username;
+    @ValidPassword
     private String password;
     private String firstName;
     private String lastName;
@@ -12,6 +15,7 @@ public class RegistrationRequestDto {
     private String email;
     private String phone;
     private String address;
+    private boolean deleted;
 
     public RegistrationRequestDto() {
     }
@@ -95,4 +99,8 @@ public class RegistrationRequestDto {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public boolean isDeleted() { return deleted; }
+
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 }

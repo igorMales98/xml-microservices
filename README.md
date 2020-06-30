@@ -1,7 +1,20 @@
 # XML - MICROSERVICES
 ---
 
+Projekat iz predmeta XML i Web servisi.
+
+### Autori:
+* [Nikolina Gašić](https://github.com/nikolinagasic)
+* [Stefan Šumar](https://github.com/stefansumar)
+* [Igor Malešević](https://github.com/igorMales98)
+* [Nemanja Vasić](https://github.com/nemanjavasic97)
+
+
 ### 1. Authentication service
+
+Port: 8083
+
+Prefix: /authentication-service
 
 Funkcionalnosti:
 
@@ -10,16 +23,20 @@ Funkcionalnosti:
 * PUT: Blokiranje običnih korisnika.
 * PUT: Aktiviranje običnih korisnika.
 * DELETE: Uklanjanje običnih korisnika iz sistema.
-* POST: Registrovanje agenata/firmi na sistem.
+* POST: Registrovanje agenata na sistem.
 
 | Modeli |
 | --- |
-| AditionalBill, Administrator, Agent, Authority
+| Administrator, Agent, Authority
   Customer, Permission, RegistrationRequest, User
   UserTokenState |
 
 
 ### 2. Advertisement service
+
+Port: 8085
+
+Prefix: /advertisement-service
 
 Funkcionalnosti:
 * POST: Kreiranje oglasa za automobil koji se može iznajmiti tako što će uneti slike i sve neophodne informacije.
@@ -38,10 +55,14 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| Advertisment, Authority, Car, Comment |
+| Advertisment, Car, Comment |
 ### 3. Rent request service
 
 Funkcionalnosti:
+
+Port: 8089
+
+Prefix: /rent-request-service
 
 * POST: Kreiranje zahteva za iznajmljivanje automobila - moguće je iznajmiti jedan ili više automobila. Svaki ovakav zahtev se kreira sa statusom _pending_.
 * PUT: Automobil može zatražiti više korisnika ali može biti prihvaćen samo jedan od strane korisnika ili agenta/firme. Prilikom prihvatanja zahteva zahtev iz stanja _pending_ prelazi u stanje _reserved_. Korisnik ima 12h vremena da izvrši online plaćanje, pri čemu zahtev iz stanja _reserved_ prelazi u stanje _paid_. Ukoliko korisnik ne izvrši plaćanje, zahtev iz stanja _reserved_ prelazi u stanje _canceled_. Zahtev koji nije obrađen 24h iz stanja _pending_ automatski prelazi u stanje _canceled_.
@@ -52,9 +73,13 @@ Funkcionalnosti:
 
 | Modeli |
 | --- |
-| Authority, RentRequest, Report |
+| Additional Bill, RentRequest, Report |
 
 ### 4. Message service
+
+Port: 8088
+
+Prefix: /message-service
 
 Funkcionalnosti:
 
@@ -66,6 +91,10 @@ Funkcionalnosti:
 | --- |
 | Message |
 ### 5. Codebook service
+
+Port: 8084
+
+Prefix: /codebook-service
 
 Funkcionalnosti:
 * POST: Agenti/firme imaju mogućnost definisanja cenovnika. U cenovniku je moguće definisati cenu automobila za svaki dan. Dodatno, u cenovniku je potrebno definisati cenu po kilometru za automobile za koje postoji ograničenje u kilometraži, kao i cena za Collision Damage Waiver za oglase u kojima se ta opcija nudi.
@@ -80,6 +109,10 @@ Funkcionalnosti:
   Pricelist, TransmissionType |
 
 ### 6. Location service
+
+Port: 8087
+
+Prefix: /location-service
 
 Funkcionalnosti:
 

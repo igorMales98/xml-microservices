@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,7 +32,7 @@ public class CarModelServiceImpl implements CarModelService {
 
     @Override
     public List<CarModel> getAll() {
-        return this.carModelRepository.findAll();
+        return this.enabledCarModels(this.carModelRepository.findAll());
     }
 
     @Override
@@ -52,7 +53,8 @@ public class CarModelServiceImpl implements CarModelService {
     public void deleteCarModel(Long id) {
 
         CarModel carModelForDelete = this.carModelRepository.getOne(id);
-        this.carModelRepository.delete(carModelForDelete);
+        carModelForDelete.setDeleted(true);
+        this.carModelRepository.save(carModelForDelete);
     }
 
     @Override
@@ -63,5 +65,15 @@ public class CarModelServiceImpl implements CarModelService {
         carModelToEdit.setName(carModelDto.getName());
         this.carModelRepository.save(carModelToEdit);
 
+    }
+
+    private List<CarModel> enabledCarModels(List<CarModel> allCarModels) {
+        List<CarModel> temp = new ArrayList<>();
+        for (CarModel carModel : allCarModels) {
+            if (!carModel.isDeleted()) {
+                temp.add(carModel);
+            }
+        }
+        return temp;
     }
 }

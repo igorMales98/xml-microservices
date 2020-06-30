@@ -14,6 +14,8 @@ public class UserDto {
     private String email;
     private String phone;
     private boolean enabled;
+    private boolean deleted;
+    private String businessSocialNumber;
 
     public UserDto() {
     }
@@ -113,4 +115,12 @@ public class UserDto {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public boolean isDeleted() { return deleted; }
+
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+
+    public String getBusinessSocialNumber() { return businessSocialNumber; }
+
+    public void setBusinessSocialNumber(String businessSocialNumber) { this.businessSocialNumber = businessSocialNumber; }
 }

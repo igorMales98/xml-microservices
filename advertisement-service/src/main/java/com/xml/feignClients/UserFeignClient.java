@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @FeignClient(name = "authentication-service")
 public interface UserFeignClient {
 
-    @GetMapping(value = "/api/{id}", headers = {"Authorization={token}"})
+    @GetMapping(value = "/api/users/{id}", headers = {"Authorization={token}"})
     UserDto getUserById(@PathVariable("id") Long id, @PathVariable("token") String token);
 
-    @PutMapping(value = "/api/updateTimesRated/{id}", headers = {"Authorization={token}"})
-    void updateTimesRated(@PathVariable("id") Long id, @PathVariable("token") String token);
+    @PutMapping(value = "/api/users/updateTimesPosted/{id}", headers = {"Authorization={token}"})
+    void updateTimesPosted(@PathVariable("id") Long id, @PathVariable("token") String token);
 }

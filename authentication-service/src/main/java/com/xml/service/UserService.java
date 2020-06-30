@@ -8,6 +8,7 @@ import com.xml.dto.UserDto;
 import com.xml.model.Customer;
 import com.xml.model.User;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 public interface UserService {
@@ -20,7 +21,7 @@ public interface UserService {
 
     void saveCustomer(Customer customer);
 
-    void updateTimesRated(Long id);
+    void updateTimesPosted(Long id);
 
     Long createPhysicalUser(UserDto userDto, String token);
 
@@ -31,4 +32,14 @@ public interface UserService {
     void blockUser(Long id);
 
     void activateUser(long id);
+
+    void registerAgent(UserDto userDto);
+
+    void activateUserEmail(String username);
+
+    void forgotPassword(String email);
+
+    boolean checkPassword(String password);
+
+    void changePassword(String password) throws ValidationException;
 }

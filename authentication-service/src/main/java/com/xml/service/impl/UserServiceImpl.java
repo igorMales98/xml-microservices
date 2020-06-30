@@ -2,25 +2,29 @@ package com.xml.service.impl;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.model.Agent;
 import com.xml.model.Authority;
-import com.xml.dto.UserDto;
 import com.xml.model.Customer;
 import com.xml.model.User;
 import com.xml.repository.UserRepository;
 import com.xml.service.AuthorityService;
+import com.xml.service.EmailService;
 import com.xml.service.UserService;
+import com.xml.validator.PasswordConstraintValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
-
-import java.security.SecureRandom;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -34,6 +38,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private EmailService emailService;
+
+    private PasswordConstraintValidator passwordConstraintValidator = new PasswordConstraintValidator();
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -45,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateTimesRated(Long id) {
+    public void updateTimesPosted(Long id) {
         User user = this.userRepository.getOne(id);
         user.setAdvertisementsPosted((short) (user.getAdvertisementsPosted() + 1));
         this.userRepository.save(user);
@@ -82,9 +91,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Customer createCustomerFromRequest(RegistrationRequestDto requestDto) {
-        System.out.println("Pass: " + requestDto.getPassword());
         Customer customer = new Customer(requestDto.getUsername(),
-                passwordEncoder.encode(requestDto.getPassword()),
+                requestDto.getPassword(),
                 requestDto.getFirstName(),
                 requestDto.getLastName(),
                 requestDto.getCountry(),
@@ -94,7 +102,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 requestDto.getPhone());
         Set<Authority> auth = authorityService.findByName("ROLE_CUSTOMER");
         customer.setAuthorities(auth);
-        customer.setEnabled(true);
+        customer.setEnabled(false);
 
         return customer;
     }
@@ -115,8 +123,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
-    private List<UserDto> getAllCustomersDtos(List<UserDto> allCustomersDtos, List<User> allCustomers){
-        for(User customer : allCustomers){
+    private List<UserDto> getAllCustomersDtos(List<UserDto> allCustomersDtos, List<User> allCustomers) {
+        for (User customer : allCustomers) {
             UserDto customerDto = new UserDto();
             customerDto.setId(customer.getId());
             customerDto.setUsername(customer.getUsername());
@@ -138,7 +146,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void deleteCustomer(Long id) {
         User customerToDelete = this.userRepository.findById(id).get();
-        this.userRepository.delete(customerToDelete);
+        customerToDelete.setDeleted(true);
+        userRepository.save(customerToDelete);
     }
 
     @Override
@@ -160,6 +169,74 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             this.userRepository.save(customer);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void registerAgent(UserDto userDto) {
+        Agent agent = new Agent(userDto.getUsername(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getCountry(),
+                userDto.getCity(),
+                userDto.getAddress(),
+                userDto.getEmail(),
+                userDto.getPhone(),
+                userDto.getBusinessSocialNumber());
+        Set<Authority> auth = authorityService.findByName("ROLE_AGENT");
+        agent.setAuthorities(auth);
+        agent.setEnabled(true);
+
+        this.userRepository.save(agent);
+        this.userRepository.flush();
+    }
+
+    @Override
+    public void activateUserEmail(String username) {
+        User customer = this.userRepository.findByUsername(username);
+        customer.setEnabled(true);
+        this.userRepository.save(customer);
+    }
+
+    @Override
+    public void forgotPassword(String email) {
+        User user = this.userRepository.findByEmail(email);
+
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        System.out.println(generatedString);
+
+        emailService.sendMailToUser(user.getEmail(), "Your new password is : " + generatedString, "Successfully reset password");
+        user.setPassword(this.passwordEncoder.encode(generatedString));
+        this.userRepository.save(user);
+    }
+
+    @Override
+    public boolean checkPassword(String password) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = this.userRepository.findByUsername(userDetails.getUsername());
+        System.out.println("kad menjam sigfru korisnik je " + userDetails.getUsername());
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    @Override
+    public void changePassword(String password) throws ValidationException {
+        if (passwordConstraintValidator.isValid(password, null)) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user = this.userRepository.findByUsername(userDetails.getUsername());
+            user.setPassword(passwordEncoder.encode(password));
+            this.userRepository.save(user);
+        } else {
+            throw new ValidationException("Password is not valid.");
         }
     }
 

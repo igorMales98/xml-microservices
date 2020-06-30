@@ -3,52 +3,69 @@ package com.xml.model;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.util.Set;
 
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Car", namespace = "http://localhost:8085/advertisement-service")
+@XmlRootElement(name = "carClass")
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlElement
     private Long id;
 
     @Column
+    @XmlElement
     private Long carBrandId;
 
     @Column
+    @XmlElement
     private Long carModelId;
 
     @Column
+    @XmlElement
     private Long fuelTypeId;
 
     @Column
+    @XmlElement
     private Long transmissionTypeId;
 
     @Column
+    @XmlElement
     private Long carClassId;
 
     @Column(nullable = false)
     @Range(min = 0, max = 1000000)
+    @XmlElement
     private float mileage;
 
     @Column(nullable = false)
+    @XmlElement
     private float allowedDistance = 1000000;
 
     @Column(nullable = false)
+    @XmlElement
     private boolean collisionDamageWaiverExists = false;
 
     @Column(nullable = false)
     @Range(min = 0, max = 9)
+    @XmlElement
     private int childSeats = 0;
 
     @Column
+    @XmlElement
     private int timesRated = 0;
 
     @Column
+    @XmlElement
     private float averageRating = 0;
 
     @Column
+    @XmlElement
     private boolean hasAndroid = false;
 
     public Car() {

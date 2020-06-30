@@ -16,8 +16,28 @@ public class CommentDto {
 
     private String reply;
 
+    private AdvertisementDto advertisementDto;
+
+    @NotNull(message = "Approved cannot be null")
+    private boolean approved = false;
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     public CommentDto() {
+    }
+
+    public AdvertisementDto getAdvertisementDto() {
+        return advertisementDto;
+    }
+
+    public void setAdvertisementDto(AdvertisementDto advertisementDto) {
+        this.advertisementDto = advertisementDto;
     }
 
     public Long getId() {

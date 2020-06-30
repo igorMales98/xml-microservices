@@ -59,6 +59,9 @@ public class User implements UserDetails {
     @Range(min = 0, max = 3)
     private short advertisementsPosted;
 
+    @Column
+    private boolean deleted;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -202,6 +205,10 @@ public class User implements UserDetails {
     public void setAdvertisementsPosted(short advertisementsPosted) {
         this.advertisementsPosted = advertisementsPosted;
     }
+
+    public boolean isDeleted() { return deleted; }
+
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
     @Override
     public boolean isAccountNonExpired() {
