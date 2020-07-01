@@ -10,8 +10,8 @@ import java.util.List;
 
 @FeignClient(name = "advertisement-service")
 public interface AdvertisementFeignClient {
-    @GetMapping(value = "/api/advertisements", headers = {"Authorities=[TEST],Authorization={token}"})
+    @GetMapping(value = "/api/advertisements", headers = {"Authorities=[TEST]", "Authorization={token}"})
     List<AdvertisementDto> getAll(@RequestHeader("Authorization") String token);
-    @GetMapping(value = "api/advertisements/{id}", headers = {"Authorities=[TEST],Authorization={token}"})
+    @GetMapping(value = "api/advertisements/{id}", headers = {"Authorities=[TEST]", "Authorization={token}"})
     AdvertisementDto getOne(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
 }
