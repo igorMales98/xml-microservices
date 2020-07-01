@@ -40,7 +40,6 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('READ_USER')")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         logger.info("Date : {}, A user with username : {} has requested information about a user.", LocalDateTime.now(),
@@ -67,7 +66,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/updateTimesPosted/{id}")
-    @PreAuthorize("hasAuthority('UPDATE_POSTS')")
+    // @PreAuthorize("hasAuthority('UPDATE_POSTS')")
     public ResponseEntity<?> updateTimesPosted(@PathVariable("id") Long id) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         logger.info("Date : {}, A user with username : {} has posted an advertisement and require update on times posted.", LocalDateTime.now(),
@@ -86,7 +85,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/physical")
-    @PreAuthorize("hasAuthority('CREATE_PHYSICAL_USER')")
+    // @PreAuthorize("hasAuthority('CREATE_PHYSICAL_USER')")
     public ResponseEntity<?> createPhysicalUser(@RequestBody UserDto userDto, @RequestHeader("Authorization") String token) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         logger.info("Date : {}, A user : {} has created physical rent and want to save information on physical customer.", LocalDateTime.now(),

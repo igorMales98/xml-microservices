@@ -89,7 +89,7 @@ public class RentRequestServiceImpl implements RentRequestService {
         List<AdvertisementDto> allAdvertisements = this.advertisementFeignClient.getAll(token);
         List<Long> advertisers = new ArrayList<>();
         for (RentRequest rentRequest : customersRequests) {
-            for (Long advertisementForRent: rentRequest.getAdvertisementsForRent())
+            for (Long advertisementForRent : rentRequest.getAdvertisementsForRent())
                 if (!customersAds.contains(advertisementForRent)) {
                     customersAds.add(advertisementForRent);
                 }
@@ -105,8 +105,8 @@ public class RentRequestServiceImpl implements RentRequestService {
         }
         //kad je logovan agent
         for (RentRequest reservedRequest : reservedRequests) {
-            for (Long advertisementForRent: reservedRequest.getAdvertisementsForRent()) {
-                AdvertisementDto reservedAd = this.advertisementFeignClient.getOne(advertisementForRent,token);
+            for (Long advertisementForRent : reservedRequest.getAdvertisementsForRent()) {
+                AdvertisementDto reservedAd = this.advertisementFeignClient.getOne(advertisementForRent, token);
                 if (reservedAd.getAdvertiser().getId().equals(id)) {
                     if (!advertisers.contains(reservedRequest.getCustomerId()))
                         advertisers.add(reservedRequest.getCustomerId());
@@ -142,6 +142,7 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     @Override
     public List<RentRequestDto> getCustomerRentRequests(String token, Long id) {
+        System.out.println("token u rentu je" + token);
         List<RentRequest> rentRequests = this.rentRequestRepository.findByCustomerId(id);
         List<RentRequestDto> rentRequestDtos = new ArrayList<>();
         for (RentRequest request : rentRequests) {
@@ -152,7 +153,7 @@ public class RentRequestServiceImpl implements RentRequestService {
             rentRequestDto.setRentRequestStatus(request.getRentRequestStatus());
             Set<AdvertisementDto> advertisementDtos = new HashSet<>();
             for (Long advId : request.getAdvertisementsForRent()) {
-                AdvertisementDto advertisementDto = advertisementFeignClient.getOne(advId,token);
+                AdvertisementDto advertisementDto = advertisementFeignClient.getOne(advId, token);
                 advertisementDtos.add(advertisementDto);
             }
             rentRequestDto.setAdvertisementsForRent(advertisementDtos);
@@ -221,10 +222,10 @@ public class RentRequestServiceImpl implements RentRequestService {
         return getUserRentRequestsDtos(rentRequestDtos, allRequests, token);
     }
 
-    private List<RentRequestDto> getUserRentRequestsDtos(List<RentRequestDto> rentRequestDtos, List<RentRequest> allRequests, String token){
-        for(RentRequest request : allRequests) {
+    private List<RentRequestDto> getUserRentRequestsDtos(List<RentRequestDto> rentRequestDtos, List<RentRequest> allRequests, String token) {
+        for (RentRequest request : allRequests) {
             if (!request.getRentRequestStatus().equals(RentRequestStatus.RESERVED)) {
-                if (request.getCreated().isBefore(LocalDateTime.now().minusHours(24L)) && request.getRentRequestStatus().equals(RentRequestStatus.PENDING)){
+                if (request.getCreated().isBefore(LocalDateTime.now().minusHours(24L)) && request.getRentRequestStatus().equals(RentRequestStatus.PENDING)) {
                     RentRequestDto requestDto = new RentRequestDto();
                     requestDto.setId(request.getId());
                     RentRequest temp = this.rentRequestRepository.findById(request.getId()).get();
