@@ -6,8 +6,9 @@ import com.xml.feignClients.CodebookFeignClient;
 import com.xml.model.Car;
 import com.xml.repository.CarRepository;
 import com.xml.service.AdvertisementService;
-import localhost._8085.advertisement_service_schema.AdvertisementRequest;
-import localhost._8085.advertisement_service_schema.AdvertisementResponse;
+
+import com.xml.soap.code.AdvertisementRequest;
+import com.xml.soap.code.AdvertisementResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
