@@ -146,20 +146,38 @@ public class RentRequestServiceImpl implements RentRequestService {
         List<RentRequest> rentRequests = this.rentRequestRepository.findByCustomerId(id);
         List<RentRequestDto> rentRequestDtos = new ArrayList<>();
         for (RentRequest request : rentRequests) {
-            RentRequestDto rentRequestDto = new RentRequestDto();
-            rentRequestDto.setId(request.getId());
-            rentRequestDto.setReservedFrom(request.getReservedFrom());
-            rentRequestDto.setReservedTo(request.getReservedTo());
-            rentRequestDto.setRentRequestStatus(request.getRentRequestStatus());
-            Set<AdvertisementDto> advertisementDtos = new HashSet<>();
-            for (Long advId : request.getAdvertisementsForRent()) {
-                AdvertisementDto advertisementDto = advertisementFeignClient.getOne(advId, token);
-                advertisementDtos.add(advertisementDto);
-            }
-            rentRequestDto.setAdvertisementsForRent(advertisementDtos);
-            rentRequestDtos.add(rentRequestDto);
+            createDtoFromEntity(token, rentRequestDtos, request);
         }
         return rentRequestDtos;
+    }
+
+    @Override
+    public List<RentRequestDto> getCustomerPendingRentRequests(String token, Long id) {
+        List<RentRequest> rentRequests = this.rentRequestRepository.findByCustomerId(id);
+        List<RentRequestDto> rentRequestDtos = new ArrayList<>();
+        for (RentRequest request : rentRequests) {
+            if (request.getRentRequestStatus().equals(RentRequestStatus.PENDING)) {
+                createDtoFromEntity(token, rentRequestDtos, request);
+            }
+        }
+        return rentRequestDtos;
+    }
+
+    private void createDtoFromEntity(String token, List<RentRequestDto> rentRequestDtos, RentRequest request) {
+        RentRequestDto rentRequestDto = new RentRequestDto();
+        rentRequestDto.setId(request.getId());
+        rentRequestDto.setReservedFrom(request.getReservedFrom());
+        rentRequestDto.setReservedTo(request.getReservedTo());
+        rentRequestDto.setRentRequestStatus(request.getRentRequestStatus());
+        Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+        for (Long advId : request.getAdvertisementsForRent()) {
+            AdvertisementDto advertisementDto = advertisementFeignClient.getOne(advId, token);
+            advertisementDtos.add(advertisementDto);
+        }
+        rentRequestDto.setAdvertisementsForRent(advertisementDtos);
+        UserDto customer = this.userFeignClient.getUserById(request.getCustomerId(), token);
+        rentRequestDto.setCustomer(customer);
+        rentRequestDtos.add(rentRequestDto);
     }
 
     private RentRequest createRequest(RentRequestDto rentRequestDto, Long id, boolean bundle, String token) {
