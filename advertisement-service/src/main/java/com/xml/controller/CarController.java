@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @CrossOrigin(value = "https://localhost:4200")
@@ -38,6 +39,17 @@ public class CarController {
         }
         logger.info("Date: {}, Successfully rated car.", LocalDateTime.now());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(value = "/{advertiserId}")
+    public ResponseEntity<?> getAdvertiserCars(@PathVariable("advertiserId") Long advertiserId) {
+        try {
+            List<CarDto> carDtoList = this.carService.getAdvertiserCars(advertiserId);
+            return new ResponseEntity<>(carDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

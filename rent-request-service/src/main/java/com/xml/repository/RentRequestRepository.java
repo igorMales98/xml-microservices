@@ -16,4 +16,7 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
     List<RentRequest> findByAdvertiserId(Long id);
 
     List<RentRequest> findByCustomerId(Long customerId);
+
+    @Query(value = "SELECT COUNT(ra.rent_request_id) FROM rented_advertisements ra WHERE ra.advertisement_id = :advertisementId", nativeQuery = true)
+    Integer getTimesRented(Long advertisementId);
 }
