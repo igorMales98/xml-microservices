@@ -16,4 +16,6 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
     List<RentRequest> findByAdvertiserId(Long id);
 
     List<RentRequest> findByCustomerId(Long customerId);
+
+    RentRequest findTopByOrderByIdDesc();
 }
