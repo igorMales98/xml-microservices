@@ -4,12 +4,12 @@ import com.xml.dto.AdvertisementDto;
 import com.xml.dto.RentRequestDto;
 import com.xml.dto.UserDto;
 import com.xml.feignClients.AdvertisementFeignClient;
-import com.xml.model.RentRequest;
 import com.xml.repository.RentRequestRepository;
 import com.xml.service.RentRequestService;
 import localhost._8089.rent_request_service_schema.RentRequestRequest;
 import localhost._8089.rent_request_service_schema.RentRequestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
