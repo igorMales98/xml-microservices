@@ -64,9 +64,12 @@ public class AdvertisementController {
     }*/
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('READ_ADVERTISEMENTS')")
+    //@PreAuthorize("hasAuthority('READ_ADVERTISEMENTS')")
     public ResponseEntity<AdvertisementDto> getOne(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         try {
+            System.out.println("Token je pre: " + token);
+            token = token.substring(1);
+            System.out.println("Token je sad: " + token);
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to get an advertisement.", LocalDateTime.now(), userDetails.getUsername());
             AdvertisementDto advertisementDto = this.advertisementService.getOne(id, token);

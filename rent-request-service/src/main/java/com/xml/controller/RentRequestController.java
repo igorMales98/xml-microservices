@@ -29,10 +29,11 @@ public class RentRequestController {
     Logger logger = LoggerFactory.getLogger(RentRequestController.class);
 
     @PostMapping(value = "")
-    @PreAuthorize("hasAuthority('CREATE_RENT_REQUESTS')")
+    //@PreAuthorize("hasAuthority('CREATE_RENT_REQUESTS')")
     public ResponseEntity<?> createRentRequest(@Valid @RequestBody RentRequestDto rentRequestDto,
                                                @RequestHeader("Authorization") String token) {
         System.out.println(rentRequestDto.toString());
+        System.out.println("Token je: " + token);
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to create rent request.", LocalDateTime.now(), userDetails.getUsername());

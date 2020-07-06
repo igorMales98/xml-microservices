@@ -33,7 +33,6 @@ public class AdvertisementEndPoint {
     @Autowired
     private CarRepository carRepository;
 
-
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "advertisementRequest")
     @ResponsePayload
     public AdvertisementResponse createAdvertisement(@RequestPayload AdvertisementRequest request) throws ParseException, IOException {

@@ -32,6 +32,7 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     @Override
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
+        System.out.println("Token je: " + token);
         UserDto userDto = new UserDto();
         userDto.setFirstName(rentRequestDto.getCustomer().getFirstName());
         userDto.setLastName(rentRequestDto.getCustomer().getLastName());
