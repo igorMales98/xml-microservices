@@ -73,4 +73,17 @@ public class MessageServiceImpl implements MessageService {
         message.setMessageDate(LocalDateTime.now());
         messageRepository.save(message);
     }
+
+    @Override
+    public Long send(MessageDto messageDto) {
+        Message message = new Message();
+        message.setMessage(messageDto.getMessage());
+        message.setReceiverId(messageDto.getReceiverId());
+        message.setSenderId(messageDto.getSenderId());
+        message.setMessageDate(LocalDateTime.now());
+        this.messageRepository.save(message);
+        this.messageRepository.flush();
+
+        return message.getId();
+    }
 }

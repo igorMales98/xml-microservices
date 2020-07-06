@@ -21,6 +21,9 @@ public class RentRequestDto {
 
     private RentRequestStatus rentRequestStatus;
 
+    @NotNull
+    private UserDto customer;
+
 
     public RentRequestDto() {
     }
@@ -63,6 +66,14 @@ public class RentRequestDto {
 
     public void setRentRequestStatus(RentRequestStatus rentRequestStatus) {
         this.rentRequestStatus = rentRequestStatus;
+    }
+
+    public UserDto getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(UserDto customer) {
+        this.customer = customer;
     }
 
     @Override

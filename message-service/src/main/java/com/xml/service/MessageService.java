@@ -13,4 +13,6 @@ public interface MessageService {
     List<Message> getMessages(Long agentId, Long customerId);
 
     void sendMessage(MessageDto messageDto) throws ParseException;
+
+    Long send(MessageDto messageDto);
 }

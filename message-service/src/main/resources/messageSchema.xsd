@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:mess="http://localhost:8088/message-service-schema"
+           version="1.0"
+           targetNamespace="http://localhost:8088/message-service-schema">
+
+    <xs:complexType name="Message">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="senderId" type="xs:long" minOccurs="0"/>
+            <xs:element name="recieverId" type="xs:long" minOccurs="0"/>
+            <xs:element name="message" type="xs:string" minOccurs="0"/>
+            <xs:element name="messageDate" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="messageRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="senderId" type="xs:long" minOccurs="0"/>
+                <xs:element name="recieverId" type="xs:long" minOccurs="0"/>
+                <xs:element name="message" type="xs:string" minOccurs="0"/>
+                <xs:element name="messageDate" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="messageResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="messageId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

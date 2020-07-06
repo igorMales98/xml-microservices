@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:rr="http://localhost:8089/rent-request-service-schema"
+           version="1.0"
+           targetNamespace="http://localhost:8089/rent-request-service-schema">
+
+    <xs:complexType name="RentRequest">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="reservedFrom" type="xs:string" minOccurs="0"/>
+            <xs:element name="reservedTo" type="xs:string" minOccurs="0"/>
+            <xs:element name="advertisementsForRent" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="rentRequestStatus" type="xs:string" minOccurs="0"/>
+            <xs:element name="customerId" type="xs:long" minOccurs="0"/>
+            <xs:element name="reports" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="created" type="xs:string" minOccurs="0"/>
+            <xs:element name="advertiserId" type="xs:long" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="user">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="type" type="xs:string" minOccurs="0"/>
+            <xs:element name="username" type="xs:string" minOccurs="0"/>
+            <xs:element name="password" type="xs:string" minOccurs="0"/>
+            <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+            <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+            <xs:element name="country" type="xs:string" minOccurs="0"/>
+            <xs:element name="city" type="xs:string" minOccurs="0"/>
+            <xs:element name="address" type="xs:string" minOccurs="0"/>
+            <xs:element name="email" type="xs:string" minOccurs="0"/>
+            <xs:element name="phone" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="rentRequestRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="rr:user" minOccurs="0"/>
+                <xs:element name="advertisementsForRent" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="status" type="xs:string" minOccurs="0"/>
+                <xs:element name="reservedFrom" type="xs:string" minOccurs="0"/>
+                <xs:element name="reservedTo" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="rentRequestResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="xs:long" name="rentRequestId"/>
+                <xs:element type="xs:long" name="userId"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

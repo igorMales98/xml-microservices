@@ -2,6 +2,7 @@ package com.xml.service.impl;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.mapper.UserDtoMapper;
 import com.xml.model.Agent;
 import com.xml.model.Authority;
 import com.xml.model.Customer;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.ValidationException;
 import java.security.SecureRandom;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserDtoMapper userDtoMapper;
 
     private PasswordConstraintValidator passwordConstraintValidator = new PasswordConstraintValidator();
 

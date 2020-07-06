@@ -1,25 +1,38 @@
 package com.xml.model;
 
+import com.xml.adapter.LocalDateAdapter;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Message", namespace = "http://localhost:8088/message-service-schema")
+@XmlRootElement(name = "messageClass")
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlElement
     private Long id;
 
     @Column
+    @XmlElement
     private Long senderId;
 
     @Column
+    @XmlElement
     private Long receiverId;
 
     @Column
+    @XmlElement
     private String message;
 
     @Column
+    @XmlElement
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDateTime messageDate;
 
     public Long getId() {
