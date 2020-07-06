@@ -123,8 +123,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         List<UserDto> allCustomersDtos = new ArrayList();
         String forQuery = "CUSTOMER";
         List<User> allCustomers = this.userRepository.findAllCustomers(forQuery);
-
-        return getAllCustomersDtos(allCustomersDtos, allCustomers);
+        List<User> allAgents = this.userRepository.findAllCustomers("AGENT");
+        for (User user : allCustomers) {
+            allAgents.add(user);
+        }
+        return getAllCustomersDtos(allCustomersDtos, allAgents);
 
     }
 
@@ -141,6 +144,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             customerDto.setPhone(customer.getPhone());
             customerDto.setAddress(customer.getAddress());
             customerDto.setEnabled(customer.isEnabled());
+            customerDto.setType(customer.getType());
 
             allCustomersDtos.add(customerDto);
         }
@@ -243,6 +247,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             throw new ValidationException("Password is not valid.");
         }
+    }
+
+    @Override
+    public void setUserPermissions(UserDto userDto) {
+        User user = this.userRepository.getOne(userDto.getId());
+        user.setCanCreatePricelist(userDto.isCanCreatePricelist());
+        user.setCanPostAdvertisement(userDto.isCanPostAdvertisement());
+        user.setCanRent(userDto.isCanRent());
+        user.setCanSendMessage(userDto.isCanSendMessage());
+        this.userRepository.save(user);
     }
 
 }
