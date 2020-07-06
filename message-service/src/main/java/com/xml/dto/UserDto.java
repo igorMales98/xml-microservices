@@ -14,6 +14,10 @@ public class UserDto {
     private String email;
     private String phone;
     private boolean enabled;
+    private boolean canRent;
+    private boolean canSendMessage;
+    private boolean canPostAdvertisement;
+    private boolean canCreatePricelist;
 
     public UserDto() {
     }
@@ -112,5 +116,37 @@ public class UserDto {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isCanRent() {
+        return canRent;
+    }
+
+    public void setCanRent(boolean canRent) {
+        this.canRent = canRent;
+    }
+
+    public boolean isCanSendMessage() {
+        return canSendMessage;
+    }
+
+    public void setCanSendMessage(boolean canSendMessage) {
+        this.canSendMessage = canSendMessage;
+    }
+
+    public boolean isCanPostAdvertisement() {
+        return canPostAdvertisement;
+    }
+
+    public void setCanPostAdvertisement(boolean canPostAdvertisement) {
+        this.canPostAdvertisement = canPostAdvertisement;
+    }
+
+    public boolean isCanCreatePricelist() {
+        return canCreatePricelist;
+    }
+
+    public void setCanCreatePricelist(boolean canCreatePricelist) {
+        this.canCreatePricelist = canCreatePricelist;
     }
 }
