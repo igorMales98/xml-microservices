@@ -31,9 +31,11 @@ public class AdvertisementController {
     Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
     @GetMapping(value = "")
-    @PreAuthorize("hasAuthority('READ_ADVERTISEMENTS')")
+    // @PreAuthorize("hasAuthority('READ_ADVERTISEMENTS')")
     public ResponseEntity<List<AdvertisementDto>> getAll(@RequestHeader("Authorization") String token) {
         try {
+            System.out.println("Token je ovde : " + token);
+            token = token.replaceAll(",", "");
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to get all advertisements.", LocalDateTime.now(), userDetails.getUsername());
             List<AdvertisementDto> advertisementDtos = this.advertisementService.getAll(token);
@@ -68,7 +70,7 @@ public class AdvertisementController {
     public ResponseEntity<AdvertisementDto> getOne(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         try {
             System.out.println("token je " + token);
-            token = token.substring(1);
+            token = token.replaceAll(",", "");
             System.out.println("token je " + token);
 
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
