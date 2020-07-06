@@ -15,6 +15,8 @@ public class CarDto {
     private int timesRated;
     private float averageRating;
     private boolean hasAndroid;
+    private int timesRented;
+    private float rentMileage;
 
     public CarDto() {
     }
@@ -121,5 +123,21 @@ public class CarDto {
 
     public void setHasAndroid(boolean hasAndroid) {
         this.hasAndroid = hasAndroid;
+    }
+
+    public int getTimesRented() {
+        return timesRented;
+    }
+
+    public void setTimesRented(int timesRented) {
+        this.timesRented = timesRented;
+    }
+
+    public float getRentMileage() {
+        return rentMileage;
+    }
+
+    public void setRentMileage(float rentMileage) {
+        this.rentMileage = rentMileage;
     }
 }

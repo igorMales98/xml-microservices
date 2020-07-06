@@ -7,7 +7,9 @@ import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.AdvertisementFeignClient;
 import com.xml.feignClients.UserFeignClient;
 import com.xml.model.RentRequest;
+import com.xml.model.Report;
 import com.xml.repository.RentRequestRepository;
+import com.xml.repository.ReportRepository;
 import com.xml.service.RentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     @Autowired
     private AdvertisementFeignClient advertisementFeignClient;
+
+    @Autowired
+    private ReportRepository reportRepository;
 
     @Override
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
@@ -161,6 +166,28 @@ public class RentRequestServiceImpl implements RentRequestService {
             }
         }
         return rentRequestDtos;
+    }
+
+    @Override
+    public Integer getTimesRented(Long advertisementId) {
+        return this.rentRequestRepository.getTimesRented(advertisementId);
+    }
+
+    @Override
+    public float getRentMileage(Long advertisementId) {
+        List<RentRequest> rentRequests = this.rentRequestRepository.findAll();
+        List<Report> reports = new ArrayList<>();
+        for (RentRequest request : rentRequests) {
+            if (request.getAdvertisementsForRent().contains(advertisementId)) {
+                List<Report> reportList = this.reportRepository.findByRentRequestId(request.getId());
+                reports.addAll(reportList);
+            }
+        }
+        float mileage = 0;
+        for (Report report : reports) {
+            mileage += report.getKm();
+        }
+        return mileage;
     }
 
     private void createDtoFromEntity(String token, List<RentRequestDto> rentRequestDtos, RentRequest request) {

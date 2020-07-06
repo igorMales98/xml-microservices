@@ -150,4 +150,25 @@ public class RentRequestController {
         }
     }
 
+    @GetMapping(value = "/timesRented/{advertisementId}")
+    public ResponseEntity<?> timesRented(@PathVariable("advertisementId") Long advertisementId) {
+        try {
+            Integer timesRented = this.rentRequestService.getTimesRented(advertisementId);
+            return new ResponseEntity<>(timesRented, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/rentMileage/{advertisementId}")
+    public ResponseEntity<?> rentMileage(@PathVariable("advertisementId") Long advertisementId) {
+        try {
+            float mileage = this.rentRequestService.getRentMileage(advertisementId);
+            return new ResponseEntity<>(mileage, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
