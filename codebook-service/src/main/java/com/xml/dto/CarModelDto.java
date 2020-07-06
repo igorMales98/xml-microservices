@@ -1,5 +1,7 @@
 package com.xml.dto;
 
+import com.xml.model.CarBrand;
+
 public class CarModelDto {
 
     private Long id;
@@ -25,12 +27,12 @@ public class CarModelDto {
         this.name = name;
     }
 
-    public CarBrandDto getCarBrandDto() {
+    public CarBrandDto getCarBrand() {
         return carBrand;
     }
 
-    public void setCarBrandDto(CarBrandDto carBrandDto) {
-        this.carBrand = carBrandDto;
+    public void setCarBrand(CarBrandDto carBrand) {
+        this.carBrand = carBrand;
     }
 
     @Override

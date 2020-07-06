@@ -37,15 +37,22 @@ public class CarModelServiceImpl implements CarModelService {
 
     @Override
     public List<CarModel> getBrandModels(Long brandId) {
-        return this.carModelRepository.getByCarBrandId(brandId);
+        return this.enabledCarModels(this.carModelRepository.getByCarBrandId(brandId));
     }
 
     @Override
     public void saveCarModel(CarModelDto carModelDto) throws ParseException {
+        CarModel carModelFromDatabase = this.carModelRepository.getByName(carModelDto.getName());
+        if (carModelFromDatabase != null) {
+            if (carModelFromDatabase.isDeleted() && carModelFromDatabase.getCarBrand().getId() == carModelDto.getCarBrand().getId()) {
+                carModelFromDatabase.setDeleted(false);
+                this.carModelRepository.save(carModelFromDatabase);
+                return;
+            }
+        }
         CarModel newCarModel = new CarModel();
-
         newCarModel.setName(carModelDto.getName());
-        newCarModel.setCarBrand(carBrandDtoMapper.toEntity(carModelDto.getCarBrandDto()));
+        newCarModel.setCarBrand(carBrandDtoMapper.toEntity(carModelDto.getCarBrand()));
         this.carModelRepository.save(newCarModel);
     }
 

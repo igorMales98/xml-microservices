@@ -31,7 +31,7 @@ public class AuthoritiesFilter extends OncePerRequestFilter {
             String token = httpServletRequest.getHeader("Authorization");
             String authorities = httpServletRequest.getHeader("Authorities");
             String username = httpServletRequest.getHeader("Authorities");
-            if(authorities == null){
+            if (authorities == null) {
                 authorities = "[TEST]";
             }
             System.out.println(authorities);

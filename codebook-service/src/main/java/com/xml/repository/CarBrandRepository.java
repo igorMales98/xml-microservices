@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarBrandRepository extends JpaRepository<CarBrand, Long> {
 
+    CarBrand getByName(String name);
 }

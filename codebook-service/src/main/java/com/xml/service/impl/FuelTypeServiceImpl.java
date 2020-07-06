@@ -2,6 +2,7 @@ package com.xml.service.impl;
 
 import com.xml.dto.FuelTypeDto;
 import com.xml.mapper.FuelTypeDtoMapper;
+import com.xml.model.CarBrand;
 import com.xml.model.FuelType;
 import com.xml.repository.FuelTypeRepository;
 import com.xml.service.FuelTypeService;
@@ -32,6 +33,14 @@ public class FuelTypeServiceImpl implements FuelTypeService {
 
     @Override
     public void saveFuelType(FuelTypeDto fuelTypeDto) {
+        FuelType fuelTypeFromDatabase = this.fuelTypeRepository.getByName(fuelTypeDto.getName());
+        if (fuelTypeFromDatabase != null) {
+            if (fuelTypeFromDatabase.isDeleted()) {
+                fuelTypeFromDatabase.setDeleted(false);
+                this.fuelTypeRepository.save(fuelTypeFromDatabase);
+                return;
+            }
+        }
         FuelType newFuelType = new FuelType();
 
         newFuelType.setName(fuelTypeDto.getName());

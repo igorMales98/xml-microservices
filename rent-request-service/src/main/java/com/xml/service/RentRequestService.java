@@ -18,4 +18,10 @@ public interface RentRequestService {
     void acceptRentRequest(Long id);
 
     List<RentRequestDto> getCustomerRentRequests(String token, Long id);
+
+    List<RentRequestDto> getCustomerPendingRentRequests(String token, Long id);
+
+    Integer getTimesRented(Long advertisementId);
+
+    float getRentMileage(Long advertisementId);
 }

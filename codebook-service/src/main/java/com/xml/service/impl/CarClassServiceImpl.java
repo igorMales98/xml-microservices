@@ -4,6 +4,7 @@ import com.xml.dto.CarClassDto;
 import com.xml.mapper.CarClassDtoMapper;
 import com.xml.model.CarBrand;
 import com.xml.model.CarClass;
+import com.xml.model.CarModel;
 import com.xml.repository.CarClassRepository;
 import com.xml.service.CarClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,14 @@ public class CarClassServiceImpl implements CarClassService {
 
     @Override
     public void saveCarClass(CarClassDto carClassDto) {
+        CarClass carClassFromDatabase = this.carClassRepository.getByName(carClassDto.getName());
+        if (carClassFromDatabase != null) {
+            if (carClassFromDatabase.isDeleted()) {
+                carClassFromDatabase.setDeleted(false);
+                this.carClassRepository.save(carClassFromDatabase);
+                return;
+            }
+        }
         CarClass newCarClass = new CarClass();
 
         newCarClass.setName(carClassDto.getName());
