@@ -2,8 +2,8 @@ package com.xml.soap;
 
 import com.xml.dto.PricelistDto;
 import com.xml.service.PricelistService;
-import localhost._8084.codebook_service_schema.PricelistRequest;
-import localhost._8084.codebook_service_schema.PricelistResponse;
+import com.xml.soap.code.PricelistRequest;
+import com.xml.soap.code.PricelistResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;

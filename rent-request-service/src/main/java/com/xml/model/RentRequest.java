@@ -1,45 +1,62 @@
 package com.xml.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xml.adapter.LocalDateAdapter;
 import com.xml.enummeration.RentRequestStatus;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RentRequest", namespace = "http://localhost:8089/rent-request-service-schema")
+@XmlRootElement(name = "rentRequestClass")
 public class RentRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlElement
     private Long id;
 
     @Column(nullable = false)
+    @XmlElement
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDateTime reservedFrom;
 
     @Column(nullable = false)
+    @XmlElement
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDateTime reservedTo;
 
     @ElementCollection
     @Column(name = "advertisement_id")
     @CollectionTable(name = "rented_advertisements", joinColumns = @JoinColumn(name = "rent_request_id"))
+    @XmlElement
     private Set<Long> advertisementsForRent;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    @XmlElement
     private RentRequestStatus rentRequestStatus;
 
     @Column(nullable = false)
+    @XmlElement
     private Long customerId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "rentRequest")
+    @XmlElement
     private Set<Report> reports;
 
     @Column(nullable = false)
+    @XmlElement
     LocalDateTime created;
 
     @Column(nullable = false)
+    @XmlElement
     Long advertiserId;
 
     public Long getId() {
