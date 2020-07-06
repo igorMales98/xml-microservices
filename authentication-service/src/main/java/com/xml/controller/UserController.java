@@ -56,6 +56,16 @@ public class UserController {
         }
     }
 
+    @PutMapping(value = "")
+    public ResponseEntity<?> setUserPermissions(@RequestBody UserDto userDto) {
+        try {
+            this.userService.setUserPermissions(userDto);
+        } catch (Exception e) {
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/whoami", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('WHO_AM_I')")
     public User user(Principal user) {
@@ -103,7 +113,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/customers")
+    @GetMapping(value = "")
     @PreAuthorize("hasAuthority('READ_CUSTOMERS')")
     public ResponseEntity<List<UserDto>> getAllCustomers() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
