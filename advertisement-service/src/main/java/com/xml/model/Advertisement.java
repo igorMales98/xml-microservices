@@ -47,6 +47,9 @@ public class Advertisement {
     @XmlElement
     private Long pricelistId;
 
+    @Column(nullable = false)
+    private boolean valid;
+
     @ElementCollection
     @MapKeyColumn(name="days")
     @Column(name="discount")
@@ -119,5 +122,13 @@ public class Advertisement {
 
     public void setDiscount(Map<String, String> discount) {
         this.discount = discount;
+    }
+
+    public boolean getValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }
