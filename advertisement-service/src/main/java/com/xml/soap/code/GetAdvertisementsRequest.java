@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="advertisementId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
- *         &lt;element name="carId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="agentId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -36,45 +35,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "advertisementId",
-    "carId"
+    "agentId"
 })
-@XmlRootElement(name = "advertisementResponse")
-public class AdvertisementResponse {
+@XmlRootElement(name = "getAdvertisementsRequest")
+public class GetAdvertisementsRequest {
 
-    protected long advertisementId;
-    protected long carId;
+    protected Long agentId;
 
     /**
-     * Gets the value of the advertisementId property.
+     * Gets the value of the agentId property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Long }
+     *     
      */
-    public long getAdvertisementId() {
-        return advertisementId;
+    public Long getAgentId() {
+        return agentId;
     }
 
     /**
-     * Sets the value of the advertisementId property.
+     * Sets the value of the agentId property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Long }
+     *     
      */
-    public void setAdvertisementId(long value) {
-        this.advertisementId = value;
-    }
-
-    /**
-     * Gets the value of the carId property.
-     * 
-     */
-    public long getCarId() {
-        return carId;
-    }
-
-    /**
-     * Sets the value of the carId property.
-     * 
-     */
-    public void setCarId(long value) {
-        this.carId = value;
+    public void setAgentId(Long value) {
+        this.agentId = value;
     }
 
 }

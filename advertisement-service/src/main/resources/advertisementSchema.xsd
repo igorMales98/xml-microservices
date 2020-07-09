@@ -68,4 +68,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getAdvertisementsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="agentId" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAdvertisementsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="advertisement" type="ad:Advertisement" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
 </xs:schema>
