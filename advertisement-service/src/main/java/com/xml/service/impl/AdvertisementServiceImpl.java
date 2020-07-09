@@ -1,5 +1,6 @@
 package com.xml.service.impl;
 
+import com.xml.config.RabbitMQConfig;
 import com.xml.dto.*;
 import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.CodebookFeignClient;
@@ -12,6 +13,7 @@ import com.xml.repository.AdvertisementRepository;
 import com.xml.repository.CarRepository;
 import com.xml.service.AdvertisementService;
 import com.xml.service.CarService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +36,9 @@ import java.util.stream.Stream;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private AdvertisementRepository advertisementRepository;
@@ -128,6 +133,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisement.setAvailableTo(createAdvertisementDto.getAvailableTo());
         advertisement.setPricelistId(createAdvertisementDto.getPricelist().getId());
         advertisement.setDiscount(createAdvertisementDto.convertToHashMap(createAdvertisementDto.getDiscount()));
+        advertisement.setValid(false);
         this.advertisementRepository.save(advertisement);
         this.advertisementRepository.flush();
 
@@ -135,6 +141,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             this.userFeignClient.updateTimesPosted(createAdvertisementDto.getAdvertiserId(), token);
         }
 
+        rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,
+                new CodebookMQDto(advertisement.getId(),createAdvertisementDto.getCarBrand().getId(),createAdvertisementDto.getCarModel().getId(),
+                        createAdvertisementDto.getCarClass().getId(),createAdvertisementDto.getFuelType().getId(),
+                        createAdvertisementDto.getTransmissionType().getId(),createAdvertisementDto.getPricelist().getId()));
         return advertisement.getId();
     }
 
@@ -249,6 +259,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     public List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements, String place) {
         for (Advertisement advertisement : allAdvertisements) {
+            if (!advertisement.getValid()) {
+                continue;
+            }
             UserDto advertiserDto = this.userFeignClient.getUserById(advertisement.getAdvertiserId(), token);
 
             if (!place.equals("")) {

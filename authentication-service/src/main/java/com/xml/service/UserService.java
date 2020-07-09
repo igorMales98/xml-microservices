@@ -9,7 +9,6 @@ import com.xml.model.Customer;
 import com.xml.model.User;
 
 import javax.xml.bind.ValidationException;
-import java.text.ParseException;
 import java.util.List;
 
 public interface UserService {
@@ -44,4 +43,5 @@ public interface UserService {
 
     void changePassword(String password) throws ValidationException;
 
+    void setUserPermissions(UserDto userDto);
 }

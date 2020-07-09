@@ -16,6 +16,10 @@ public class UserDto {
     private boolean enabled;
     private boolean deleted;
     private String businessSocialNumber;
+    private boolean canRent;
+    private boolean canSendMessage;
+    private boolean canPostAdvertisement;
+    private boolean canCreatePricelist;
 
     public UserDto() {
     }
@@ -123,4 +127,36 @@ public class UserDto {
     public String getBusinessSocialNumber() { return businessSocialNumber; }
 
     public void setBusinessSocialNumber(String businessSocialNumber) { this.businessSocialNumber = businessSocialNumber; }
+
+    public boolean isCanRent() {
+        return canRent;
+    }
+
+    public void setCanRent(boolean canRent) {
+        this.canRent = canRent;
+    }
+
+    public boolean isCanSendMessage() {
+        return canSendMessage;
+    }
+
+    public void setCanSendMessage(boolean canSendMessage) {
+        this.canSendMessage = canSendMessage;
+    }
+
+    public boolean isCanPostAdvertisement() {
+        return canPostAdvertisement;
+    }
+
+    public void setCanPostAdvertisement(boolean canPostAdvertisement) {
+        this.canPostAdvertisement = canPostAdvertisement;
+    }
+
+    public boolean isCanCreatePricelist() {
+        return canCreatePricelist;
+    }
+
+    public void setCanCreatePricelist(boolean canCreatePricelist) {
+        this.canCreatePricelist = canCreatePricelist;
+    }
 }
