@@ -7,4 +7,6 @@ public interface CarService {
     void save(Car newCar);
 
     void rate(CarDto carDto);
+
+    Car getOne(Long id);
 }

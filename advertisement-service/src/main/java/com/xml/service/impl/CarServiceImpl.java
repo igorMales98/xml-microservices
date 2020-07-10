@@ -28,5 +28,8 @@ public class CarServiceImpl implements CarService {
         System.out.println("car:"+car.getId()+" "+car.getAverageRating()+" "+car.getTimesRated());
     }
 
-
+    @Override
+    public Car getOne(Long id) {
+        return carRepository.getOne(id);
+    }
 }

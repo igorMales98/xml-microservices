@@ -54,6 +54,9 @@ public class Advertisement {
     @XmlElement
     private Map<String, String> discount;
 
+    @Column
+    private boolean StatusBrand;
+
     public Advertisement() {
     }
 

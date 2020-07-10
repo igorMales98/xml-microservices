@@ -10,6 +10,10 @@ public class Report {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "car_id", nullable = false)
+    private Car car;
+
+    @ManyToOne
     @JoinColumn(name = "rent_request_id", nullable = false)
     private RentRequest rentRequest;
 
@@ -22,7 +26,8 @@ public class Report {
     public Report() {
     }
 
-    public Report(float km, String additionalInformation) {
+    public Report(Car car, float km, String additionalInformation) {
+        this.car = car;
         this.km = km;
         this.additionalInformation = additionalInformation;
     }
@@ -35,6 +40,14 @@ public class Report {
         this.id = id;
     }
 
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
     public float getKm() {
         return km;
     }
@@ -44,6 +57,7 @@ public class Report {
     }
 
     public String getAdditionalInformation() {
+
         return additionalInformation;
     }
 
