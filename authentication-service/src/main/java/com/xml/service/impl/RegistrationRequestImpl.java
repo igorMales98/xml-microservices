@@ -55,7 +55,6 @@ public class RegistrationRequestImpl implements RegistrationRequestService {
         RegistrationRequest request = this.registrationRequestRepository.findOneById(id);
         request.setDeleted(true);
         this.registrationRequestRepository.save(request);
-        emailService.sendMailToUser(request.getEmail(), "Your request for registration has been denied.", "Automated mail : Denied account");
     }
 
 }

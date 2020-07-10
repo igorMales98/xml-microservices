@@ -13,9 +13,9 @@ public interface RentRequestService {
 
     List<RentRequestDto> getUserRentRequests(Long id, String token);
 
-    void cancelRentRequest(Long id);
+    void cancelRentRequest(Long id, String token);
 
-    void acceptRentRequest(Long id);
+    void acceptRentRequest(Long id, String token);
 
     List<RentRequestDto> getCustomerRentRequests(String token, Long id);
 
