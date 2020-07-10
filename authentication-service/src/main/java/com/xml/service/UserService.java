@@ -42,4 +42,6 @@ public interface UserService {
     boolean checkPassword(String password);
 
     void changePassword(String password) throws ValidationException;
+
+    void setUserPermissions(UserDto userDto);
 }

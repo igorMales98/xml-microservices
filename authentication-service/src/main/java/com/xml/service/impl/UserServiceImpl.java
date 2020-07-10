@@ -2,6 +2,7 @@ package com.xml.service.impl;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.dto.UserDto;
+import com.xml.mapper.UserDtoMapper;
 import com.xml.model.Agent;
 import com.xml.model.Authority;
 import com.xml.model.Customer;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.ValidationException;
 import java.security.SecureRandom;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,6 +42,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserDtoMapper userDtoMapper;
 
     private PasswordConstraintValidator passwordConstraintValidator = new PasswordConstraintValidator();
 
@@ -118,8 +123,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         List<UserDto> allCustomersDtos = new ArrayList();
         String forQuery = "CUSTOMER";
         List<User> allCustomers = this.userRepository.findAllCustomers(forQuery);
-
-        return getAllCustomersDtos(allCustomersDtos, allCustomers);
+        List<User> allAgents = this.userRepository.findAllCustomers("AGENT");
+        for (User user : allCustomers) {
+            allAgents.add(user);
+        }
+        return getAllCustomersDtos(allCustomersDtos, allAgents);
 
     }
 
@@ -136,6 +144,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             customerDto.setPhone(customer.getPhone());
             customerDto.setAddress(customer.getAddress());
             customerDto.setEnabled(customer.isEnabled());
+            customerDto.setType(customer.getType());
 
             allCustomersDtos.add(customerDto);
         }
@@ -240,5 +249,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Override
+    public void setUserPermissions(UserDto userDto) {
+        User user = this.userRepository.getOne(userDto.getId());
+        user.setCanCreatePricelist(userDto.isCanCreatePricelist());
+        user.setCanPostAdvertisement(userDto.isCanPostAdvertisement());
+        user.setCanRent(userDto.isCanRent());
+        user.setCanSendMessage(userDto.isCanSendMessage());
+        this.userRepository.save(user);
+    }
 
 }

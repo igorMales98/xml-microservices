@@ -13,4 +13,10 @@ public interface PricelistService {
     List<Pricelist> getAll();
 
     Long create(PricelistDto pricelistDto) throws ParseException;
+
+    void savePricelist(PricelistDto pricelistDto);
+
+    void deletePricelist(Long id);
+
+    void editPricelist(PricelistDto pricelistDto);
 }

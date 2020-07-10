@@ -13,4 +13,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
     @Query(value = "SELECT * FROM report r WHERE r.car_id = :carId", nativeQuery = true)
     List<Report> getAllReportsForACar(@Param("carId") Long carId);
+    List<Report> findByRentRequestId(Long id);
 }

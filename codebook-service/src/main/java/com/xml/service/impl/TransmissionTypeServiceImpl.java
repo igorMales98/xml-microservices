@@ -2,6 +2,7 @@ package com.xml.service.impl;
 
 import com.xml.dto.TransmissionTypeDto;
 import com.xml.mapper.TransmissionTypeDtoMapper;
+import com.xml.model.FuelType;
 import com.xml.model.TransmissionType;
 import com.xml.repository.TransmissionTypeRepository;
 import com.xml.service.TransmissionTypeService;
@@ -32,6 +33,14 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 
     @Override
     public void saveTransmissionType(TransmissionTypeDto transmissionTypeDto) {
+        TransmissionType transmissionTypeFromDatabase = this.transmissionTypeRepository.getByName(transmissionTypeDto.getName());
+        if (transmissionTypeFromDatabase != null) {
+            if (transmissionTypeFromDatabase.isDeleted()) {
+                transmissionTypeFromDatabase.setDeleted(false);
+                this.transmissionTypeRepository.save(transmissionTypeFromDatabase);
+                return;
+            }
+        }
         TransmissionType newTransmissionType = new TransmissionType();
 
         newTransmissionType.setName(transmissionTypeDto.getName());

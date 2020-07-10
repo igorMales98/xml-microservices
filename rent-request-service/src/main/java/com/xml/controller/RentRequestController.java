@@ -29,10 +29,11 @@ public class RentRequestController {
     Logger logger = LoggerFactory.getLogger(RentRequestController.class);
 
     @PostMapping(value = "")
-    @PreAuthorize("hasAuthority('CREATE_RENT_REQUESTS')")
+    //@PreAuthorize("hasAuthority('CREATE_RENT_REQUESTS')")
     public ResponseEntity<?> createRentRequest(@Valid @RequestBody RentRequestDto rentRequestDto,
                                                @RequestHeader("Authorization") String token) {
         System.out.println(rentRequestDto.toString());
+        System.out.println("Token je: " + token);
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to create rent request.", LocalDateTime.now(), userDetails.getUsername());
@@ -67,11 +68,11 @@ public class RentRequestController {
     @GetMapping(value = "/customer/{id}")
     @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<List<RentRequestDto>> getCustomerRentRequests(@RequestHeader("Authorization") String token,
-                                                                         @PathVariable("id") Long id) {
+                                                                        @PathVariable("id") Long id) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to get customer for rent request.", LocalDateTime.now(), userDetails.getUsername());
-            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getCustomerRentRequests(token,id);
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getCustomerRentRequests(token, id);
             logger.info("Date : {}, Successfully returned list of customer rent requests.", LocalDateTime.now());
             return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
         } catch (Exception e) {
@@ -92,7 +93,7 @@ public class RentRequestController {
 
     @GetMapping(value = "/all/{id}")
     @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
-    public ResponseEntity<?> getAdvertiserRequests(@PathVariable("id") Long id, @RequestHeader("Authorization") String token){
+    public ResponseEntity<?> getAdvertiserRequests(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to get advertiser of rent request.", LocalDateTime.now(), userDetails.getUsername());
@@ -106,9 +107,9 @@ public class RentRequestController {
         }
     }
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
-    public ResponseEntity<?> cancelRentRequest(@PathVariable("id") Long id){
+    public ResponseEntity<?> cancelRentRequest(@PathVariable("id") Long id) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to cancel rent request.", LocalDateTime.now(), userDetails.getUsername());
@@ -122,9 +123,9 @@ public class RentRequestController {
         }
     }
 
-    @PutMapping(value="/{id}")
+    @PutMapping(value = "/{id}")
     @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
-    public ResponseEntity<?> acceptRentRequest(@PathVariable("id") Long id){
+    public ResponseEntity<?> acceptRentRequest(@PathVariable("id") Long id) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to accept rent request.", LocalDateTime.now(), userDetails.getUsername());
@@ -134,6 +135,39 @@ public class RentRequestController {
         } catch (Exception e) {
             logger.error("Date : {}, There was an error to accept rent request. " +
                     "Error : {}.", LocalDateTime.now(), e.toString());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/customer/pending/{id}")
+    public ResponseEntity<List<RentRequestDto>> getCustomerPendingRentRequests(@RequestHeader("Authorization") String token,
+                                                                               @PathVariable("id") Long id) {
+        try {
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getCustomerPendingRentRequests(token, id);
+            return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/timesRented/{advertisementId}")
+    public ResponseEntity<?> timesRented(@PathVariable("advertisementId") Long advertisementId) {
+        try {
+            Integer timesRented = this.rentRequestService.getTimesRented(advertisementId);
+            return new ResponseEntity<>(timesRented, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/rentMileage/{advertisementId}")
+    public ResponseEntity<?> rentMileage(@PathVariable("advertisementId") Long advertisementId) {
+        try {
+            float mileage = this.rentRequestService.getRentMileage(advertisementId);
+            return new ResponseEntity<>(mileage, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

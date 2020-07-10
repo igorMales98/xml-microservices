@@ -3,6 +3,7 @@ package com.xml.service.impl;
 import com.xml.dto.CarBrandDto;
 import com.xml.mapper.CarBrandDtoMapper;
 import com.xml.model.CarBrand;
+import com.xml.model.CarClass;
 import com.xml.repository.CarBrandRepository;
 import com.xml.service.CarBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,14 @@ public class CarBrandServiceImpl implements CarBrandService {
 
     @Override
     public void saveCarBrand(CarBrandDto carBrandDto) {
+        CarBrand carBrandFromDatabase = this.carBrandRepository.getByName(carBrandDto.getName());
+        if (carBrandFromDatabase != null) {
+            if (carBrandFromDatabase.isDeleted()) {
+                carBrandFromDatabase.setDeleted(false);
+                this.carBrandRepository.save(carBrandFromDatabase);
+                return;
+            }
+        }
         CarBrand newCarBrand = new CarBrand();
         newCarBrand.setName(carBrandDto.getName());
         this.carBrandRepository.save(newCarBrand);

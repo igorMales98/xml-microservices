@@ -68,6 +68,18 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private Set<Authority> authorities;
 
+    @Column(nullable = false)
+    private boolean canRent = true;
+
+    @Column(nullable = false)
+    private boolean canSendMessage = true;
+
+    @Column(nullable = false)
+    private boolean canPostAdvertisement = true;
+
+    @Column(nullable = false)
+    private boolean canCreatePricelist = true;
+
     public User () {}
 
     public User(String username, String password, String firstName, String lastName, String country, String city, String address, String email, String phone) {
@@ -223,5 +235,37 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    public boolean isCanRent() {
+        return canRent;
+    }
+
+    public void setCanRent(boolean canRent) {
+        this.canRent = canRent;
+    }
+
+    public boolean isCanSendMessage() {
+        return canSendMessage;
+    }
+
+    public void setCanSendMessage(boolean canSendMessage) {
+        this.canSendMessage = canSendMessage;
+    }
+
+    public boolean isCanPostAdvertisement() {
+        return canPostAdvertisement;
+    }
+
+    public void setCanPostAdvertisement(boolean canPostAdvertisement) {
+        this.canPostAdvertisement = canPostAdvertisement;
+    }
+
+    public boolean isCanCreatePricelist() {
+        return canCreatePricelist;
+    }
+
+    public void setCanCreatePricelist(boolean canCreatePricelist) {
+        this.canCreatePricelist = canCreatePricelist;
     }
 }
