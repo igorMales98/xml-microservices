@@ -6,12 +6,18 @@ import com.xml.dto.UserDto;
 import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.AdvertisementFeignClient;
 import com.xml.feignClients.UserFeignClient;
+import com.xml.model.Email;
+import com.xml.model.EmailBinding;
 import com.xml.model.RentRequest;
 import com.xml.model.Report;
 import com.xml.repository.RentRequestRepository;
 import com.xml.repository.ReportRepository;
 import com.xml.service.RentRequestService;
+import com.xml.soap.code.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,6 +40,12 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     @Autowired
     private ReportRepository reportRepository;
+
+    private MessageChannel messageChannel;
+
+    public RentRequestServiceImpl(EmailBinding emailBinding) {
+        messageChannel = emailBinding.sendMail();
+    }
 
     @Override
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
@@ -308,16 +320,33 @@ public class RentRequestServiceImpl implements RentRequestService {
     }
 
     @Override
-    public void cancelRentRequest(Long id) {
+    public void cancelRentRequest(Long id, String token) {
         RentRequest rentRequest = this.rentRequestRepository.findById(id).get();
         rentRequest.setRentRequestStatus(RentRequestStatus.CANCELED);
-        this.rentRequestRepository.save(rentRequest);
+        sendEmails(token, rentRequest);
     }
 
     @Override
-    public void acceptRentRequest(Long id) {
+    public void acceptRentRequest(Long id, String token) {
         RentRequest rentRequest = this.rentRequestRepository.findById(id).get();
         rentRequest.setRentRequestStatus(RentRequestStatus.PAID);
+
+        sendEmails(token, rentRequest);
+    }
+
+    private void sendEmails(String token, RentRequest rentRequest) {
+        UserDto advertiser = this.userFeignClient.getUserById(rentRequest.getAdvertiserId(), token);
+        UserDto customer = this.userFeignClient.getUserById(rentRequest.getCustomerId(), token);
+
+        Email email = new Email(advertiser.getEmail(), "Cancelled rent request.", "Rent request has been cancelled.");
+        Email email2 = new Email(customer.getEmail(), "Cancelled rent request.", "Rent request has been cancelled.");
+
+        Message<Email> message = MessageBuilder.withPayload(email).build();
+        Message<Email> message2 = MessageBuilder.withPayload(email2).build();
+
+        this.messageChannel.send(message);
+        this.messageChannel.send(message2);
+
         this.rentRequestRepository.save(rentRequest);
     }
 }

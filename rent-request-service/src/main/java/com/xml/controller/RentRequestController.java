@@ -1,6 +1,7 @@
 package com.xml.controller;
 
 import com.xml.dto.RentRequestDto;
+import com.xml.model.EmailBinding;
 import com.xml.model.RentRequest;
 import com.xml.service.RentRequestService;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +29,12 @@ public class RentRequestController {
     private RentRequestService rentRequestService;
 
     Logger logger = LoggerFactory.getLogger(RentRequestController.class);
+
+    private MessageChannel messageChannel;
+
+    public RentRequestController(EmailBinding emailBinding) {
+        messageChannel = emailBinding.sendMail();
+    }
 
     @PostMapping(value = "")
     //@PreAuthorize("hasAuthority('CREATE_RENT_REQUESTS')")
@@ -108,12 +116,12 @@ public class RentRequestController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
-    public ResponseEntity<?> cancelRentRequest(@PathVariable("id") Long id) {
+    // @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
+    public ResponseEntity<?> cancelRentRequest(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to cancel rent request.", LocalDateTime.now(), userDetails.getUsername());
-            this.rentRequestService.cancelRentRequest(id);
+            this.rentRequestService.cancelRentRequest(id, token);
             logger.info("Date : {}, Successfully canceled rent requests.", LocalDateTime.now());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
@@ -124,12 +132,13 @@ public class RentRequestController {
     }
 
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
-    public ResponseEntity<?> acceptRentRequest(@PathVariable("id") Long id) {
+    // @PreAuthorize("hasAuthority('EDIT_RENT_REQUESTS')")
+    public ResponseEntity<?> acceptRentRequest(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+        System.out.println("Token je " + token);
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to accept rent request.", LocalDateTime.now(), userDetails.getUsername());
-            this.rentRequestService.acceptRentRequest(id);
+            this.rentRequestService.acceptRentRequest(id, token);
             logger.info("Date : {}, Successfully accepted rent requests.", LocalDateTime.now());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
