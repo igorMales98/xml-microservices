@@ -15,6 +15,7 @@ public class CarDto {
     private int timesRated;
     private float averageRating;
     private boolean hasAndroid;
+    private String androidToken;
 
     public CarDto() {
     }
@@ -121,5 +122,13 @@ public class CarDto {
 
     public void setHasAndroid(boolean hasAndroid) {
         this.hasAndroid = hasAndroid;
+    }
+
+    public String getAndroidToken() {
+        return androidToken;
+    }
+
+    public void setAndroidToken(String androidToken) {
+        this.androidToken = androidToken;
     }
 }

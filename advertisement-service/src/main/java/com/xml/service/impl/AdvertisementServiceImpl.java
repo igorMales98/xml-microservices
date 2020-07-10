@@ -27,10 +27,7 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -119,6 +116,20 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         newCar.setCollisionDamageWaiverExists(createAdvertisementDto.isHasACDW());
         newCar.setChildSeats(createAdvertisementDto.getChildSeats());
         newCar.setAllowedDistance(createAdvertisementDto.getAllowedDistance());
+        newCar.setHasAndroid(createAdvertisementDto.isHasAndroid());
+
+        if (newCar.isHasAndroid()) {
+            int leftLimit = 97; // letter 'a'
+            int rightLimit = 122; // letter 'z'
+            int targetStringLength = 10;
+            Random random = new Random();
+            String generatedString = random.ints(leftLimit, rightLimit + 1)
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+            newCar.setAndroidToken(generatedString);
+        }
+
         this.carService.save(newCar);
         this.carRepository.flush();
 
@@ -296,6 +307,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             carDto.setMileage(advertisement.getCar().getMileage());
             carDto.setTimesRated(advertisement.getCar().getTimesRated());
             carDto.setTransmissionType(codebookInfoDto.getTransmissionTypeDto());
+            carDto.setAndroidToken(advertisement.getCar().getAndroidToken());
 
             advertisementDto.setCar(carDto);
             advertisementDto.setComments(advertisement.getComments().stream().map(commentDtoMapper::toDto).collect(Collectors.toSet()));
