@@ -17,6 +17,7 @@ public class CarDto {
     private boolean hasAndroid;
     private int timesRented;
     private float rentMileage;
+    private String androidToken;
 
     public CarDto() {
     }
@@ -139,5 +140,13 @@ public class CarDto {
 
     public void setRentMileage(float rentMileage) {
         this.rentMileage = rentMileage;
+    }
+
+    public String getAndroidToken() {
+        return androidToken;
+    }
+
+    public void setAndroidToken(String androidToken) {
+        this.androidToken = androidToken;
     }
 }
