@@ -13,6 +13,9 @@ public class Report {
     @JoinColumn(name = "rent_request_id", nullable = false)
     private RentRequest rentRequest;
 
+    @Column
+    private Long carId;
+
     @Column(nullable = false)
     private float km;
 
@@ -57,5 +60,13 @@ public class Report {
 
     public void setRentRequest(RentRequest rentRequest) {
         this.rentRequest = rentRequest;
+    }
+
+    public Long getCarId() {
+        return carId;
+    }
+
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 }
