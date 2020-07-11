@@ -24,6 +24,12 @@ public class RabbitMQConfig {
 
     public static String routingKeyForAdvertisement = "codebook-advertisement-key";
 
+
+    // email
+    public static final String emailQueue = "email-queue";
+    public static final String emailExchange = "email-exchange";
+    public static final String emailKey = "email-key";
+
     @Bean
     Queue queue() {
         return new Queue(queueNameForAdvertisement, false);
@@ -38,22 +44,26 @@ public class RabbitMQConfig {
     Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKeyForAdvertisement);
     }
-/*
+
+    // email
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
-        container.setMessageListener(listenerAdapter);
-        return container;
+    Queue emailQueue() { return new Queue(emailQueue, false); }
+
+    @Bean
+    TopicExchange emailExchange() {
+        return new TopicExchange(emailExchange);
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+    Binding emailBinding(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(emailKey);
     }
- */
+
+    @Bean
+    Queue queueName() {
+        return new Queue(queueName, false);
+    }
+
 
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {

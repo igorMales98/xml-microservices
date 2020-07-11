@@ -68,6 +68,9 @@ public class Car {
     @XmlElement
     private boolean hasAndroid = false;
 
+    @Column
+    private String androidToken;
+
     public Car() {
     }
 
@@ -174,5 +177,13 @@ public class Car {
 
     public void setCarModelId(Long carModelId) {
         this.carModelId = carModelId;
+    }
+
+    public String getAndroidToken() {
+        return androidToken;
+    }
+
+    public void setAndroidToken(String androidToken) {
+        this.androidToken = androidToken;
     }
 }

@@ -2,6 +2,8 @@ package com.xml.controller;
 
 import com.xml.dto.RegistrationRequestDto;
 import com.xml.model.Customer;
+import com.xml.model.Email;
+import com.xml.model.EmailBinding;
 import com.xml.security.TokenUtils;
 import com.xml.service.AuthorityService;
 import com.xml.service.EmailService;
@@ -13,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +47,13 @@ public class RegistrationRequestController {
     @Autowired
     private TokenUtils tokenUtils;
 
+    private MessageChannel messageChannel;
+
     Logger logger = LoggerFactory.getLogger(RegistrationRequestController.class);
+
+    public RegistrationRequestController(EmailBinding emailBinding) {
+        messageChannel = emailBinding.sendMail();
+    }
 
     @GetMapping(value = "")
     @PreAuthorize("hasAuthority('READ_REGISTRATION_REQUESTS')")
@@ -90,8 +101,11 @@ public class RegistrationRequestController {
             logger.info("Date : {}, Registration request has been deleted.", LocalDateTime.now());
             this.userService.saveCustomer(newCustomer);
             logger.info("Date : {}, A customer has been created.", LocalDateTime.now());
-            emailService.sendMailToUser(requestDto.getEmail(), "https://localhost:4200/activateUser/"
-                    + tokenUtils.generateToken(requestDto.getUsername(), authorityService.findByName("ROLE_CUSTOMER").iterator().next()), "Automated mail : Activate account");
+
+            Email email = new Email(requestDto.getEmail(), "Automated mail : Activate account", "https://localhost:4200/activateUser/"
+                    + tokenUtils.generateToken(requestDto.getUsername(), authorityService.findByName("ROLE_CUSTOMER").iterator().next()));
+            Message<Email> message = MessageBuilder.withPayload(email).build();
+            this.messageChannel.send(message);
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Exception e) {

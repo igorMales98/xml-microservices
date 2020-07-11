@@ -54,7 +54,7 @@ public class Receiver {
                                                         rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
                                                     } else {
                                                         codebookMQDto.setPricalistId(null);
-                                                        rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,codebookMQDto);
+                                                        rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
                                                     }
                                                 } else {
                                                     codebookMQDto.setPricalistId(null);
@@ -62,7 +62,7 @@ public class Receiver {
                                                 }
                                             } else {
                                                 codebookMQDto.setTransmissionTypeId(null);
-                                                rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,codebookMQDto);
+                                                 rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
                                             }
                                         } else {
                                             codebookMQDto.setTransmissionTypeId(null);
@@ -70,7 +70,7 @@ public class Receiver {
                                         }
                                     } else {
                                         codebookMQDto.setFuelTypeId(null);
-                                        rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,codebookMQDto);
+                                         rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
                                     }
                                 } else {
                                     codebookMQDto.setFuelTypeId(null);
@@ -78,7 +78,7 @@ public class Receiver {
                                 }
                             } else {
                                 codebookMQDto.setCarClassId(null);
-                                rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,codebookMQDto);
+                                 rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
                             }
                         } else {
                             codebookMQDto.setCarClassId(null);
@@ -86,7 +86,7 @@ public class Receiver {
                         }
                     } else {
                         codebookMQDto.setCarModelId(null);
-                        rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,codebookMQDto);
+                         rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
                     }
                 } else {
                     codebookMQDto.setCarModelId(null);
@@ -94,7 +94,7 @@ public class Receiver {
                 }
             } else {
                 codebookMQDto.setCarBrandId(null);
-                rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName,RabbitMQConfig.routingKey,codebookMQDto);
+                 rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeNameForAdvertisement,RabbitMQConfig.routingKeyForAdvertisement,codebookMQDto);
             }
         } else {
             codebookMQDto.setCarBrandId(null);
