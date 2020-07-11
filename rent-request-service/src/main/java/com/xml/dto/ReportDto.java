@@ -45,7 +45,6 @@ public class ReportDto {
         this.additionalInformation = additionalInformation;
     }
 
-    @JsonIgnore
     public RentRequestDto getRentRequest() {
         return rentRequest;
     }
