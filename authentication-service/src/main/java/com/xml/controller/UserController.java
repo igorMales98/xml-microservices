@@ -38,7 +38,8 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+        System.out.println("Token: " + token);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         logger.info("Date : {}, A user with username : {} has requested information about a user.", LocalDateTime.now(),
                 userDetails.getUsername());

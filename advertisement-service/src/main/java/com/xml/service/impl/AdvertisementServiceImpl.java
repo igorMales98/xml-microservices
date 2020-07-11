@@ -308,6 +308,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Override
     public List<AdvertisementDto> getAgentAdvertisementsDtos(Long id, String token) {
+
         UserDto userDto = this.userFeignClient.getUserById(id, token);
 
         List<Advertisement> getAll = this.advertisementRepository.getAllByAdvertiserId(userDto.getId());
@@ -320,6 +321,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                     advertisement.getCar().getCarModelId(), advertisement.getCar().getCarClassId(), advertisement.getCar().getFuelTypeId(),
                     advertisement.getCar().getTransmissionTypeId(), advertisement.getPricelistId());
             advertisementDto.setAdvertiser(userDto);
+            advertisementDto.setId(advertisement.getId());
             advertisementDto.setAvailableFrom(advertisement.getAvailableFrom());
             advertisementDto.setAvailableTo(advertisement.getAvailableTo());
             advertisementDto.setPricelist(codebookInfoDto.getPricelistDto());
