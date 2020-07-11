@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="messageId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
+ *         &lt;element name="senderId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -35,27 +35,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "messageId"
+    "senderId"
 })
-@XmlRootElement(name = "messageResponse")
-public class MessageResponse {
+@XmlRootElement(name = "getMessagesRequest")
+public class GetMessagesRequest {
 
-    protected long messageId;
+    protected Long senderId;
 
     /**
-     * Gets the value of the messageId property.
+     * Gets the value of the senderId property.
      * 
+     * @return
+     *     possible object is
+     *     {@link Long }
+     *     
      */
-    public long getMessageId() {
-        return messageId;
+    public Long getSenderId() {
+        return senderId;
     }
 
     /**
-     * Sets the value of the messageId property.
+     * Sets the value of the senderId property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Long }
+     *     
      */
-    public void setMessageId(long value) {
-        this.messageId = value;
+    public void setSenderId(Long value) {
+        this.senderId = value;
     }
 
 }
