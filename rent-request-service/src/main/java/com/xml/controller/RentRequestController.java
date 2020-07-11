@@ -102,6 +102,7 @@ public class RentRequestController {
     @GetMapping(value = "/all/{id}")
     @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<?> getAdvertiserRequests(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) {
+
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             logger.info("Date: {}, A user with username: {} try to get advertiser of rent request.", LocalDateTime.now(), userDetails.getUsername());

@@ -6,7 +6,6 @@ import com.xml.repository.AdvertisementRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection;
 
 import java.util.concurrent.CountDownLatch;
 

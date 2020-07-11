@@ -2,6 +2,7 @@ package com.xml.service.impl;
 
 import com.xml.dto.AdvertisementDto;
 import com.xml.dto.RentRequestDto;
+import com.xml.dto.ReportDto;
 import com.xml.dto.UserDto;
 import com.xml.enummeration.RentRequestStatus;
 import com.xml.feignClients.AdvertisementFeignClient;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RentRequestServiceImpl implements RentRequestService {
@@ -136,6 +138,7 @@ public class RentRequestServiceImpl implements RentRequestService {
 
     @Override
     public List<RentRequestDto> getPaidRentRequests(String token) {
+        System.out.println("get paid");
         List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.PAID);
 
         List<RentRequestDto> rentRequestDtos = new ArrayList<>();
@@ -145,12 +148,26 @@ public class RentRequestServiceImpl implements RentRequestService {
             rentRequestDto.setId(request.getId());
             rentRequestDto.setReservedFrom(request.getReservedFrom());
             rentRequestDto.setReservedTo(request.getReservedTo());
+            rentRequestDto.setCustomer(this.userFeignClient.getUserById(request.getCustomerId(), token));
+
+            List<Report> reports = new ArrayList<>();
+
             Set<AdvertisementDto> advertisementDtos = new HashSet<>();
             for (Long advId : request.getAdvertisementsForRent()) {
-                AdvertisementDto advertisementDto = new AdvertisementDto();
-                advertisementDto.setId(advId);
+                AdvertisementDto advertisementDto = this.advertisementFeignClient.getOne(advId, token);
                 advertisementDtos.add(advertisementDto);
+                reports.add(this.reportRepository.findByRentRequestIdAndCarId(request.getId(), advertisementDto.getCar().getId()));
+                System.out.println("Reports size: " + reports.size());
             }
+            reports.forEach(System.out::println);
+            List<ReportDto> reportDtos = reports.stream().map(report -> {
+                if (report != null) return new ReportDto(report.getCarId());
+                else {
+                    return new ReportDto();
+                }
+            }).collect(Collectors.toList());
+            rentRequestDto.setReports(new HashSet<>(reportDtos));
+
             rentRequestDto.setAdvertisementsForRent(advertisementDtos);
             rentRequestDtos.add(rentRequestDto);
         }

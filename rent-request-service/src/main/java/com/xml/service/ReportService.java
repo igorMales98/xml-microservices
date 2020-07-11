@@ -6,4 +6,5 @@ import java.text.ParseException;
 
 public interface ReportService {
     void createReport(ReportDto reportDto) throws ParseException;
+
 }
