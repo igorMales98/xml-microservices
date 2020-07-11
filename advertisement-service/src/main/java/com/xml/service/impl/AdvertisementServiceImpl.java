@@ -268,8 +268,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         return getAdvertisementDtos(token, advertisementDtos, validAdvertisements, "");
     }
 
-
-    private List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements, String place) {
+    public List<AdvertisementDto> getAdvertisementDtos(String token, List<AdvertisementDto> advertisementDtos, List<Advertisement> allAdvertisements, String place) {
         for (Advertisement advertisement : allAdvertisements) {
             if (!advertisement.getValid()) {
                 continue;
@@ -316,6 +315,50 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             advertisementDtos.add(advertisementDto);
         }
 
+        return advertisementDtos;
+    }
+
+    @Override
+    public List<AdvertisementDto> getAgentAdvertisementsDtos(Long id, String token) {
+
+        UserDto userDto = this.userFeignClient.getUserById(id, token);
+
+        List<Advertisement> getAll = this.advertisementRepository.getAllByAdvertiserId(userDto.getId());
+
+        List<AdvertisementDto> advertisementDtos = new ArrayList<>();
+
+        for(Advertisement advertisement : getAll){
+            AdvertisementDto advertisementDto = new AdvertisementDto();
+            CodebookInfoDto codebookInfoDto = this.codebookFeignClient.getMoreInfo(advertisement.getCar().getCarBrandId(),
+                    advertisement.getCar().getCarModelId(), advertisement.getCar().getCarClassId(), advertisement.getCar().getFuelTypeId(),
+                    advertisement.getCar().getTransmissionTypeId(), advertisement.getPricelistId());
+            advertisementDto.setAdvertiser(userDto);
+            advertisementDto.setId(advertisement.getId());
+            advertisementDto.setAvailableFrom(advertisement.getAvailableFrom());
+            advertisementDto.setAvailableTo(advertisement.getAvailableTo());
+            advertisementDto.setPricelist(codebookInfoDto.getPricelistDto());
+
+            CarDto carDto = new CarDto();
+            carDto.setId(advertisement.getCar().getId());
+            carDto.setAllowedDistance(advertisement.getCar().getAllowedDistance());
+            carDto.setAverageRating(advertisement.getCar().getAverageRating());
+            carDto.setCarBrand(codebookInfoDto.getCarBrandDto());
+            carDto.setCarClass(codebookInfoDto.getCarClassDto());
+            carDto.setCarModel(codebookInfoDto.getCarModelDto());
+            carDto.setChildSeats(advertisement.getCar().getChildSeats());
+            carDto.setCollisionDamageWaiverExists(advertisement.getCar().isCollisionDamageWaiverExists());
+            carDto.setFuelType(codebookInfoDto.getFuelTypeDto());
+            carDto.setHasAndroid(advertisement.getCar().isHasAndroid());
+            carDto.setMileage(advertisement.getCar().getMileage());
+            carDto.setTimesRated(advertisement.getCar().getTimesRated());
+            carDto.setTransmissionType(codebookInfoDto.getTransmissionTypeDto());
+
+            advertisementDto.setCar(carDto);
+            advertisementDto.setComments(advertisement.getComments().stream().map(commentDtoMapper::toDto).collect(Collectors.toSet()));
+
+            advertisementDtos.add(advertisementDto);
+
+        }
         return advertisementDtos;
     }
 

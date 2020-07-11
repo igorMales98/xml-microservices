@@ -39,7 +39,7 @@ public class Advertisement {
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDateTime availableTo;
 
-    @OneToMany(mappedBy = "advertisement")
+    @OneToMany(mappedBy = "advertisement", fetch = FetchType.EAGER)
     @XmlElement
     private Set<Comment> comments;
 

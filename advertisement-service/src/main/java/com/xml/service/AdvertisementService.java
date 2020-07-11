@@ -27,4 +27,6 @@ public interface AdvertisementService {
 
     List<AdvertisementDto> basicSearchForMyAdvertisements(String dateFrom, String dateTo, Long id, String token);
 
+    List<AdvertisementDto> getAgentAdvertisementsDtos(Long id, String token);
+
 }

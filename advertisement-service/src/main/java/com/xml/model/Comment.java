@@ -18,10 +18,10 @@ public class Comment {
     private String comment;
 
     @Column
-    private boolean approved = false;
+    private Boolean approved = false;
 
     @Column
-    private boolean rejected = false;
+    private Boolean rejected = false;
 
     @Column
     private String reply;
