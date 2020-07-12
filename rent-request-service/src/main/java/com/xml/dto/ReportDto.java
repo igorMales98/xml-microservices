@@ -9,8 +9,25 @@ public class ReportDto {
     private float km;
     private String additionalInformation;
     private RentRequestDto rentRequest;
+    private Long carId;
+
 
     public ReportDto() {
+    }
+
+    public ReportDto(Long carId)
+    {
+        this.carId = carId;
+    }
+
+
+    public ReportDto(Long id, CarDto car, float km, String additionalInformation, RentRequestDto rentRequest) {
+        this.id = id;
+        this.car = car;
+        this.km = km;
+        this.additionalInformation = additionalInformation;
+        this.rentRequest = rentRequest;
+
     }
 
     public Long getId() {
@@ -51,5 +68,13 @@ public class ReportDto {
 
     public void setRentRequest(RentRequestDto rentRequest) {
         this.rentRequest = rentRequest;
+    }
+
+    public Long getCarId() {
+        return carId;
+    }
+
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 }

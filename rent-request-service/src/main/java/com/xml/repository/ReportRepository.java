@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
     List<Report> findByRentRequestId(Long id);
+    Report findByRentRequestIdAndCarId(Long rId, Long cId);
 }
