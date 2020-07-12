@@ -33,4 +33,20 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getMessagesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="senderId" type="xs:long" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getMessagesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="message" type="mess:Message" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>

@@ -52,18 +52,20 @@ public class RentRequestServiceImpl implements RentRequestService {
     @Override
     public void createRentRequest(RentRequestDto rentRequestDto, String token) {
         System.out.println("Token je: " + token);
-        UserDto userDto = new UserDto();
-        userDto.setFirstName(rentRequestDto.getCustomer().getFirstName());
-        userDto.setLastName(rentRequestDto.getCustomer().getLastName());
-        userDto.setEmail(rentRequestDto.getCustomer().getEmail());
-        userDto.setCountry(rentRequestDto.getCustomer().getCountry());
-        userDto.setCity(rentRequestDto.getCustomer().getCity());
-        userDto.setAddress(rentRequestDto.getCustomer().getAddress());
-        userDto.setPhone(rentRequestDto.getCustomer().getPhone());
-        userDto.setEnabled(false);
-        Long customerId = this.userFeignClient.createPhysicalUser(userDto, token);
-        userDto.setId(customerId);
-        rentRequestDto.setCustomer(userDto);
+        if (rentRequestDto.isPhysicalRent()) {
+            UserDto userDto = new UserDto();
+            userDto.setFirstName(rentRequestDto.getCustomer().getFirstName());
+            userDto.setLastName(rentRequestDto.getCustomer().getLastName());
+            userDto.setEmail(rentRequestDto.getCustomer().getEmail());
+            userDto.setCountry(rentRequestDto.getCustomer().getCountry());
+            userDto.setCity(rentRequestDto.getCustomer().getCity());
+            userDto.setAddress(rentRequestDto.getCustomer().getAddress());
+            userDto.setPhone(rentRequestDto.getCustomer().getPhone());
+            userDto.setEnabled(false);
+            Long customerId = this.userFeignClient.createPhysicalUser(userDto, token);
+            userDto.setId(customerId);
+            rentRequestDto.setCustomer(userDto);
+        }
 
         if (!rentRequestDto.isBundle()) {
             for (AdvertisementDto advertisementDto : rentRequestDto.getAdvertisementsForRent()) {
