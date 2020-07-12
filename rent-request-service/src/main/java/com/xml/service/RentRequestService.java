@@ -24,4 +24,6 @@ public interface RentRequestService {
     Integer getTimesRented(Long advertisementId);
 
     float getRentMileage(Long advertisementId);
+
+    List<RentRequestDto> getAdvertiserPaid(String token, Long id);
 }

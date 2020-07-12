@@ -73,6 +73,23 @@ public class RentRequestController {
         }
     }
 
+    @GetMapping(value = "/allAdvertiserPaid/{id}")
+    @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
+    public ResponseEntity<List<RentRequestDto>> getAdvertiserPaid(@RequestHeader("Authorization") String token, @PathVariable("id") Long id) {
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            logger.info("Date: {}, A user with username: {} try to get paid rent request.", LocalDateTime.now(), userDetails.getUsername());
+            List<RentRequestDto> rentRequestDtos = this.rentRequestService.getAdvertiserPaid(token,id);
+            logger.info("Date : {}, Successfully returned list of paid rent requests.", LocalDateTime.now());
+            return new ResponseEntity<>(rentRequestDtos, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Date : {}, There was an error to get paid rent request. " +
+                    "Error : {}.", LocalDateTime.now(), e.toString());
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/customer/{id}")
     @PreAuthorize("hasAuthority('READ_RENT_REQUESTS')")
     public ResponseEntity<List<RentRequestDto>> getCustomerRentRequests(@RequestHeader("Authorization") String token,

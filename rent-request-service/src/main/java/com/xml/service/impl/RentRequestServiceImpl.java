@@ -222,6 +222,46 @@ public class RentRequestServiceImpl implements RentRequestService {
         return mileage;
     }
 
+    @Override
+    public List<RentRequestDto> getAdvertiserPaid(String token, Long id) {
+        List<RentRequest> reservedRentRequests = this.rentRequestRepository.findByRentRequestStatus(RentRequestStatus.PAID);
+
+        List<RentRequestDto> rentRequestDtos = new ArrayList<>();
+
+        for (RentRequest request : reservedRentRequests) {
+            if (request.getAdvertiserId().equals(id)) {
+                RentRequestDto rentRequestDto = new RentRequestDto();
+                rentRequestDto.setId(request.getId());
+                rentRequestDto.setReservedFrom(request.getReservedFrom());
+                rentRequestDto.setReservedTo(request.getReservedTo());
+                rentRequestDto.setCustomer(this.userFeignClient.getUserById(request.getCustomerId(), token));
+
+                List<Report> reports = new ArrayList<>();
+
+                Set<AdvertisementDto> advertisementDtos = new HashSet<>();
+                for (Long advId : request.getAdvertisementsForRent()) {
+                    AdvertisementDto advertisementDto = this.advertisementFeignClient.getOne(advId, token);
+                    advertisementDtos.add(advertisementDto);
+                    reports.add(this.reportRepository.findByRentRequestIdAndCarId(request.getId(), advertisementDto.getCar().getId()));
+                    System.out.println("Reports size: " + reports.size());
+                }
+                reports.forEach(System.out::println);
+                List<ReportDto> reportDtos = reports.stream().map(report -> {
+                    if (report != null) return new ReportDto(report.getCarId());
+                    else {
+                        return new ReportDto();
+                    }
+                }).collect(Collectors.toList());
+                rentRequestDto.setReports(new HashSet<>(reportDtos));
+
+                rentRequestDto.setAdvertisementsForRent(advertisementDtos);
+                rentRequestDtos.add(rentRequestDto);
+            }
+        }
+
+        return rentRequestDtos;
+    }
+
     private void createDtoFromEntity(String token, List<RentRequestDto> rentRequestDtos, RentRequest request) {
         RentRequestDto rentRequestDto = new RentRequestDto();
         rentRequestDto.setId(request.getId());
